@@ -5,8 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeRecorder"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="450" Width="400"
+        ResizeMode="NoResize">
+    <StackPanel>
+        <StackPanel>
+            <TextBlock Width="400" Text="What are you doing?" TextAlignment="Center" />
+            <StackPanel Orientation="Horizontal">
+                <TextBox Width="300" 
+                         Text="{Binding Description}" 
+                         HorizontalAlignment="Left"
+                         Margin="20,5,20,5"
+                         />
+                <Button Click="Start_Button_Click">
+                    <TextBlock Text="{Binding StartButtonText}"/>
+                </Button>
+            </StackPanel>
+            <ListView >
+                <ListViewItem >
+                    <StackPanel Orientation="Horizontal">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Item.Description}"/>
+                            <TextBlock Text="{Binding Item.ProjectName}"/>
+                        </StackPanel>
+                        <TextBlock Text="{Binding Item.Elapsed}"/>
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+        </StackPanel>
+    </StackPanel>
 </Window>

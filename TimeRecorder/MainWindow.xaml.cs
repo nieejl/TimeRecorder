@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TimeRecorder.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TimeRecorder
 {
@@ -20,9 +22,18 @@ namespace TimeRecorder
     /// </summary>
     public partial class MainWindow : Window
     {
+        MainWindowViewModel vm;
         public MainWindow()
         {
             InitializeComponent();
+            vm = (Application.Current as App).Services.GetService<MainWindowViewModel>();
+            DataContext = vm;
+        }
+
+        private void Start_Button_Click(object sender, RoutedEventArgs e)
+        {
+            vm.FlipButtonText();
+            vm.StartTimer();
         }
     }
 }
