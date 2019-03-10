@@ -4,10 +4,13 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TimeRecorder.Views"
+      xmlns:converters="clr-namespace:TimeRecorder.Models.ValueConverters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="450"
       Title="RecordDetailPage">
-
+    <Page.Resources>
+        <converters:TimeToStringConverter x:Key="TimeConverter"/>
+    </Page.Resources>
     <StackPanel Margin="20,10,20,10">
         <TextBlock Text="Activity" HorizontalAlignment="Center" FontSize="16"/>
         <Grid>
@@ -17,7 +20,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <StackPanel Margin="0,10,0,10" Grid.Column="0">
-                <TextBlock Text="StartTime" />
+                <TextBlock Text="StartTime"/>
                 <DatePicker></DatePicker>
             </StackPanel>
             <TextBlock Text="Elapsed" Margin="20,10,20,10" Grid.Column="1"/>
