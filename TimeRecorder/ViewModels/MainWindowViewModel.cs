@@ -1,13 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using System.Windows.Media;
+using TimeRecorder.Models;
 
 namespace TimeRecorder.ViewModels
 {
     public class MainWindowViewModel : BaseViewModel
     {
+        public MainWindowViewModel()
+        {
+            ExecuteLoadItemsCommand().Wait();
+        }
+
         private DateTime elapsed;
         public DateTime Elapsed {
             get { return elapsed; }
@@ -16,7 +27,6 @@ namespace TimeRecorder.ViewModels
                 OnPropertyChanged();
             }
         }
-      
         private string startButtonText = "Start";
         public string StartButtonText {
             get { return startButtonText; }
@@ -26,14 +36,116 @@ namespace TimeRecorder.ViewModels
             }
         }
 
-        public void FlipButtonText()
-        {
-            StartButtonText = StartButtonText == "Start" ? "Stop" : "Start";
+
+        private ObservableCollection<Recording> recordings;
+        public ObservableCollection<Recording> Recordings {
+            get { return recordings; }
+            set {
+                recordings = value;
+                OnPropertyChanged();
+            }
         }
+
+        private async Task ExecuteLoadItemsCommand()
+        {
+            Projects = new ObservableCollection<Project>();
+            Recordings = new ObservableCollection<Recording>();
+            await Task.FromResult(0);
+        }
+
+        private ObservableCollection<Project> projects;
+        public ObservableCollection<Project> Projects {
+            get { return projects; }
+            set {
+                projects = value;
+                OnPropertyChanged();
+            }
+        }
+        public class Recording : BaseViewModel
+        {
+            private string projectName;
+            public string ProjectName {
+                get { return projectName; }
+                set {
+                    projectName = value;
+                    OnPropertyChanged();
+                }
+            }
+            private string description;
+            public string Description {
+                get { return description; }
+                set {
+                    description = value;
+                    OnPropertyChanged();
+                }
+            }
+            private string duration;
+            public string Duration {
+                get { return duration; }
+                set {
+                    duration = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public class Project : BaseViewModel
+        {
+            private string name = "Hello, world!";
+            public string Name {
+                get { return name; }
+                set {
+                    name = value;
+                    OnPropertyChanged();
+                }
+            }
+            private SolidColorBrush color = new SolidColorBrush(Colors.AliceBlue);
+            public SolidColorBrush Color {
+                get { return color; }
+                set {
+                    color = value;
+                    OnPropertyChanged();
+                }
+            }
+
+        }
+
+        public ICommand RemoveEntryCommand {
+            get {
+                return new RelayCommand((rec) =>
+                {
+                    var item = (Recording)rec;
+                    Debug.WriteLine(item.ProjectName);
+                });
+            }
+        }
+
+        public ICommand LoadMoreCommand {
+            get {
+                return new RelayCommand((item) =>
+                {
+                    Debug.WriteLine("LoadMoreCommand called");
+                });
+            }
+        }
+
 
         public void StartTimer()
         {
             Elapsed = DateTime.Now;
+            StartButtonText = "Stop";
+
+            Recordings.Add(new Recording() {
+                ProjectName = Recordings.Count.ToString(),
+                Description = (2*Recordings.Count).ToString(),
+                Duration = DateTime.Now.ToShortTimeString()
+            });
+            Projects.Add(new Project() {
+                Name = Projects.Count.ToString(),
+                Color = new SolidColorBrush(Colors.Brown)
+            });
+            if (Projects.Count > 3) Projects[2].Color = new SolidColorBrush(Colors.Pink);
+            Debug.WriteLine(Recordings.Count + ",  " + Projects.Count);
         }
 
     }

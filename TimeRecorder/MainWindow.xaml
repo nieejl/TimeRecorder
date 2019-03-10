@@ -5,32 +5,62 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeRecorder"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="400"
+        Title="Time Recorder" Height="550" Width="400"
         ResizeMode="NoResize">
-    <StackPanel>
-        <StackPanel>
-            <TextBlock Width="400" Text="What are you doing?" TextAlignment="Center" />
-            <StackPanel Orientation="Horizontal">
-                <TextBox Width="300" 
-                         Text="{Binding Description}" 
-                         HorizontalAlignment="Left"
-                         Margin="20,5,20,5"
-                         />
-                <Button Click="Start_Button_Click">
-                    <TextBlock Text="{Binding StartButtonText}"/>
-                </Button>
-            </StackPanel>
-            <ListView >
-                <ListViewItem >
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel>
-                            <TextBlock Text="{Binding Item.Description}"/>
-                            <TextBlock Text="{Binding Item.ProjectName}"/>
-                        </StackPanel>
-                        <TextBlock Text="{Binding Item.Elapsed}"/>
-                    </StackPanel>
-                </ListViewItem>
+    <DockPanel>
+        <DockPanel Margin="20,5,40,0" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
+            <TextBlock Width="200" Text="What are you doing?" TextAlignment="Center"/>
+            <ComboBox ItemsSource="{Binding Projects}" IsEditable="True" 
+                      HorizontalContentAlignment="Stretch"  Margin="5,0,0,0"
+                      MaxDropDownHeight="190" IsTextSearchEnabled="True">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel>
+                            <Ellipse Height="6" Width="6" Fill="{Binding Color}" />
+                            <TextBlock Foreground="{Binding Color}" Margin="5,0,0,0" 
+                                        Text="{Binding Name}"/>
+                        </DockPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </DockPanel>
+        <DockPanel Margin="20,5,20,5" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
+            <TextBox TextWrapping="Wrap" Width="250" MaxHeight="60"
+                     FontSize="14" Text="{Binding Description}" 
+                     HorizontalAlignment="Left"/>
+            <Button Click="Start_Button_Click" Margin="20,0,20,0">
+                <TextBlock Text="{Binding StartButtonText}" />
+            </Button>
+        </DockPanel>
+        <Button HorizontalAlignment="Center" Command="{Binding LoadMoreCommand}" 
+                DockPanel.Dock="Bottom" Margin="5" MaxHeight="40" Padding="5,5,5,5">
+            <TextBlock FontSize="14"> 
+                Load More 
+            </TextBlock>
+        </Button>
+        <ScrollViewer DockPanel.Dock="Top">
+            <ListView Margin="20,3,20,3" MouseLeftButtonUp="ListView_MouseLeftButtonUp"
+                      HorizontalContentAlignment="Stretch" ItemsSource="{Binding Recordings}">
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Delete entry" Command="{Binding RemoveEntryCommand}"
+                                  CommandParameter=
+                                  "{Binding RelativeSource=
+                                    {RelativeSource AncestorType=ContextMenu}, 
+                                    Path=PlacementTarget.SelectedItem}" />
+                    </ContextMenu>
+                </ListView.ContextMenu>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <DockPanel HorizontalAlignment="Stretch">
+                            <TextBlock Text="{Binding ProjectName}" MaxWidth="250" 
+                                       MaxHeight="20" DockPanel.Dock="Left"/>
+                            <TextBlock Text="{Binding Duration}" FontSize="16"
+                                       DockPanel.Dock="Right" HorizontalAlignment="Right"/>
+                        </DockPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
             </ListView>
-        </StackPanel>
-    </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
 </Window>

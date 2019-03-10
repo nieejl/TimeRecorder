@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TimeRecorder.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using System.Diagnostics;
 
 namespace TimeRecorder
 {
@@ -32,8 +33,25 @@ namespace TimeRecorder
 
         private void Start_Button_Click(object sender, RoutedEventArgs e)
         {
-            vm.FlipButtonText();
             vm.StartTimer();
         }
+
+        private void ListView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            var listView = sender as ListView;
+            if (listView == null) {
+                Debug.WriteLine("sender is not a listview");
+                return;
+            }
+            var item = listView.SelectedItem as MainWindowViewModel.Recording;
+            listView.UnselectAll();
+            if (item == null)
+            {
+                Debug.WriteLine("item is not a recording");
+                return;
+            }
+            Debug.WriteLine("items desc is : " + item.Description);
+        }
+
     }
 }
