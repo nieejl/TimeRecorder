@@ -16,7 +16,7 @@ using TimeRecorder.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 
-namespace TimeRecorder
+namespace TimeRecorder.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

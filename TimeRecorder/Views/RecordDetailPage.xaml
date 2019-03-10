@@ -1,0 +1,45 @@
+﻿<Page x:Class="TimeRecorder.Views.RecordDetailPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TimeRecorder.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="450"
+      Title="RecordDetailPage">
+
+    <StackPanel Margin="20,10,20,10">
+        <TextBlock Text="Activity" HorizontalAlignment="Center" FontSize="16"/>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Margin="0,10,0,10" Grid.Column="0">
+                <TextBlock Text="StartTime" />
+                <DatePicker></DatePicker>
+            </StackPanel>
+            <TextBlock Text="Elapsed" Margin="20,10,20,10" Grid.Column="1"/>
+            <StackPanel Margin="0,10,0,10" Grid.Column="2">
+                <TextBlock Text="EndTime"/>
+                <DatePicker></DatePicker>
+            </StackPanel>
+        </Grid>
+        <DockPanel Margin="0,5,0,5">
+            <ComboBox Text="Project" IsEditable="True" Width="250">
+            </ComboBox>
+            <Button Margin="20,0,0,0">
+                <TextBlock Text="Add new project"/>
+            </Button>
+        </DockPanel>
+        <DockPanel Margin="0,5,0,5" >
+            <ComboBox IsEditable="True" Text="Tags" Width="250">
+            </ComboBox>
+            <CheckBox Margin="20,0,0,0" VerticalAlignment="Stretch" IsChecked="{Binding AddRepeat}">
+                <TextBlock Text="Repeat next week" FontSize="14"/>
+            </CheckBox>
+        </DockPanel>
+        <TextBlock Text="Description, notes or extra remarks"/>
+    </StackPanel>
+</Page>
