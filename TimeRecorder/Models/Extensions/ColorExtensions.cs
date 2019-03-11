@@ -9,16 +9,18 @@ namespace TimeRecorder.Models.Extensions
 {
     public static class ColorExtensions
     {
-        public static int ToInt32(this Color color) {
-            return BitConverter.ToInt32(
-                new byte[] { color.A, color.R, color.G, color.B }, 0
+        public static UInt32 ToUInt(this Color color) {
+            // Window.Media colors are BGRA - which explains why ordering is reversed.
+            return BitConverter.ToUInt32(
+                new byte[] { color.B, color.G, color.R, color.A }, 0
             );
         }
 
-        public static Color ToColor(this int value)
+        public static Color ToColor(this UInt32 value)
         {
             var bytes = BitConverter.GetBytes(value);
-            return Color.FromArgb(bytes[0], bytes[1], bytes[2], bytes[3]);
+            // Window.Media colors are BGRA - which explains why ordering is reversed.
+            return Color.FromArgb(bytes[3], bytes[2], bytes[1], bytes[0]);
         }
     }
 }

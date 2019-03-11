@@ -12,9 +12,9 @@ namespace TimeRecorder.Models.DTOs
     public class ProjectDTO
     {
         public string Name { get; set; }
-        public Int32 Argb {
+        public UInt32 Argb {
             get {
-                return Color.ToInt32();
+                return Color.ToUInt();
             }
             set {
                 Color = value.ToColor();

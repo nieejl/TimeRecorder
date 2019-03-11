@@ -17,7 +17,7 @@ namespace TimeRecorder.Models.ValueConverters
             var time = (TimeSpan)value;
             if (time == null)
                 return null;
-            return $"{time.Hours}:{time.Minutes}:{time.Seconds}";
+            return time.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

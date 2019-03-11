@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TimeRecorder.Models.ValueValidators;
 using Xunit;
 
-namespace TimeRecorder.Tests
+namespace TimeRecorder.Tests.ValueParsers
 {
     public class TimeStringParserTest
     {

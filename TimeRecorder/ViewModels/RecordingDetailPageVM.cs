@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
 using TimeRecorder.Models;
+using TimeRecorder.Models.DTOs;
 using TimeRecorder.Models.ValueConverters;
 using TimeRecorder.ViewModels.Interfaces;
 using static TimeRecorder.ViewModels.RecordingOverviewVM;
@@ -16,27 +17,60 @@ namespace TimeRecorder.ViewModels
 {
     public class RecordingDetailPageVM : BaseViewModel, IRecordingDetailPageVM
     {
+        private TimeToStringConverter converter;
+        private RecordingDTO recordingDTO;
         public RecordingDetailPageVM()
         {
-            Recording = new Recording
-            {
-                Duration = "10:0:02",
-                Description = "Derp",
-                ProjectName = "PORJ"
-            };
-            StartTime = new TimeSpan(10, 2, 3);
+            converter = new TimeToStringConverter();
+        }
+
+        public void UpdateFromDTO(RecordingDTO recording)
+        {
+            recordingDTO = recording;
+
+            TimeSpan duration = (recording.EndDate - recording.StartDate) +
+                (recording.EndTime - recording.StartTime);
+            this.Title = recording.Title;
+
+            this.ElapsedTime = duration.ToString();
+            this.StartTime = recording.StartTime.ToString();
+            this.EndTime = recording.EndTime.ToString();
+
+            this.StartDate = recording.StartDate.ToShortDateString();
+            this.EndDate = recording.EndDate.ToShortDateString();
+        }
+
+        private string title;
+        public string Title {
+            get { return title; }
+            set {
+                title = value;
+                OnPropertyChanged("Title");
+            }
+        }
+
+        public ICommand SaveStartTimeCommand {
+            get {
+                return new RelayCommand( _=>
+                {
+                    if (true) // TODO : Check time is ok. Change on record if yes
+                        return;
+                });
+            }
+        }
+
+        public ICommand SaveEndTimeCommand {
+            get {
+                return new RelayCommand(_ =>
+                {
+                    if (true) // TODO : Check time is ok. Change on record if yes
+                        return;
+                });
+            }
         }
 
         public SearchBoxVM<Recording> SearchVM;
         private Recording recording;
-        public Recording Recording {
-            get { return recording; }
-            set {
-                recording = value;
-                OnPropertyChanged("Recording");
-                Debug.WriteLine(recording.Description + recording.Duration + recording.ProjectName);
-            }
-        }
 
         public ICommand AddNewProjectCommand {
             get {
@@ -51,7 +85,8 @@ namespace TimeRecorder.ViewModels
         }
 
         private SolidColorBrush _startTimeColor;
-        public SolidColorBrush StartTimeColor {
+        // TODO: Change to do time check with converter? Add Matching for Endtime 
+        public SolidColorBrush StartTimeColor { 
             get { return _startTimeColor; }
             set {
                 _startTimeColor = value;
@@ -64,72 +99,45 @@ namespace TimeRecorder.ViewModels
             get {
                 return new RelayCommand((rec) =>
                 {
-                    var recording = (Recording)rec;
+                    var recording = (RecordingDTO)rec;
                     if (recording == null)
                         return;
-                    ElapsedTimeText = recording.Duration;
+                    UpdateFromDTO(recording);
                 });
             }
         }
 
-        private string startTimeText = "10:00:00";
-        public string StartTimeText {
-            get { return startTimeText; }
+        private string startTime;
+        public string StartTime {
+            get { return startTime; }
             set {
-                startTimeText = value;
+                startTime = value;
                 OnPropertyChanged("StartTimeText");
             }
         }
 
-        private void UpdateStartTimeColor()
+        
+        private void UpdateStartTimeColor() // TODO: Update with converter
         {
             var ttsc = new TimeToStringConverter();
-            if (ttsc.ConvertBack(StartTimeText, typeof(TimeSpan), null, CultureInfo.CurrentCulture) != null) {
+            if (ttsc.ConvertBack(StartTime, typeof(TimeSpan), null, CultureInfo.CurrentCulture) != null) {
                 StartTimeColor = new SolidColorBrush(Colors.Green);
                 return;
             }
             StartTimeColor = new SolidColorBrush(Colors.Red);
         }
-
-        private string _elapsedTimeText;
-        public string ElapsedTimeText {
-            get { return _elapsedTimeText; }
+        
+        private string endTime;
+        public string EndTime {
+            get { return endTime; }
             set {
-                _elapsedTimeText = value;
-                OnPropertyChanged("ElapsedTimeText");
-            }
-        }
-
-        private string endTimeText;
-        public string EndTimeText {
-            get { return endTimeText; }
-            set {
-                endTimeText = value;
+                endTime = value;
                 OnPropertyChanged("EndTimeText");
             }
         }
 
-        private TimeSpan startTime;
-        public TimeSpan StartTime {
-            get { return startTime; }
-            set {
-                startTime = value;
-                OnPropertyChanged("Start");
-                UpdateStartTimeColor();
-            }
-        }
-
-        private TimeSpan endTime;
-        public TimeSpan EndTime {
-            get { return endTime; }
-            set {
-                endTime = value;
-                OnPropertyChanged("End");
-            }
-        }
-
-        private TimeSpan elapsed;
-        public TimeSpan Elapsed {
+        private string elapsed;
+        public string ElapsedTime {
             get { return elapsed; }
             set {
                 elapsed = value;
@@ -137,8 +145,8 @@ namespace TimeRecorder.ViewModels
             }
         }
 
-        private DateTime startDate;
-        public DateTime StartDate {
+        private string startDate;
+        public string StartDate {
             get { return startDate; }
             set {
                 startDate = value;
@@ -146,19 +154,13 @@ namespace TimeRecorder.ViewModels
             }
         }
 
-        private DateTime endDate;
-        public DateTime EndDate {
+        private string endDate;
+        public string EndDate {
             get { return endDate; }
             set {
                 endDate = value;
                 OnPropertyChanged("EndDate");
             }
-        }
-
-        public void updateElapsed()
-        {
-            if (StartTime != null && EndTime != null)
-                Elapsed = EndTime - startTime;
         }
     }
 }

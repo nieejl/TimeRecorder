@@ -68,8 +68,6 @@
     <Compile Include="Models\DTOs\ProjectDTO.cs" />
     <Compile Include="Models\DTOs\RecordingDTO.cs" />
     <Compile Include="Models\Extensions\ColorExtensions.cs" />
-    <Compile Include="Models\INavigation.cs" />
-    <Compile Include="Models\Navigation.cs" />
     <Compile Include="Models\RelayCommand.cs" />
     <Compile Include="Models\ValueConverters\TimeToStringConverter.cs" />
     <Compile Include="Models\ValueParsers\ITimeStringParser.cs" />

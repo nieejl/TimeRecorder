@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace TimeRecorder.Models.ValueValidators
 {
+    /// <summary>
+    /// Class to parse strings into TimeSpan. Accepts format with leading 0,
+    /// eg. 5:3:1 . 
+    /// </summary>
     public static class TimeStringParser
     {
         //private static Regex TimeStringRegex = new Regex(@"(?<hours>\d{1,2})([:.]?(?<minutes>\d{1,2}))?([:.]?(?<seconds>\d{1,2}))?[:.]?");
@@ -18,9 +22,10 @@ namespace TimeRecorder.Models.ValueValidators
         {
             return lower <= arg && arg <= upper;
         }
-        public static bool IsValidTime(int hours, int minutes = 0, int seconds = 0)
+        public static bool IsValidTime(int hours, int minutes = 0, int seconds = 0, bool limitHours24 = false)
         {
-            return hours.isWithin(0, 999) && 
+            int hourLimit = !limitHours24 ? 24 : 999;
+            return hours.isWithin(0, hourLimit) && 
                 minutes.isWithin(0, 60) && 
                 seconds.isWithin(0, 60);
         }
@@ -35,10 +40,10 @@ namespace TimeRecorder.Models.ValueValidators
         }
         /// <summary>
         /// Parses string to its TimeSpan respresentation. Accepts normal HH:MM:SS 
-        /// format, as well as H:M:S, or any mix of the two, such as H:MM:SS.
+        /// format, as well as H:M:S, or any mix of the two, such as H:MM:S, 5:25:2.
         /// A return value indicates whether the conversion was successful.
         /// </summary>
-        public static bool TryParseStringToTime(string timeAsString, out TimeSpan? result)
+        public static bool TryParseStringToTime(string timeAsString, out TimeSpan? result, bool limitHours24=false)
         {
             var numbers = timeAsString.Split(delimiters);
             var isEqual = new Func<int, int, bool>(
@@ -50,7 +55,7 @@ namespace TimeRecorder.Models.ValueValidators
             ConvertOrSetToZero(numbers, 1, isLessOrEqual, out int minutes);
             ConvertOrSetToZero(numbers, 0, isLessOrEqual, out int hours);
 
-            result = IsValidTime(hours, minutes, seconds) ?
+            result = IsValidTime(hours, minutes, seconds, limitHours24) ?
                 new TimeSpan?(new TimeSpan(hours, minutes, seconds)) :
                 null;
             return result != null;

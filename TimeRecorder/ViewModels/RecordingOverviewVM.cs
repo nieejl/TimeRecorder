@@ -140,10 +140,7 @@ namespace TimeRecorder.ViewModels
 
         public ICommand ToggleTimerCommand {
             get {
-                return new RelayCommand((item) =>
-                {
-                    ToggleTimer();
-                });
+                return new RelayCommand(_ => ToggleTimer());
             }
         }
         private void ToggleTimer()
@@ -163,7 +160,8 @@ namespace TimeRecorder.ViewModels
                 Duration = DateTime.Now.ToShortTimeString(),
                 Project = project
             });
-            if (Projects.Count > 3) Projects[2].Color = new SolidColorBrush(Colors.Pink);
+            if (Projects.Count > 3)
+                Projects[2].Color = new SolidColorBrush(Colors.Pink);
             Debug.WriteLine(Recordings.Count + ",  " + Projects.Count);
         }
 

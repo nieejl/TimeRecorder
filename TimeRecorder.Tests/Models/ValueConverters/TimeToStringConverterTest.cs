@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TimeRecorder.Models.ValueConverters;
 using Xunit;
 
-namespace TimeRecorder.Tests.ValueConverters
+namespace TimeRecorder.Tests.Models.ValueConverters
 {
     public class TimeToStringConverterTest
     {
@@ -19,7 +19,7 @@ namespace TimeRecorder.Tests.ValueConverters
 
             var result = converter.Convert(time, typeof(string), null, CultureInfo.CurrentCulture);
 
-            Assert.Equal("1:30:35", result);
+            Assert.Equal("01:30:35", result);
         }
 
         [Fact(DisplayName="ConvertBack given '1:30:35' returns TimeSpan(1,30,35")]
