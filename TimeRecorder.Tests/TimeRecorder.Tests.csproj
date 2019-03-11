@@ -57,7 +57,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainWindowViewModelTest.cs" />
+    <Compile Include="ViewModels\MainWindowViewModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TimeStringParserTest.cs" />
     <Compile Include="ValueConverters\TimeToStringConverterTest.cs" />

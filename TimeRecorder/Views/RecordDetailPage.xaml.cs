@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TimeRecorder.ViewModels;
+using Microsoft.Extensions.DependencyInjection;
+using TimeRecorder.ViewModels.Interfaces;
 
 namespace TimeRecorder.Views
 {
@@ -20,9 +23,12 @@ namespace TimeRecorder.Views
     /// </summary>
     public partial class RecordDetailPage : Page
     {
+        IRecordingDetailPageVM vm;
         public RecordDetailPage()
         {
             InitializeComponent();
+            vm = (Application.Current as App).Services.GetService<RecordingDetailPageVM>();
+            DataContext = vm;
         }
     }
 }

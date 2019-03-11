@@ -6,8 +6,11 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Navigation;
+using TimeRecorder.Models;
 using TimeRecorder.ViewModels;
-
+using TimeRecorder.ViewModels.Interfaces;
 namespace TimeRecorder
 {
     /// <summary>
@@ -24,9 +27,8 @@ namespace TimeRecorder
         public void RegisterServices()
         {
             var iocContainer = new ServiceCollection();
-            iocContainer.AddTransient<MainWindowViewModel>();
-
-            Services = iocContainer.BuildServiceProvider();
+            iocContainer.AddTransient<RecordingOverviewVM>();
+            iocContainer.AddTransient<IRecordingDetailPageVM, RecordingDetailPageVM>();
         }
     }
 }

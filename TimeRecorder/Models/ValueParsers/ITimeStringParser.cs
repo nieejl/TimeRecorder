@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TimeRecorder.Models.ValueValidators
+namespace TimeRecorder.Models.ValueParsers
 {
     public interface ITimeStringParser
     {

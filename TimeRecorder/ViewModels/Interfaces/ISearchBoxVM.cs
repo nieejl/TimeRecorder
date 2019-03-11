@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TimeRecorder.ViewModels
+namespace TimeRecorder.ViewModels.Interfaces
 {
-    public class RecordDetailPageViewModel : BaseViewModel
+    public interface ISearchBoxVM : INotifyPropertyChanged
     {
     }
 }

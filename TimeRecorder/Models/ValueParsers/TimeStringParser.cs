@@ -20,7 +20,7 @@ namespace TimeRecorder.Models.ValueValidators
         }
         public static bool IsValidTime(int hours, int minutes = 0, int seconds = 0)
         {
-            return hours.isWithin(0, 24) && 
+            return hours.isWithin(0, 999) && 
                 minutes.isWithin(0, 60) && 
                 seconds.isWithin(0, 60);
         }

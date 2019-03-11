@@ -62,17 +62,29 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\INavigation.cs" />
+    <Compile Include="Models\Navigation.cs" />
     <Compile Include="Models\RelayCommand.cs" />
     <Compile Include="Models\ValueConverters\TimeToStringConverter.cs" />
-    <Compile Include="Models\ValueValidators\ITimeStringParser.cs" />
-    <Compile Include="Models\ValueValidators\TimeStringParser.cs" />
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Models\ValueParsers\ITimeStringParser.cs" />
+    <Compile Include="Models\ValueParsers\TimeStringParser.cs" />
+    <Compile Include="ViewModels\Interfaces\IRecordDetailPageVM.cs" />
+    <Compile Include="ViewModels\Interfaces\IRecordingOverviewVM.cs" />
+    <Compile Include="ViewModels\Interfaces\ISearchBoxVM.cs" />
+    <Compile Include="ViewModels\RecordingOverviewVM.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\RecordDetailPageViewModel.cs" />
+    <Compile Include="ViewModels\RecordingDetailPageVM.cs" />
+    <Compile Include="ViewModels\SearchBoxVM.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\RecordDetailPage.xaml.cs">
       <DependentUpon>RecordDetailPage.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RecordingOverviewWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -80,8 +92,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Views\RecordingOverviewWindow.xaml.cs">
+      <DependentUpon>RecordingOverviewWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\RecordDetailPage.xaml">
@@ -114,7 +126,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

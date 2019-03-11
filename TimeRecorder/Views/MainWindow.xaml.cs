@@ -10,11 +10,10 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TimeRecorder.ViewModels;
+using TimeRecorder.Models;
 using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
+using System.Windows.Navigation;
 
 namespace TimeRecorder.Views
 {
@@ -23,35 +22,12 @@ namespace TimeRecorder.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        MainWindowViewModel vm;
         public MainWindow()
         {
             InitializeComponent();
-            vm = (Application.Current as App).Services.GetService<MainWindowViewModel>();
-            DataContext = vm;
-        }
 
-        private void Start_Button_Click(object sender, RoutedEventArgs e)
-        {
-            vm.StartTimer();
+            NavigationService.GetNavigationService(this).
+                Navigate(typeof(RecordingOverviewWindow));
         }
-
-        private void ListView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            var listView = sender as ListView;
-            if (listView == null) {
-                Debug.WriteLine("sender is not a listview");
-                return;
-            }
-            var item = listView.SelectedItem as MainWindowViewModel.Recording;
-            listView.UnselectAll();
-            if (item == null)
-            {
-                Debug.WriteLine("item is not a recording");
-                return;
-            }
-            Debug.WriteLine("items desc is : " + item.Description);
-        }
-
     }
 }

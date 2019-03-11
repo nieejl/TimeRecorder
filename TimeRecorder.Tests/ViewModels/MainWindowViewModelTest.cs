@@ -5,10 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace TimeRecorder.Tests
+namespace TimeRecorder.Tests.ViewModels
 {
     public class MainWindowViewModelTest
     {
+        [Fact]
+        public void Test1()
+        {
 
+        }
     }
 }

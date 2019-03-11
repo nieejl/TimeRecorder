@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media;
 using TimeRecorder.Models;
+using TimeRecorder.ViewModels.Interfaces;
 
 namespace TimeRecorder.ViewModels
 {
-    public class MainWindowViewModel : BaseViewModel
+    public class RecordingOverviewVM : BaseViewModel, IRecordingOverviewVM
     {
-        public MainWindowViewModel()
+        public RecordingOverviewVM()
         {
             ExecuteLoadItemsCommand().Wait();
         }
@@ -129,8 +130,15 @@ namespace TimeRecorder.ViewModels
             }
         }
 
-
-        public void StartTimer()
+        public ICommand ToggleTimerCommand {
+            get {
+                return new RelayCommand((item) =>
+                {
+                    ToggleTimer();
+                });
+            }
+        }
+        private void ToggleTimer()
         {
             Elapsed = DateTime.Now;
             StartButtonText = "Stop";
