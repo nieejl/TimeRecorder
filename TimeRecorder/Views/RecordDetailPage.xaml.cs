@@ -27,7 +27,7 @@ namespace TimeRecorder.Views
         public RecordDetailPage()
         {
             InitializeComponent();
-            vm = (Application.Current as App).Services.GetService<RecordingDetailPageVM>();
+            vm = (Application.Current as App).Services.GetService<IRecordingDetailPageVM>();
             DataContext = vm;
         }
     }

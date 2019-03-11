@@ -25,12 +25,6 @@ namespace TimeRecorder.ViewModels
                 ProjectName = "PORJ"
             };
             StartTime = new TimeSpan(10, 2, 3);
-            //LoadDetailsCommand.Execute(new Recording
-            //{
-            //    Duration = "10:0:02",
-            //    Description = "Derp",
-            //    ProjectName = "PORJ"
-            //});
         }
 
         public SearchBoxVM<Recording> SearchVM;

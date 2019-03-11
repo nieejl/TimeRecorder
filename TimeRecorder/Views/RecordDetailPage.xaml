@@ -6,8 +6,7 @@
       xmlns:local="clr-namespace:TimeRecorder.Views"
       xmlns:converters="clr-namespace:TimeRecorder.Models.ValueConverters"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="400"
-      Title="RecordDetailPage">
+      d:DesignHeight="450" d:DesignWidth="400">
     <Page.Resources>
         <converters:TimeToStringConverter x:Key="TimeConverter"/>
         <Style x:Key="TimeTextBox" TargetType="TextBox">

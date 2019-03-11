@@ -88,6 +88,14 @@ namespace TimeRecorder.ViewModels
                     OnPropertyChanged();
                 }
             }
+            private Project project;
+            public Project Project {
+                get { return project; }
+                set {
+                    project = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public class Project : BaseViewModel
@@ -142,15 +150,18 @@ namespace TimeRecorder.ViewModels
         {
             Elapsed = DateTime.Now;
             StartButtonText = "Stop";
+            var project = new Project()
+            {
+                Name = Projects.Count.ToString(),
+                Color = new SolidColorBrush(Colors.Brown)
+            };
+            Projects.Add(project);
 
             Recordings.Add(new Recording() {
                 ProjectName = Recordings.Count.ToString(),
                 Description = (2*Recordings.Count).ToString(),
-                Duration = DateTime.Now.ToShortTimeString()
-            });
-            Projects.Add(new Project() {
-                Name = Projects.Count.ToString(),
-                Color = new SolidColorBrush(Colors.Brown)
+                Duration = DateTime.Now.ToShortTimeString(),
+                Project = project
             });
             if (Projects.Count > 3) Projects[2].Color = new SolidColorBrush(Colors.Pink);
             Debug.WriteLine(Recordings.Count + ",  " + Projects.Count);

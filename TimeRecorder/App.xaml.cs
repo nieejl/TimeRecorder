@@ -27,8 +27,10 @@ namespace TimeRecorder
         public void RegisterServices()
         {
             var iocContainer = new ServiceCollection();
-            iocContainer.AddTransient<RecordingOverviewVM>();
+            iocContainer.AddTransient<IRecordingOverviewVM, RecordingOverviewVM>();
             iocContainer.AddTransient<IRecordingDetailPageVM, RecordingDetailPageVM>();
+
+            Services = iocContainer.BuildServiceProvider();
         }
     }
 }
