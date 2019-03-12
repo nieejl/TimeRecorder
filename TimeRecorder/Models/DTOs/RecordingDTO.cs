@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace TimeRecorder.Models.DTOs
 {
-    public class RecordingDTO
+    public class RecordingDTO :IDTO
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public DateTime Start { get; set; }
         public DateTime? End { get; set; }

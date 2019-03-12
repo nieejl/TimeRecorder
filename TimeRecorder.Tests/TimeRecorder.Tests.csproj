@@ -76,6 +76,7 @@
     <Compile Include="Models\ValueParsers\TimeStringParserTest.cs" />
     <Compile Include="Models\ValueConverters\TimeToStringConverterTest.cs" />
     <Compile Include="ViewModels\RecordDetailPageTest.cs" />
+    <Compile Include="ViewModels\TimeFieldVMTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

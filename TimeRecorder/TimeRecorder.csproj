@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.EntityFrameworkCore">
+      <HintPath>C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.entityframeworkcore\2.2.0\lib\netstandard2.0\Microsoft.EntityFrameworkCore.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.2.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.2.2.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
     </Reference>
@@ -65,12 +68,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\DTOs\IDTO.cs" />
     <Compile Include="Models\DTOs\ProjectDTO.cs" />
     <Compile Include="Models\DTOs\RecordingDTO.cs" />
     <Compile Include="Models\Extensions\ColorExtensions.cs" />
     <Compile Include="Models\Extensions\IntegerExtensions.cs" />
     <Compile Include="Models\RelayCommand.cs" />
+    <Compile Include="Models\Repositories\ICrudRepository.cs" />
+    <Compile Include="Models\Repositories\IProjectRepository.cs" />
     <Compile Include="Models\Repositories\IRecordingRepository.cs" />
+    <Compile Include="Models\Repositories\ITimerContext.cs" />
+    <Compile Include="Models\Repositories\RecordingRepository.cs" />
+    <Compile Include="Models\Repositories\TimerContext.cs" />
     <Compile Include="Models\ValueConverters\TimeToStringConverter.cs" />
     <Compile Include="Models\ValueParsers\ITimeStringParser.cs" />
     <Compile Include="Models\ValueParsers\TimeStringParser.cs" />

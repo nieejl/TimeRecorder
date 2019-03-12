@@ -11,7 +11,7 @@ namespace TimeRecorder.ViewModels
     public class DateFieldVM : BaseViewModel, IDateFieldVM
     {
         private static SolidColorBrush invalidColor = new SolidColorBrush(Colors.Red);
-        private static SolidColorBrush validColor = new SolidColorBrush(Colors.White);
+        private static SolidColorBrush validColor = new SolidColorBrush(Colors.Green);
 
         public SolidColorBrush BorderColor {
             get {
@@ -29,15 +29,17 @@ namespace TimeRecorder.ViewModels
             set {
                 textField = value;
                 OnPropertyChanged("TextField");
-                if (DateTime.TryParse(TextField, out DateTime date))
-                {
-                    ParsedDate = date;
-                    IsValid = true;
-                }
-                else
-                {
-                    IsValid = false;
-                }
+                //textField = value;
+                //OnPropertyChanged("TextField");
+                //if (DateTime.TryParse(TextField, out DateTime date))
+                //{
+                //    ParsedDate = date;
+                //    IsValid = true;
+                //}
+                //else
+                //{
+                //    IsValid = false;
+                //}
             }
         }
 
@@ -49,6 +51,8 @@ namespace TimeRecorder.ViewModels
                 {
                     parsedDate = value;
                     OnPropertyChanged("ParsedDate");
+                    TextField = parsedDate.ToShortDateString();
+                    IsValid = DateTime.TryParse(TextField, out DateTime _);
                 }
             }
         }

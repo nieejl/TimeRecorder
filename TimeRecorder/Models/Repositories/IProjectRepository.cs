@@ -7,7 +7,7 @@ using TimeRecorder.Models.DTOs;
 
 namespace TimeRecorder.Models.Repositories
 {
-    public interface IRecordingRepository : ICrudRepository<RecordingDTO>
+    public interface IProjectRepository : ICrudRepository<ProjectDTO>
     {
     }
 }

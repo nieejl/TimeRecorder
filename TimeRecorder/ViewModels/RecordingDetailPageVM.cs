@@ -20,11 +20,11 @@ namespace TimeRecorder.ViewModels
     {
         private RecordingDTO recordingDTO;
         
-        public ITimeFieldVM StartTimeFieldVM { get; private set; }
-        public ITimeFieldVM EndTimeFieldVM { get; private set; }
-        public ITimeFieldVM ElapsedTimeFieldVM { get; private set; }
-        public IDateFieldVM StartDateFieldVM { get; private set; }
-        public IDateFieldVM EndDateFieldVM { get; private set; }
+        public ITimeFieldVM StartTimeFieldVM { get; set; }
+        public ITimeFieldVM EndTimeFieldVM { get; set; }
+        public ITimeFieldVM ElapsedTimeFieldVM { get; set; }
+        public IDateFieldVM StartDateFieldVM { get; set; }
+        public IDateFieldVM EndDateFieldVM { get; set; }
 
         public RecordingDetailPageVM(IParserFieldVMFactory fieldVMFactory)
         {
@@ -68,21 +68,21 @@ namespace TimeRecorder.ViewModels
             recordingDTO = recording;
 
             TimeSpan? duration = recording.End - recording.Start;
-            this.Title = recording.Title;
-            this.StartTimeFieldVM.TextField = recording.Start.TimeOfDay.ToString();
-            this.StartDateFieldVM.TextField = recording.Start.ToShortDateString();
+            Title = recording.Title;
+            StartTimeFieldVM.TextField = recording.Start.TimeOfDay.ToString();
+            StartDateFieldVM.TextField = recording.Start.ToShortDateString();
 
-            this.ElapsedTimeFieldVM.TextField = duration ? .ToString();
-            this.EndTimeFieldVM.TextField = recording.End ? .TimeOfDay.ToString();
-            this.EndDateFieldVM.TextField = recording.End ? .ToShortDateString();
+            ElapsedTimeFieldVM.TextField = duration ? .ToString();
+            EndTimeFieldVM.TextField = recording.End ? .TimeOfDay.ToString();
+            EndDateFieldVM.TextField = recording.End ? .ToShortDateString();
 
-            this.Tags = tagsAsString(recording.Tags);
+            Tags = tagsAsString(recording.Tags);
         }
 
         private string tagsAsString(List<string> tagsAsList)
         {
             var sb = new StringBuilder();
-            tagsAsList.ForEach(tag => sb.AppendFormat("%s, ", tag));
+            tagsAsList.ForEach(tag => sb.AppendFormat($"{tag}, "));
             if (sb.Length > 0) // remove last trailing space and comma
                 sb.Remove(sb.Length - 2, 2);
             return sb.ToString();
@@ -91,7 +91,7 @@ namespace TimeRecorder.ViewModels
         private List<string> tagsAsList(string tagsAsString)
         {
             var tagsList = new List<string>();
-            if (tagsAsString.Length == 0)
+            if (tagsAsString == null || tagsAsString.Length == 0)
                 return tagsList;
             var seperatedTags = tagsAsString.Split(
                 new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
@@ -108,16 +108,6 @@ namespace TimeRecorder.ViewModels
             }
             return false;
         }
-
-        public void SaveToDTO()
-        {
-            recordingDTO.Title = Title;
-            recordingDTO.Start = StartDateFieldVM.ParsedDate + StartTimeFieldVM.ParsedTime;
-            recordingDTO.End = EndDateFieldVM.ParsedDate + EndTimeFieldVM.ParsedTime;
-            recordingDTO.Project = Project;
-            recordingDTO.Tags = tagsAsList(Tags);
-        }
-
         private bool isStartTimeAndDateValid()
         {
             return StartTimeFieldVM.IsValid && StartDateFieldVM.IsValid;
@@ -128,15 +118,17 @@ namespace TimeRecorder.ViewModels
             return EndTimeFieldVM.IsValid && EndDateFieldVM.IsValid;
         }
 
-        public ICommand SaveEndTimeCommand {
-            get {
-                return new RelayCommand(_ =>
-                {
-                    if (true) // TODO : Check time is ok. Change on record if yes
-                        return;
-                });
-            }
+        private void SaveToDTO()
+        {
+            if (recordingDTO == null)
+                recordingDTO = new RecordingDTO();
+            recordingDTO.Title = Title;
+            recordingDTO.Start = StartDateFieldVM.ParsedDate + StartTimeFieldVM.ParsedTime;
+            recordingDTO.End = EndDateFieldVM.ParsedDate + EndTimeFieldVM.ParsedTime;
+            recordingDTO.Project = Project;
+            recordingDTO.Tags = tagsAsList(Tags);
         }
+
 
         public SearchBoxVM<Recording> SearchVM;
 
@@ -146,18 +138,6 @@ namespace TimeRecorder.ViewModels
                 {
                     var nameString = (string)name;
                });
-            }
-        }
-
-        public ICommand LoadDetailsCommand {
-            get {
-                return new RelayCommand((rec) =>
-                {
-                    var recording = (RecordingDTO)rec;
-                    if (recording == null)
-                        return;
-                    UpdateFromDTO(recording);
-                });
             }
         }
     }

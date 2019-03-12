@@ -36,10 +36,10 @@ namespace TimeRecorder.Tests.ViewModels
 
         private RecordingDetailPageVM createTestVM()
         {
-            var mockFactory = new Mock<IParserFieldVMFactory>();
+            var mockFactory = CreateValidityFactory(true, true);
+            mockFactory.SetupAllProperties();
             return new RecordingDetailPageVM(mockFactory.Object);
         }
-
 
         [Fact]
         public void Test_UpdateFromDTO_Updates_Title()
@@ -53,58 +53,79 @@ namespace TimeRecorder.Tests.ViewModels
         }
 
         [Fact]
-        public void Test_UpdateFromDTO_Updates_StartDate()
+        public void Test_UpdateFromDTO_Updates_Tags()
         {
             var vm = createTestVM();
             var dto = createTestRecording();
 
             vm.UpdateFromDTO(dto);
 
-            Assert.Equal("11-01-2019", vm.StartDate);
+            Assert.Equal("firstTag, secondTag", vm.Tags);
+        }
+
+        [Fact]
+        public void Test_UpdateFromDTO_Updates_StartDate()
+        {
+            var vm = createTestVM();
+            var mockField = new Mock<IDateFieldVM>();
+            var dto = createTestRecording();
+            vm.StartDateFieldVM = mockField.Object;
+
+            vm.UpdateFromDTO(dto);
+
+            mockField.VerifySet(field => field.TextField = dto.Start.ToShortDateString());
         }
 
         [Fact]
         public void Test_UpdateFromDTO_Updates_EndDate()
         {
             var vm = createTestVM();
+            var mockField = new Mock<IDateFieldVM>();
             var dto = createTestRecording();
+            vm.EndDateFieldVM = mockField.Object;
 
             vm.UpdateFromDTO(dto);
 
-            Assert.Equal("12-01-2019", vm.EndDate);
+            mockField.VerifySet(field => field.TextField = dto.End?.ToShortDateString());
         }
 
         [Fact]
         public void Test_UpdateFromDTO_Updates_StartTime()
         {
             var vm = createTestVM();
+            var mockField = new Mock<ITimeFieldVM>();
             var dto = createTestRecording();
+            vm.StartTimeFieldVM = mockField.Object;
 
             vm.UpdateFromDTO(dto);
 
-            Assert.Equal("02:32:05", vm.StartTime);
+            mockField.VerifySet(field => field.TextField = dto.Start.TimeOfDay.ToString());
         }
 
         [Fact]
         public void Test_UpdateFromDTO_Updates_EndTime()
         {
             var vm = createTestVM();
+            var mockField = new Mock<ITimeFieldVM>();
             var dto = createTestRecording();
+            vm.EndTimeFieldVM = mockField.Object;
 
             vm.UpdateFromDTO(dto);
 
-            Assert.Equal("05:32:10", vm.EndTime);
+            mockField.VerifySet(field => field.TextField = dto.End?.TimeOfDay.ToString());
         }
 
         [Fact]
         public void Test_UpdateFromDTO_Updates_ElapsedTime()
         {
             var vm = createTestVM();
+            var mockField = new Mock<ITimeFieldVM>();
             var dto = createTestRecording();
+            vm.ElapsedTimeFieldVM = mockField.Object;
 
             vm.UpdateFromDTO(dto);
 
-            Assert.Equal("1.03:00:05", vm.ElapsedTime);
+            mockField.VerifySet(field => field.TextField = "1.03:00:05");
         }
 
         private Mock<IDateFieldVM> CreateValidityDateField(bool isValid)
@@ -120,6 +141,7 @@ namespace TimeRecorder.Tests.ViewModels
             return mockTimeField;
         }
 
+
         private Mock<IParserFieldVMFactory> CreateValidityFactory(bool timeValid, bool dateValid)
         {
             var mockFactory = new Mock<IParserFieldVMFactory>();
@@ -132,15 +154,27 @@ namespace TimeRecorder.Tests.ViewModels
         }
 
         [Fact]
-        public void Test_TrySaveToDTO_Saves_To_DTO_If_Time_And_Date_Is_Valid()
+        public void Test_TrySaveToDTO_Returns_True_If_Time_And_Date_Is_Valid()
         {
             var dto = createTestRecording();
             var mockFactory = CreateValidityFactory(true, true);
-
             var vm = new RecordingDetailPageVM(mockFactory.Object);
-            vm.TrySaveToDTO();
 
-            mockFactory.Verify();
+            var result = vm.TrySaveToDTO();
+
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void Test_TrySaveToDTO_Returns_False_If_Time_And_Date_Is_Invalid()
+        {
+            var dto = createTestRecording();
+            var mockFactory = CreateValidityFactory(false, false);
+            var vm = new RecordingDetailPageVM(mockFactory.Object);
+
+            var result = vm.TrySaveToDTO();
+
+            Assert.False(result);
         }
     }
 }
