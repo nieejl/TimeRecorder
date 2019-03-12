@@ -39,10 +39,8 @@ namespace TimeRecorder.Tests.ViewModels
         List<Dummy> GetDummies()
         {
             var dummies = new List<Dummy>();
-            var withoutKey = GetDummiesWithoutKey();
-            var withKey = GetDummiesWithKey();
-            dummies.AddRange(withoutKey);
-            dummies.AddRange(withKey);
+            dummies.AddRange(GetDummiesWithKey());
+            dummies.AddRange(GetDummiesWithoutKey());
             return dummies;
         }
         string converter(Dummy dummy) => dummy.stringItem;

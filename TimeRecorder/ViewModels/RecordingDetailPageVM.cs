@@ -33,7 +33,6 @@ namespace TimeRecorder.ViewModels
             ElapsedTimeFieldVM = fieldVMFactory.GenerateUnlimitedTimeField();
             StartDateFieldVM = fieldVMFactory.GenerateDateField();
             EndDateFieldVM = fieldVMFactory.GenerateDateField();
-
         }
 
         private string title;

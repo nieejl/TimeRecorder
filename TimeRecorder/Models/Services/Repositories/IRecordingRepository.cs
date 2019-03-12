@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TimeRecorder.Models.DTOs;
 
-namespace TimeRecorder.Models.Repositories
+namespace TimeRecorder.Models.Services.Repositories
 {
-    public interface IProjectRepository : ICrudRepository<ProjectDTO>
+    public interface IRecordingRepository : ICrudRepository<RecordingDTO>
     {
     }
 }

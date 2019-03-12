@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TimeRecorder.Models.Repositories
+namespace TimeRecorder.Models.Services.Repositories
 {
-    public interface ITimerContext : IDisposable
+    public interface ITimeRecorcerContext : IDisposable
     {
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
