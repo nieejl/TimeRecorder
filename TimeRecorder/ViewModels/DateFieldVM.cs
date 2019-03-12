@@ -29,17 +29,6 @@ namespace TimeRecorder.ViewModels
             set {
                 textField = value;
                 OnPropertyChanged("TextField");
-                //textField = value;
-                //OnPropertyChanged("TextField");
-                //if (DateTime.TryParse(TextField, out DateTime date))
-                //{
-                //    ParsedDate = date;
-                //    IsValid = true;
-                //}
-                //else
-                //{
-                //    IsValid = false;
-                //}
             }
         }
 

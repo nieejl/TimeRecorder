@@ -18,12 +18,12 @@ namespace TimeRecorder.ViewModels
                 OnPropertyChanged("SearchText");
             }
         }
-        private T AutoCompleteItem;
-        public T Item {
-            get { return AutoCompleteItem; }
+        private T autoCompleteItem;
+        public T AutoCompleteItem {
+            get { return autoCompleteItem; }
             set {
-                AutoCompleteItem = value;
-                OnPropertyChanged("Item");
+                autoCompleteItem = value;
+                OnPropertyChanged("AutoCompleteItem");
             }
         }
 
@@ -42,13 +42,13 @@ namespace TimeRecorder.ViewModels
         public virtual void FilterItems()
         {
             FilteredItems = SearchableContent.FindAll(
-                item => ConversionFunction(item).Contains(SearchText));
+                item => ConversionFunction(item).ToLower().Contains(SearchText.ToLower()));
             Filtered = new ObservableCollection<string>(
                 FilteredItems.Select(items => ConversionFunction(items)));
             if (FilteredItems.Count == 1)
-                Item = FilteredItems[0];
+                AutoCompleteItem = FilteredItems[0];
             else
-                Item = default(T);
+                AutoCompleteItem = default(T);
         }
 
 
