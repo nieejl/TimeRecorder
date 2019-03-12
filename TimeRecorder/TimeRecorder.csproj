@@ -68,17 +68,25 @@
     <Compile Include="Models\DTOs\ProjectDTO.cs" />
     <Compile Include="Models\DTOs\RecordingDTO.cs" />
     <Compile Include="Models\Extensions\ColorExtensions.cs" />
+    <Compile Include="Models\Extensions\IntegerExtensions.cs" />
     <Compile Include="Models\RelayCommand.cs" />
+    <Compile Include="Models\Repositories\IRecordingRepository.cs" />
     <Compile Include="Models\ValueConverters\TimeToStringConverter.cs" />
     <Compile Include="Models\ValueParsers\ITimeStringParser.cs" />
     <Compile Include="Models\ValueParsers\TimeStringParser.cs" />
+    <Compile Include="ViewModels\DateFieldVM.cs" />
+    <Compile Include="ViewModels\Interfaces\IDateFieldVM.cs" />
     <Compile Include="ViewModels\Interfaces\IRecordDetailPageVM.cs" />
     <Compile Include="ViewModels\Interfaces\IRecordingOverviewVM.cs" />
     <Compile Include="ViewModels\Interfaces\ISearchBoxVM.cs" />
+    <Compile Include="ViewModels\Interfaces\ITimeFieldVM.cs" />
+    <Compile Include="ViewModels\Interfaces\ITimeFieldVMFactory.cs" />
+    <Compile Include="ViewModels\TimeFieldViewModel.cs" />
     <Compile Include="ViewModels\RecordingOverviewVM.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\RecordingDetailPageVM.cs" />
     <Compile Include="ViewModels\SearchBoxVM.cs" />
+    <Compile Include="ViewModels\ParserFieldVMFactory.cs" />
     <Compile Include="Views\RecordDetailPage.xaml.cs">
       <DependentUpon>RecordDetailPage.xaml</DependentUpon>
     </Compile>

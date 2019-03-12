@@ -8,7 +8,8 @@ namespace TimeRecorder.Models.ValueParsers
 {
     public interface ITimeStringParser
     {
-        bool TryParseStringToTime(string timeAsString, out TimeSpan? result);
-        bool IsValidTime(int hours, int minutes = 0, int seconds = 0);
+        bool TryParse(string timeAsString, out TimeSpan result, bool limitHours24=false);
+        bool IsValidTime(int hours, int minutes = 0, int seconds = 0, bool limitHours24=false);
+        bool IsValidTime(string timeAsString, bool limitHours24 = false);
     }
 }

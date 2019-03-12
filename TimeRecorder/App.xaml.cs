@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using TimeRecorder.Models;
+using TimeRecorder.Models.ValueParsers;
 using TimeRecorder.ViewModels;
 using TimeRecorder.ViewModels.Interfaces;
 namespace TimeRecorder
@@ -27,6 +28,10 @@ namespace TimeRecorder
         public void RegisterServices()
         {
             var iocContainer = new ServiceCollection();
+
+            iocContainer.AddSingleton<ITimeStringParser, TimeStringParser>();
+            iocContainer.AddSingleton<IParserFieldVMFactory, ParserFieldVMFactory>();
+
             iocContainer.AddTransient<IRecordingOverviewVM, RecordingOverviewVM>();
             iocContainer.AddTransient<IRecordingDetailPageVM, RecordingDetailPageVM>();
 

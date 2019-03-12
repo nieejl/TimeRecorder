@@ -10,6 +10,7 @@ using System.Windows.Media;
 using TimeRecorder.Models;
 using TimeRecorder.Models.DTOs;
 using TimeRecorder.Models.ValueConverters;
+using TimeRecorder.Models.ValueParsers;
 using TimeRecorder.ViewModels.Interfaces;
 using static TimeRecorder.ViewModels.RecordingOverviewVM;
 
@@ -17,27 +18,22 @@ namespace TimeRecorder.ViewModels
 {
     public class RecordingDetailPageVM : BaseViewModel, IRecordingDetailPageVM
     {
-        private TimeToStringConverter converter;
         private RecordingDTO recordingDTO;
-        public RecordingDetailPageVM()
+        
+        public ITimeFieldVM StartTimeFieldVM { get; private set; }
+        public ITimeFieldVM EndTimeFieldVM { get; private set; }
+        public ITimeFieldVM ElapsedTimeFieldVM { get; private set; }
+        public IDateFieldVM StartDateFieldVM { get; private set; }
+        public IDateFieldVM EndDateFieldVM { get; private set; }
+
+        public RecordingDetailPageVM(IParserFieldVMFactory fieldVMFactory)
         {
-            converter = new TimeToStringConverter();
-        }
+            StartTimeFieldVM = fieldVMFactory.Generate24HourTimeField();
+            EndTimeFieldVM = fieldVMFactory.Generate24HourTimeField();
+            ElapsedTimeFieldVM = fieldVMFactory.GenerateUnlimitedTimeField();
+            StartDateFieldVM = fieldVMFactory.GenerateDateField();
+            EndDateFieldVM = fieldVMFactory.GenerateDateField();
 
-        public void UpdateFromDTO(RecordingDTO recording)
-        {
-            recordingDTO = recording;
-
-            TimeSpan duration = (recording.EndDate - recording.StartDate) +
-                (recording.EndTime - recording.StartTime);
-            this.Title = recording.Title;
-
-            this.ElapsedTime = duration.ToString();
-            this.StartTime = recording.StartTime.ToString();
-            this.EndTime = recording.EndTime.ToString();
-
-            this.StartDate = recording.StartDate.ToShortDateString();
-            this.EndDate = recording.EndDate.ToShortDateString();
         }
 
         private string title;
@@ -49,14 +45,87 @@ namespace TimeRecorder.ViewModels
             }
         }
 
-        public ICommand SaveStartTimeCommand {
-            get {
-                return new RelayCommand( _=>
-                {
-                    if (true) // TODO : Check time is ok. Change on record if yes
-                        return;
-                });
+        private ProjectDTO project;
+        public ProjectDTO Project {
+            get { return project; }
+            set {
+                project = value;
+                OnPropertyChanged("Project");
             }
+        }
+
+        private string tags;
+        public string Tags {
+            get { return tags; }
+            set {
+                tags = value;
+                OnPropertyChanged("Tags");
+            }
+        }
+
+        public void UpdateFromDTO(RecordingDTO recording)
+        {
+            recordingDTO = recording;
+
+            TimeSpan? duration = recording.End - recording.Start;
+            this.Title = recording.Title;
+            this.StartTimeFieldVM.TextField = recording.Start.TimeOfDay.ToString();
+            this.StartDateFieldVM.TextField = recording.Start.ToShortDateString();
+
+            this.ElapsedTimeFieldVM.TextField = duration ? .ToString();
+            this.EndTimeFieldVM.TextField = recording.End ? .TimeOfDay.ToString();
+            this.EndDateFieldVM.TextField = recording.End ? .ToShortDateString();
+
+            this.Tags = tagsAsString(recording.Tags);
+        }
+
+        private string tagsAsString(List<string> tagsAsList)
+        {
+            var sb = new StringBuilder();
+            tagsAsList.ForEach(tag => sb.AppendFormat("%s, ", tag));
+            if (sb.Length > 0) // remove last trailing space and comma
+                sb.Remove(sb.Length - 2, 2);
+            return sb.ToString();
+        }
+
+        private List<string> tagsAsList(string tagsAsString)
+        {
+            var tagsList = new List<string>();
+            if (tagsAsString.Length == 0)
+                return tagsList;
+            var seperatedTags = tagsAsString.Split(
+                new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            tagsList.AddRange(seperatedTags);
+            return tagsList;
+        }
+
+        public bool TrySaveToDTO()
+        {
+            if (isStartTimeAndDateValid() && isEndTimeAndDateValid())
+            {
+                SaveToDTO();
+                return true;
+            }
+            return false;
+        }
+
+        public void SaveToDTO()
+        {
+            recordingDTO.Title = Title;
+            recordingDTO.Start = StartDateFieldVM.ParsedDate + StartTimeFieldVM.ParsedTime;
+            recordingDTO.End = EndDateFieldVM.ParsedDate + EndTimeFieldVM.ParsedTime;
+            recordingDTO.Project = Project;
+            recordingDTO.Tags = tagsAsList(Tags);
+        }
+
+        private bool isStartTimeAndDateValid()
+        {
+            return StartTimeFieldVM.IsValid && StartDateFieldVM.IsValid;
+        }
+
+        private bool isEndTimeAndDateValid()
+        {
+            return EndTimeFieldVM.IsValid && EndDateFieldVM.IsValid;
         }
 
         public ICommand SaveEndTimeCommand {
@@ -70,30 +139,15 @@ namespace TimeRecorder.ViewModels
         }
 
         public SearchBoxVM<Recording> SearchVM;
-        private Recording recording;
 
         public ICommand AddNewProjectCommand {
             get {
                 return new RelayCommand((name) =>
                 {
                     var nameString = (string)name;
-                    Debug.WriteLine(recording.Description + recording.Duration + recording.ProjectName);
-                    Debug.WriteLine(StartTime);
-                    Debug.WriteLine(StartTimeColor);
                });
             }
         }
-
-        private SolidColorBrush _startTimeColor;
-        // TODO: Change to do time check with converter? Add Matching for Endtime 
-        public SolidColorBrush StartTimeColor { 
-            get { return _startTimeColor; }
-            set {
-                _startTimeColor = value;
-                OnPropertyChanged("StartTimeColor");
-            }
-        }
-
 
         public ICommand LoadDetailsCommand {
             get {
@@ -104,62 +158,6 @@ namespace TimeRecorder.ViewModels
                         return;
                     UpdateFromDTO(recording);
                 });
-            }
-        }
-
-        private string startTime;
-        public string StartTime {
-            get { return startTime; }
-            set {
-                startTime = value;
-                OnPropertyChanged("StartTimeText");
-            }
-        }
-
-        
-        private void UpdateStartTimeColor() // TODO: Update with converter
-        {
-            var ttsc = new TimeToStringConverter();
-            if (ttsc.ConvertBack(StartTime, typeof(TimeSpan), null, CultureInfo.CurrentCulture) != null) {
-                StartTimeColor = new SolidColorBrush(Colors.Green);
-                return;
-            }
-            StartTimeColor = new SolidColorBrush(Colors.Red);
-        }
-        
-        private string endTime;
-        public string EndTime {
-            get { return endTime; }
-            set {
-                endTime = value;
-                OnPropertyChanged("EndTimeText");
-            }
-        }
-
-        private string elapsed;
-        public string ElapsedTime {
-            get { return elapsed; }
-            set {
-                elapsed = value;
-                OnPropertyChanged("Elapsed");
-            }
-        }
-
-        private string startDate;
-        public string StartDate {
-            get { return startDate; }
-            set {
-                startDate = value;
-                OnPropertyChanged("StartDate");
-            }
-        }
-
-        private string endDate;
-        public string EndDate {
-            get { return endDate; }
-            set {
-                endDate = value;
-                OnPropertyChanged("EndDate");
             }
         }
     }

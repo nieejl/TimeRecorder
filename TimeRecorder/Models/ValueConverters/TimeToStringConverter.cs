@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using TimeRecorder.Models.ValueValidators;
+using TimeRecorder.Models.ValueParsers;
 
 namespace TimeRecorder.Models.ValueConverters
 {
@@ -22,8 +22,9 @@ namespace TimeRecorder.Models.ValueConverters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            var parser = new TimeStringParser();
             var inputString = value.ToString();
-            if (!TimeStringParser.TryParseStringToTime(inputString, out TimeSpan? time))
+            if (!parser.TryParse(inputString, out TimeSpan time))
                 return null;
             return time; 
         }
