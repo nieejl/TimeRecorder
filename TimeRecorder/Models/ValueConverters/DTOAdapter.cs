@@ -26,6 +26,7 @@ namespace TimeRecorder.Models.ValueConverters
             var elapsed = (dto.End - dto.Start).Value.ToHHMMSS();
             return new RecordingSummaryVM
             {
+                Id = dto.Id,
                 Title = title,
                 ProjectName = projectName,
                 ProjectColor = color,

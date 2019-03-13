@@ -19,7 +19,7 @@ namespace TimeRecorder.Models.Services.Repositories
             if (amount < 0 || startIndex < 0)
                 throw new ArgumentException("ReadAmount called with negative amount or index.");
             var initial = context.Set<RecordingDTO>()
-                .OrderBy(r => r.Start)
+                .OrderByDescending(r => r.Start)
                 .Include(r => r.Project);
             await Task.FromResult(0);
             if (startIndex <= 0)

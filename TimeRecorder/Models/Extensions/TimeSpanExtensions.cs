@@ -24,10 +24,15 @@ namespace TimeRecorder.Models.Extensions
 
         public static string ToHHMMSS(this TimeSpan time)
         {
+            var seconds = time.Seconds < 10 ? "0" + time.Seconds : time.Seconds.ToString();
+            return time.ToHHMM() + $":{seconds}";
+        }
+
+        public static string ToHHMM(this TimeSpan time)
+        {
             var hours = ((time.Days * 24) + time.Hours).ToString();
             var minutes = time.Minutes < 10 ? "0" + time.Minutes : time.Minutes.ToString();
-            var seconds = time.Seconds < 10 ? "0" + time.Seconds : time.Seconds.ToString();
-            return hours + minutes + seconds;
+            return $"{hours}:{minutes}";
         }
     }
 }

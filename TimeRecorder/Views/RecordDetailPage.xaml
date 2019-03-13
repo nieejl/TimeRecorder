@@ -15,6 +15,7 @@
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <!--<Setter Property="Width" Value="100"/>-->
             <Setter Property="Text" Value="{Binding TextField}"/>
+            <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="BorderBrush" Value="{Binding BorderColor}"/>
         </Style>
         <Style x:Key="DatePickerField" TargetType="DatePicker">
@@ -22,7 +23,8 @@
             <Setter Property="Text" Value="{Binding TextField}"/>
             <Setter Property="BorderBrush" Value="{Binding BorderColor}"/>
             <Setter Property="Margin" Value="0,5,0,0"/>
-            <Setter Property="SelectedDate" Value="{Binding Path=ParsedDate, UpdateSourceTrigger=PropertyChanged}"/>
+            <Setter Property="SelectedDate" 
+                    Value="{Binding Path=ParsedDate, UpdateSourceTrigger=PropertyChanged}"/>
         </Style>
     </Page.Resources>
     <StackPanel Margin="10,10,10,10">

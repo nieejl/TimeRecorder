@@ -9,6 +9,7 @@ namespace TimeRecorder.ViewModels
 {
     public class RecordingSummaryVM : BaseViewModel
     {
+        public int Id { get; set; }
         private string _title;
         public string Title {
             get { return _title; }

@@ -9,6 +9,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using TimeRecorder.Models;
 using TimeRecorder.Models.DTOs;
+using TimeRecorder.Models.Extensions;
+using TimeRecorder.Models.Services.Repositories;
 using TimeRecorder.Models.ValueConverters;
 using TimeRecorder.Models.ValueParsers;
 using TimeRecorder.ViewModels.Interfaces;
@@ -17,16 +19,17 @@ namespace TimeRecorder.ViewModels
 {
     public class RecordingDetailPageVM : BaseViewModel, IRecordingDetailPageVM
     {
-        private RecordingDTO recordingDTO;
-        
+        private RecordingDTO currentDTO;
+        private IRecordingRepository repo;
         public ITimeFieldVM StartTimeFieldVM { get; set; }
         public ITimeFieldVM EndTimeFieldVM { get; set; }
         public ITimeFieldVM ElapsedTimeFieldVM { get; set; }
         public IDateFieldVM StartDateFieldVM { get; set; }
         public IDateFieldVM EndDateFieldVM { get; set; }
 
-        public RecordingDetailPageVM(IParserFieldVMFactory fieldVMFactory)
+        public RecordingDetailPageVM(IRecordingRepository repo, IParserFieldVMFactory fieldVMFactory)
         {
+            this.repo = repo;
             StartTimeFieldVM = fieldVMFactory.Generate24HourTimeField();
             EndTimeFieldVM = fieldVMFactory.Generate24HourTimeField();
             ElapsedTimeFieldVM = fieldVMFactory.GenerateUnlimitedTimeField();
@@ -39,7 +42,7 @@ namespace TimeRecorder.ViewModels
             get { return title; }
             set {
                 title = value;
-                OnPropertyChanged("Title");
+                OnPropertyChanged();
             }
         }
 
@@ -60,25 +63,38 @@ namespace TimeRecorder.ViewModels
                 OnPropertyChanged("Tags");
             }
         }
-
+        public void UpdateFromDTO(int id)
+        {
+            var dto = repo.FindAsync(id);
+            dto.Wait();
+            UpdateFromDTO(dto.Result);
+        }
         public void UpdateFromDTO(RecordingDTO recording)
         {
-            recordingDTO = recording;
+            currentDTO = recording;
 
-            TimeSpan? duration = recording.End - recording.Start;
             Title = recording.Title;
-            StartTimeFieldVM.TextField = recording.Start.TimeOfDay.ToString();
-            StartDateFieldVM.TextField = recording.Start.ToShortDateString();
-
-            ElapsedTimeFieldVM.TextField = duration ? .ToString();
-            EndTimeFieldVM.TextField = recording.End ? .TimeOfDay.ToString();
-            EndDateFieldVM.TextField = recording.End ? .ToShortDateString();
-
+            StartTimeFieldVM.TextField = recording.Start.TimeOfDay.ToHHMM();
+            StartDateFieldVM.ParsedDate = recording.Start;
             Tags = tagsAsString(recording.Tags);
+
+            if (recording.End != null)
+            {
+                TimeSpan? duration = recording.End - recording.Start;
+                ElapsedTimeFieldVM.TextField = duration.Value.ToHHMM();
+
+                EndTimeFieldVM.TextField = recording.End.Value.TimeOfDay.ToHHMM();
+                EndDateFieldVM.ParsedDate = recording.End.Value;
+            } else
+            {
+                ElapsedTimeFieldVM.TextField = (DateTime.Now - recording.Start).ToHHMMSS();
+            }
         }
 
         private string tagsAsString(List<TagDTO> tagsAsList)
         {
+            if (tagsAsList == null)
+                return "";
             var sb = new StringBuilder();
             tagsAsList.ForEach(tag => sb.AppendFormat($"{tag.TagValue}, "));
             //foreach (var tag in tagsAsList)
@@ -124,13 +140,13 @@ namespace TimeRecorder.ViewModels
 
         private void SaveToDTO()
         {
-            if (recordingDTO == null)
-                recordingDTO = new RecordingDTO();
-            recordingDTO.Title = Title;
-            recordingDTO.Start = StartDateFieldVM.ParsedDate + StartTimeFieldVM.ParsedTime;
-            recordingDTO.End = EndDateFieldVM.ParsedDate + EndTimeFieldVM.ParsedTime;
-            recordingDTO.Project = Project;
-            recordingDTO.Tags = tagsAsStringList(Tags).
+            if (currentDTO == null)
+                currentDTO = new RecordingDTO();
+            currentDTO.Title = Title;
+            currentDTO.Start = StartDateFieldVM.ParsedDate + StartTimeFieldVM.ParsedTime;
+            currentDTO.End = EndDateFieldVM.ParsedDate + EndTimeFieldVM.ParsedTime;
+            currentDTO.Project = Project;
+            currentDTO.Tags = tagsAsStringList(Tags).
                 Select(s => new TagDTO { TagValue = s }).ToList();
         }
 

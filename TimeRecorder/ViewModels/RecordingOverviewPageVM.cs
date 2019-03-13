@@ -110,9 +110,12 @@ namespace TimeRecorder.ViewModels
 
         public ICommand LoadMoreCommand {
             get {
-                return new RelayCommand((item) =>
+                return new RelayCommand(async (item) =>
                 {
-                    Debug.WriteLine("LoadMoreCommand called");
+                    var recordingDTOs = await recordingRepo.ReadAmount(20, Recordings.Count);
+                    var summaryVMs = recordingDTOs.Select(r => r.ToSummaryVM()).ToList();
+                    Recordings = new ObservableCollection<RecordingSummaryVM>(
+                        Recordings.Concat(summaryVMs));
                 });
             }
         }

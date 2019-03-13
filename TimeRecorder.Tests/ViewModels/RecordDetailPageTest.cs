@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Media;
 using TimeRecorder.Models.DTOs;
+using TimeRecorder.Models.Services.Repositories;
 using TimeRecorder.Models.ValueParsers;
 using TimeRecorder.ViewModels;
 using TimeRecorder.ViewModels.Interfaces;
@@ -20,7 +21,15 @@ namespace TimeRecorder.Tests.ViewModels
                 Color = Colors.Black
             };
         }
+        private Mock<IRecordingRepository> CreateTestRepo()
+        {
+            return new Mock<IRecordingRepository>();
+        }
 
+        private IRecordingRepository CreateEmptyRepo()
+        {
+            return CreateTestRepo().Object;
+        }
         private List<TagDTO> createTestTags()
         {
             return new List<TagDTO>
@@ -47,7 +56,7 @@ namespace TimeRecorder.Tests.ViewModels
         {
             var mockFactory = CreateValidityFactory(true, true);
             mockFactory.SetupAllProperties();
-            return new RecordingDetailPageVM(mockFactory.Object);
+            return new RecordingDetailPageVM(CreateEmptyRepo(), mockFactory.Object);
         }
 
         [Fact]
@@ -167,7 +176,7 @@ namespace TimeRecorder.Tests.ViewModels
         {
             var dto = createTestRecording();
             var mockFactory = CreateValidityFactory(true, true);
-            var vm = new RecordingDetailPageVM(mockFactory.Object);
+            var vm = new RecordingDetailPageVM(CreateEmptyRepo(), mockFactory.Object);
 
             var result = vm.TrySaveToDTO();
 
@@ -179,7 +188,7 @@ namespace TimeRecorder.Tests.ViewModels
         {
             var dto = createTestRecording();
             var mockFactory = CreateValidityFactory(false, false);
-            var vm = new RecordingDetailPageVM(mockFactory.Object);
+            var vm = new RecordingDetailPageVM(CreateEmptyRepo(), mockFactory.Object);
 
             var result = vm.TrySaveToDTO();
 

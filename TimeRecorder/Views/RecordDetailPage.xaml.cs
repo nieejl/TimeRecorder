@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using TimeRecorder.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using TimeRecorder.ViewModels.Interfaces;
+using TimeRecorder.Models.DTOs;
 
 namespace TimeRecorder.Views
 {
@@ -29,6 +30,11 @@ namespace TimeRecorder.Views
             InitializeComponent();
             vm = (Application.Current as App).Services.GetService<IRecordingDetailPageVM>();
             DataContext = vm;
+        }
+
+        public void SetRecording(int dtoId)
+        {
+            vm.UpdateFromDTO(dtoId);
         }
     }
 }

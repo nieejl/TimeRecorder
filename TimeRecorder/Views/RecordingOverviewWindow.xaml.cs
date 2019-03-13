@@ -67,16 +67,16 @@ namespace TimeRecorder.Views
                 Debug.WriteLine("item is not a recordingVM");
                 return;
             }
-            ToggleWindow();
+            ToggleWindow(item.Id);
             Debug.WriteLine("items desc is : " + item.Title);
         }
 
-        private void ToggleWindow()
+        private void ToggleWindow(int id)
         {
             if (!secondWindowOpen)
             {
                 secondWindowOpen = true;
-                SlideOut();
+                SlideOut(id);
             } else
             {
                 secondWindowOpen = false;
@@ -84,17 +84,19 @@ namespace TimeRecorder.Views
             }
         }
 
-        private void SlideOut()
+        private void SlideOut(int id)
         {
             secondWindow = new Window();
             var mainWindow = (Application.Current as App).MainWindow;
             secondWindow.Left = mainWindow.Left + mainWindow.Width - 8;
             secondWindow.Top = mainWindow.Top +1;
-            secondWindow.Content = new RecordDetailPage();
             secondWindow.Width = 350;
             secondWindow.Height = mainWindow.Height - 9;
             secondWindow.WindowStyle = WindowStyle.None;
             secondWindow.ResizeMode = ResizeMode.NoResize;
+            var detailPage = new RecordDetailPage();
+            detailPage.SetRecording(id);
+            secondWindow.Content = detailPage;
             secondWindow.Show();
         }
 
