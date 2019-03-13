@@ -100,10 +100,12 @@ namespace TimeRecorder.ViewModels
 
         public ICommand RemoveEntryCommand {
             get {
-                return new RelayCommand((rec) =>
+                return new RelayCommand(async (rec) =>
                 {
-                    var item = (RecordingDTO)rec;
-                    //Debug.WriteLine(item.Title);
+                    var item = (RecordingSummaryVM)rec;
+                    var success = await recordingRepo.DeleteAsync(item.Id);
+                    if (success)
+                        Recordings.Remove(item);
                 });
             }
         }
