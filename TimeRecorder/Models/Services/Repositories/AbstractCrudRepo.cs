@@ -10,7 +10,7 @@ namespace TimeRecorder.Models.Services.Repositories
 {
     public class AbstractCrudRepo<T> : ICrudRepository<T> where T: class, IDTO
     {
-        ITimeRecorcerContext context;
+        protected ITimeRecorcerContext context;
         public AbstractCrudRepo(ITimeRecorcerContext context)
         {
             this.context = context;
@@ -51,6 +51,11 @@ namespace TimeRecorder.Models.Services.Repositories
             set.Update(dto);
             await context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<IQueryable<T>> Read()
+        {
+            return await Task.FromResult(context.Set<T>().Select(item => item));
         }
     }
 }

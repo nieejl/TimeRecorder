@@ -30,15 +30,17 @@ namespace TimeRecorder
         {
             var iocContainer = new ServiceCollection();
 
-            iocContainer.AddSingleton<ITimeStringParser, TimeStringParser>();
-            iocContainer.AddSingleton<IParserFieldVMFactory, ParserFieldVMFactory>();
-
-            iocContainer.AddTransient<IRecordingOverviewVM, RecordingOverviewVM>();
-            iocContainer.AddTransient<IRecordingDetailPageVM, RecordingDetailPageVM>();
-
             iocContainer.AddScoped<ITimeRecorcerContext, TimeRecorderContext>();
             iocContainer.AddTransient<IRecordingRepository, RecordingRepository>();
             iocContainer.AddTransient<IProjectRepository, ProjectRepository>();
+            iocContainer.AddTransient<ITagRepository, TagRepository>();
+
+            iocContainer.AddSingleton<ITimeStringParser, TimeStringParser>();
+            iocContainer.AddSingleton<IParserFieldVMFactory, ParserFieldVMFactory>();
+
+            iocContainer.AddTransient<IRecordingOverviewVM, RecordingOverviewPageVM>();
+            iocContainer.AddTransient<IRecordingDetailPageVM, RecordingDetailPageVM>();
+
 
             Services = iocContainer.BuildServiceProvider();
         }

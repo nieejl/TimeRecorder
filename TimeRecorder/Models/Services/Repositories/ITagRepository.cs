@@ -7,8 +7,8 @@ using TimeRecorder.Models.DTOs;
 
 namespace TimeRecorder.Models.Services.Repositories
 {
-    public interface IRecordingRepository : ICrudRepository<RecordingDTO>
+    public interface ITagRepository : ICrudRepository<TagDTO>
     {
-        Task<IQueryable<RecordingDTO>> ReadAmount(int amount, int startIndex = 0);
+        Task<IEnumerable<TagDTO>> FindByNameAsync(string name);
     }
 }

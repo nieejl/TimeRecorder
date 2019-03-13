@@ -12,7 +12,6 @@ using TimeRecorder.Models.DTOs;
 using TimeRecorder.Models.ValueConverters;
 using TimeRecorder.Models.ValueParsers;
 using TimeRecorder.ViewModels.Interfaces;
-using static TimeRecorder.ViewModels.RecordingOverviewVM;
 
 namespace TimeRecorder.ViewModels
 {
@@ -78,20 +77,26 @@ namespace TimeRecorder.ViewModels
             Tags = tagsAsString(recording.Tags);
         }
 
-        private string tagsAsString(List<string> tagsAsList)
+        private string tagsAsString(List<TagDTO> tagsAsList)
         {
             var sb = new StringBuilder();
-            tagsAsList.ForEach(tag => sb.AppendFormat($"{tag}, "));
+            tagsAsList.ForEach(tag => sb.AppendFormat($"{tag.TagValue}, "));
+            //foreach (var tag in tagsAsList)
+            //{
+            //    sb.AppendFormat($"{tag}, ");
+            //}
+
             if (sb.Length > 0) // remove last trailing space and comma
                 sb.Remove(sb.Length - 2, 2);
             return sb.ToString();
         }
 
-        private List<string> tagsAsList(string tagsAsString)
+        private List<string> tagsAsStringList(string tagsAsString)
         {
             var tagsList = new List<string>();
             if (tagsAsString == null || tagsAsString.Length == 0)
                 return tagsList;
+            
             var seperatedTags = tagsAsString.Split(
                 new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
             tagsList.AddRange(seperatedTags);
@@ -125,11 +130,12 @@ namespace TimeRecorder.ViewModels
             recordingDTO.Start = StartDateFieldVM.ParsedDate + StartTimeFieldVM.ParsedTime;
             recordingDTO.End = EndDateFieldVM.ParsedDate + EndTimeFieldVM.ParsedTime;
             recordingDTO.Project = Project;
-            recordingDTO.Tags = tagsAsList(Tags);
+            recordingDTO.Tags = tagsAsStringList(Tags).
+                Select(s => new TagDTO { TagValue = s }).ToList();
         }
 
 
-        public SearchBoxVM<Recording> SearchVM;
+        public SearchBoxVM<RecordingDTO> SearchVM;
 
         public ICommand AddNewProjectCommand {
             get {

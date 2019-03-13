@@ -7,30 +7,15 @@
         xmlns:views="clr-namespace:TimeRecorder.Views"
         mc:Ignorable="d"
         Title="Time Recorder" Height="520" Width="400">
-    
-    <DockPanel Width="400" Height="500">
-        <DockPanel Margin="20,5,40,0" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
-            <TextBlock Width="200" Text="What are you doing?" TextAlignment="Center"/>
-            <ComboBox ItemsSource="{Binding Projects}" IsEditable="True" 
-                        HorizontalContentAlignment="Stretch"  Margin="5,0,0,0"
-                        MaxDropDownHeight="190" IsTextSearchEnabled="True">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <DockPanel>
-                            <Rectangle Height="6" Width="6" Fill="{Binding Color}" />
-                            <TextBlock Foreground="{Binding Color}" Margin="5,0,0,0" 
-                                        Text="{Binding Name}"/>
-                        </DockPanel>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-        </DockPanel>
-        <DockPanel Margin="20,5,20,5" HorizontalAlignment="Stretch" DockPanel.Dock="Top">
-            <TextBox TextWrapping="Wrap" Width="250" MaxHeight="60"
-                     FontSize="14" Text="{Binding Description}" 
-                     HorizontalAlignment="Left"/>
-            <Button Click="Start_Button_Click" Margin="20,0,20,0">
-                <TextBlock Text="{Binding StartButtonText}" />
+
+    <DockPanel Width="380" Height="500" Margin="10,5,10,5">
+        <DockPanel Margin="0,5,0,5" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="30">
+            <TextBox Width="200" MaxHeight="60" FontSize="18" TextWrapping="NoWrap"
+                     Text="{Binding Title}" HorizontalAlignment="Left" />
+            <TextBlock FontSize="18" Text="{Binding ElapsedText}" Width="80" Margin="10,0,10,0" 
+                       TextAlignment="Right" HorizontalAlignment="Right"/>
+            <Button Command="{Binding ToggleTimerCommand}" Margin="0,0,20,0">
+                <TextBlock Text="{Binding ToggleButtonText}" FontSize="18"/>
             </Button>
         </DockPanel>
         <Button HorizontalAlignment="Center" Command="{Binding LoadMoreCommand}" 
@@ -40,7 +25,7 @@
             </TextBlock>
         </Button>
         <ScrollViewer x:Name="Scroller" Loaded="Scroller_Loaded" Height="400">
-            <ListView x:Name="RecordList" Margin="20,3,20,3" MouseLeftButtonUp="ListView_MouseLeftButtonUp"
+            <ListView x:Name="RecordList" Margin="0,3,0,3" MouseLeftButtonUp="ListView_MouseLeftButtonUp"
                         HorizontalContentAlignment="Stretch" ItemsSource="{Binding Recordings}">
                 <ListView.ContextMenu>
                     <ContextMenu>
@@ -56,8 +41,8 @@
                         <DockPanel HorizontalAlignment="Stretch" MaxHeight="30">
                             <Rectangle Width="10" VerticalAlignment="Stretch" Fill="{Binding Project.Color}" />
                             <StackPanel DockPanel.Dock="Left" MaxWidth="250" Margin="5,0,0,0">
-                                <TextBlock Text="{Binding Description}" MaxWidth="250" DockPanel.Dock="Left" Margin="0,0,5,0"/>
-                                <TextBlock Text="{Binding Project.Name}" Foreground="{Binding Project.Color}"/>
+                                <TextBlock Text="{Binding Title}" MaxWidth="250" DockPanel.Dock="Left" Margin="0,0,5,0"/>
+                                <TextBlock Text="{Binding ProjectName}" Foreground="{Binding ProjectColor}"/>
                             </StackPanel>
                             <Button DockPanel.Dock="Right" Margin="5,0,0,0">
                                 <TextBlock Text="|>" FontSize="20"/>

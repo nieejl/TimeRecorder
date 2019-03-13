@@ -13,6 +13,6 @@ namespace TimeRecorder.Models.DTOs
         public DateTime Start { get; set; }
         public DateTime? End { get; set; }
         public ProjectDTO Project { get; set; }
-        public List<string> Tags { get; set; }
+        public List<TagDTO> Tags { get; set; }
     }
 }

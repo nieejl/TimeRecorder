@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.EntityFrameworkCore.Design.2.2.3\build\net461\Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('..\packages\Microsoft.EntityFrameworkCore.Design.2.2.3\build\net461\Microsoft.EntityFrameworkCore.Design.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -48,6 +49,9 @@
     </Reference>
     <Reference Include="Microsoft.EntityFrameworkCore.Abstractions, Version=2.2.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.EntityFrameworkCore.Abstractions.2.2.3\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore.Design, Version=2.2.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.Design.2.2.3\lib\net461\Microsoft.EntityFrameworkCore.Design.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.EntityFrameworkCore.Relational, Version=2.2.3.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.EntityFrameworkCore.Relational.2.2.3\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Relational.dll</HintPath>
@@ -160,20 +164,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Migrations\20190312202403_mig1.cs" />
+    <Compile Include="Migrations\20190312202403_mig1.designer.cs">
+      <DependentUpon>20190312202403_mig1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\TimeRecorderContextModelSnapshot.cs" />
     <Compile Include="Models\DTOs\IDTO.cs" />
     <Compile Include="Models\DTOs\ProjectDTO.cs" />
     <Compile Include="Models\DTOs\RecordingDTO.cs" />
+    <Compile Include="Models\DTOs\TagDTO.cs" />
     <Compile Include="Models\Extensions\ColorExtensions.cs" />
     <Compile Include="Models\Extensions\IntegerExtensions.cs" />
+    <Compile Include="Models\Extensions\TimeSpanExtensions.cs" />
     <Compile Include="Models\RelayCommand.cs" />
     <Compile Include="Models\Services\Repositories\AbstractCrudRepo.cs" />
     <Compile Include="Models\Services\Repositories\ICrudRepository.cs" />
     <Compile Include="Models\Services\Repositories\IProjectRepository.cs" />
     <Compile Include="Models\Services\Repositories\IRecordingRepository.cs" />
     <Compile Include="Models\Services\ITimeRecorcerContext.cs" />
+    <Compile Include="Models\Services\Repositories\ITagRepository.cs" />
     <Compile Include="Models\Services\Repositories\ProjectRepository.cs" />
     <Compile Include="Models\Services\Repositories\RecordingRepository.cs" />
+    <Compile Include="Models\Services\Repositories\TagRepository.cs" />
     <Compile Include="Models\Services\TimeRecorderContext.cs" />
+    <Compile Include="Models\ValueConverters\DTOAdapter.cs" />
     <Compile Include="Models\ValueConverters\TimeToStringConverter.cs" />
     <Compile Include="Models\ValueParsers\ITimeStringParser.cs" />
     <Compile Include="Models\ValueParsers\TimeStringParser.cs" />
@@ -184,8 +198,9 @@
     <Compile Include="ViewModels\Interfaces\ISearchBoxVM.cs" />
     <Compile Include="ViewModels\Interfaces\ITimeFieldVM.cs" />
     <Compile Include="ViewModels\Interfaces\ITimeFieldVMFactory.cs" />
+    <Compile Include="ViewModels\RecordingSummaryVM.cs" />
     <Compile Include="ViewModels\TimeFieldViewModel.cs" />
-    <Compile Include="ViewModels\RecordingOverviewVM.cs" />
+    <Compile Include="ViewModels\RecordingOverviewPageVM.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\RecordingDetailPageVM.cs" />
     <Compile Include="ViewModels\SearchBoxVM.cs" />
@@ -256,6 +271,7 @@
     <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets'))" />
     <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets'))" />
     <Error Condition="!Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.EntityFrameworkCore.Design.2.2.3\build\net461\Microsoft.EntityFrameworkCore.Design.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.EntityFrameworkCore.Design.2.2.3\build\net461\Microsoft.EntityFrameworkCore.Design.props'))" />
   </Target>
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.osx.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.osx.targets')" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.v110_xp.1.1.12\build\net35\SQLitePCLRaw.lib.e_sqlite3.v110_xp.targets')" />

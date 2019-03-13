@@ -20,6 +20,15 @@ namespace TimeRecorder.Tests.ViewModels
                 Color = Colors.Black
             };
         }
+
+        private List<TagDTO> createTestTags()
+        {
+            return new List<TagDTO>
+            {
+                new TagDTO { Id = 1, TagValue = "firstTag"},
+                new TagDTO { Id = 1, TagValue = "secondTag"}
+            };
+        }
         private RecordingDTO createTestRecording()
         {
             var startTime = new TimeSpan(2, 32, 5);
@@ -30,7 +39,7 @@ namespace TimeRecorder.Tests.ViewModels
                 Start = new DateTime(2019, 1, 11) + startTime,
                 End = new DateTime(2019, 1, 12) + endTime,
                 Project = createTestProject(),
-                Tags = new List<string>{ "firstTag", "secondTag" }
+                Tags = createTestTags()
             };
         }
 

@@ -16,6 +16,7 @@ using TimeRecorder.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 using TimeRecorder.ViewModels.Interfaces;
+using TimeRecorder.Models.DTOs;
 
 namespace TimeRecorder.Views
 {
@@ -35,11 +36,6 @@ namespace TimeRecorder.Views
             vm = (Application.Current as App).Services.GetService<IRecordingOverviewVM>();
             detailVM = (Application.Current as App).Services.GetService<IRecordingDetailPageVM>();
             DataContext = vm;
-        }
-
-        private void Start_Button_Click(object sender, RoutedEventArgs e)
-        {
-            vm.ToggleTimerCommand.Execute(null);
         }
 
         private void Scroller_Loaded(object sender, RoutedEventArgs e)
@@ -64,15 +60,15 @@ namespace TimeRecorder.Views
                 Debug.WriteLine("sender is not a listview");
                 return;
             }
-            var item = listView.SelectedItem as RecordingOverviewVM.Recording;
+            var item = listView.SelectedItem as RecordingSummaryVM;
             listView.UnselectAll();
             if (item == null)
             {
-                Debug.WriteLine("item is not a recording");
+                Debug.WriteLine("item is not a recordingVM");
                 return;
             }
             ToggleWindow();
-            Debug.WriteLine("items desc is : " + item.Description);
+            Debug.WriteLine("items desc is : " + item.Title);
         }
 
         private void ToggleWindow()
