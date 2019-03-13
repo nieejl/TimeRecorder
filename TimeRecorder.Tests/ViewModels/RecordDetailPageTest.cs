@@ -56,8 +56,9 @@ namespace TimeRecorder.Tests.ViewModels
         private RecordingDetailPageVM createTestVM()
         {
             var mockFactory = CreateValidityFactory(true, true);
+            var mockProjectRepo = new Mock<IProjectRepository>();
             mockFactory.SetupAllProperties();
-            return new RecordingDetailPageVM(CreateEmptyRepo(), mockFactory.Object);
+            return new RecordingDetailPageVM(CreateEmptyRepo(), mockProjectRepo.Object, mockFactory.Object);
         }
 
         [Fact]
@@ -177,7 +178,9 @@ namespace TimeRecorder.Tests.ViewModels
         {
             var dto = createTestRecording();
             var mockFactory = CreateValidityFactory(true, true);
-            var vm = new RecordingDetailPageVM(CreateEmptyRepo(), mockFactory.Object);
+            var mockProjectRepo = new Mock<IProjectRepository>();
+
+            var vm = new RecordingDetailPageVM(CreateEmptyRepo(), mockProjectRepo.Object, mockFactory.Object);
 
             var result = vm.TrySaveToDTO();
 
@@ -189,7 +192,9 @@ namespace TimeRecorder.Tests.ViewModels
         {
             var dto = createTestRecording();
             var mockFactory = CreateValidityFactory(false, false);
-            var vm = new RecordingDetailPageVM(CreateEmptyRepo(), mockFactory.Object);
+            var mockProjectRepo = new Mock<IProjectRepository>();
+
+            var vm = new RecordingDetailPageVM(CreateEmptyRepo(), mockProjectRepo.Object, mockFactory.Object);
 
             var result = vm.TrySaveToDTO();
 

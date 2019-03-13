@@ -90,7 +90,7 @@ namespace TimeRecorder.Views
             var mainWindow = (Application.Current as App).MainWindow;
             secondWindow.Left = mainWindow.Left + mainWindow.Width - 8;
             secondWindow.Top = mainWindow.Top +1;
-            secondWindow.Width = 350;
+            secondWindow.Width = 250;
             secondWindow.Height = mainWindow.Height - 9;
             secondWindow.WindowStyle = WindowStyle.None;
             secondWindow.ResizeMode = ResizeMode.NoResize;

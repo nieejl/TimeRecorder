@@ -6,17 +6,19 @@
       xmlns:local="clr-namespace:TimeRecorder.Views"
       xmlns:converters="clr-namespace:TimeRecorder.Models.ValueConverters"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="400">
+      d:DesignHeight="450" d:DesignWidth="250"
+      Background="#FFDAE8EB">
     <Page.Resources>
         <converters:TimeToStringConverter x:Key="TimeConverter"/>
         <Style x:Key="TimeTextField" TargetType="TextBox">
-            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontSize" Value="20"/>
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <!--<Setter Property="Width" Value="100"/>-->
             <Setter Property="Text" Value="{Binding TextField}"/>
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="BorderBrush" Value="{Binding BorderColor}"/>
+            <Setter Property="Background" Value="Transparent"/>
         </Style>
         <Style x:Key="DatePickerField" TargetType="DatePicker">
             <Setter Property="FontSize" Value="12"/>
@@ -26,16 +28,32 @@
             <Setter Property="SelectedDate" 
                     Value="{Binding Path=ParsedDate, UpdateSourceTrigger=PropertyChanged}"/>
         </Style>
+        <Style x:Key="ColorButton" TargetType="Button">
+            <Setter Property="Width" Value="20" />
+            <Setter Property="Height" Value="20" />
+            <Setter Property="Margin" Value="2,2,0,0" />
+            <Setter Property="Background" Value="Green" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="6" Background="Green">
+                            <!--{Binding ColorValue}-->
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
     <StackPanel Margin="10,10,10,10">
-        <TextBox Text="{Binding Title}" HorizontalAlignment="Center" FontSize="16"/>
+        <TextBox Text="{Binding Title}" HorizontalAlignment="Stretch" FontSize="16" 
+                 Background="Transparent"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
-                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <StackPanel Margin="0,10,0,10" Grid.Column="0">
+            <StackPanel Margin="0,10,5,10" Grid.Column="0">
+                <TextBlock Text="Start" HorizontalAlignment="Center" FontSize="20"/>
                 <TextBox Style="{StaticResource TimeTextField}" DataContext="{Binding StartTimeFieldVM}">
                     <TextBox.InputBindings>
                         <KeyBinding Key="Enter" Command="{Binding SaveStartTimeCommand}"/>
@@ -45,11 +63,8 @@
                 <DatePicker Margin="0,5,0,0" Style="{StaticResource DatePickerField}"
                             DataContext="{Binding StartDateFieldVM}"/>
             </StackPanel>
-            <TextBox Style="{StaticResource TimeTextField}" VerticalAlignment="Top"
-                     DataContext="{Binding ElapsedTimeFieldVM}"
-                     Margin="10,10,10,10" Grid.Column="1"/>
-
-            <StackPanel Margin="0,10,0,10" Grid.Column="2">
+            <StackPanel Margin="5,10,0,10" Grid.Column="1">
+                <TextBlock Text="End" HorizontalAlignment="Center" FontSize="20"/>
                 <TextBox Style="{StaticResource TimeTextField}" DataContext="{Binding EndTimeFieldVM}">
                     <TextBox.InputBindings>
                         <KeyBinding Key="Enter" Command="{Binding SaveEndTimeCommand}"/>
@@ -59,26 +74,55 @@
                 <DatePicker Margin="0,5,0,0" Style="{StaticResource DatePickerField}"
                             DataContext="{Binding EndDateFieldVM}"></DatePicker>
             </StackPanel>
+            
         </Grid>
-        <DockPanel Margin="0,5,0,5">
-            <ComboBox x:Name="ProjectSearchBox" IsEditable="True" Width="200" 
-                      DataContext="{Binding ProjectSearchBox}"
-                      Text="{Binding SearchText}" ItemsSource="{Binding Filtered}"
-                      IsDropDownOpen="{Binding ShowDropDown}" IsTextSearchEnabled="False"
-                      >
-            </ComboBox>
+        <DockPanel>
+            <TextBlock Text="Total" FontSize="20" Margin="0,0,20,0"/>
+            <TextBox Style="{StaticResource TimeTextField}" VerticalAlignment="Top"
+                         DataContext="{Binding ElapsedTimeFieldVM}" />
+        </DockPanel>
+        <StackPanel Margin="0,5,0,5">
+            <TextBlock Text="Project" HorizontalAlignment="Center" Margin="0,0,0,5" FontSize="20"/>
+            <StackPanel Orientation="Horizontal" x:Name="ChooseProjectView" Visibility="Collapsed">
+                <ComboBox x:Name="ProjectSearchBox" IsEditable="True" Width="150" 
+                          DataContext="{Binding ProjectSearchBox}"
+                          Text="{Binding SearchText}" ItemsSource="{Binding Filtered}"
+                          IsDropDownOpen="{Binding ShowDropDown}" IsTextSearchEnabled="False">
+                </ComboBox>
 
-            <Button Margin="10,0,0,0" Command="{Binding AddNewProjectCommand}">
-                <TextBlock Text="New Project"/>
-            </Button>
-        </DockPanel>
-        <DockPanel Margin="0,5,0,5" >
-            <ComboBox IsEditable="True" Text="Tags" Width="200">
-            </ComboBox>
-            <CheckBox Margin="10,0,0,0" VerticalAlignment="Stretch" IsChecked="{Binding AddRepeat}">
-                <TextBlock Text="Repeat next week" FontSize="14"/>
-            </CheckBox>
-        </DockPanel>
-        <TextBlock Text="Description, notes or extra remarks about activity......................................................." TextWrapping="Wrap"/>
+                <Button Margin="10,0,0,0" Command="{Binding AddNewProjectCommand}">
+                    <TextBlock Text="New Project"/>
+                </Button>
+            </StackPanel>
+            <StackPanel x:Name="CreateProjectView">
+                <StackPanel Orientation="Horizontal">
+                    <TextBox Width="180" HorizontalAlignment="Left"/>
+                    <Button Background="{Binding ChosenColor}" Margin="10,0,10,0" Width="30"/>
+                </StackPanel>
+                <!--<TextBox Text="{Binding NewProjectName}"/>-->
+                <WrapPanel Margin="0,5,10,0" DataContext="{Binding ColorValues}">
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                    <Button Style="{StaticResource ColorButton}" />
+                </WrapPanel>
+            </StackPanel>
+        </StackPanel>
     </StackPanel>
 </Page>

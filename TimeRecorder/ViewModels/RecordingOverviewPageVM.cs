@@ -40,6 +40,7 @@ namespace TimeRecorder.ViewModels
 
             Recordings = new ObservableCollection<RecordingSummaryVM>(summaryVMs);
         }
+
         private DateTime startTime;
         private RecordingDTO currentRecording;
 
