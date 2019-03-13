@@ -12,8 +12,8 @@
         <Style x:Key="TimeTextField" TargetType="TextBox">
             <Setter Property="FontSize" Value="16"/>
             <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Width" Value="100"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <!--<Setter Property="Width" Value="100"/>-->
             <Setter Property="Text" Value="{Binding TextField}"/>
             <Setter Property="BorderBrush" Value="{Binding BorderColor}"/>
         </Style>
@@ -21,6 +21,7 @@
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="Text" Value="{Binding TextField}"/>
             <Setter Property="BorderBrush" Value="{Binding BorderColor}"/>
+            <Setter Property="Margin" Value="0,5,0,0"/>
             <Setter Property="SelectedDate" Value="{Binding Path=ParsedDate, UpdateSourceTrigger=PropertyChanged}"/>
         </Style>
     </Page.Resources>
@@ -44,7 +45,7 @@
             </StackPanel>
             <TextBox Style="{StaticResource TimeTextField}" VerticalAlignment="Top"
                      DataContext="{Binding ElapsedTimeFieldVM}"
-                     Margin="10,10,10,10" Grid.Column="1" HorizontalAlignment="Center"/>
+                     Margin="10,10,10,10" Grid.Column="1"/>
 
             <StackPanel Margin="0,10,0,10" Grid.Column="2">
                 <TextBox Style="{StaticResource TimeTextField}" DataContext="{Binding EndTimeFieldVM}">
@@ -53,7 +54,7 @@
                         <KeyBinding Key="Tab" Command="{Binding SaveEndTimeCommand}"/>
                     </TextBox.InputBindings>
                 </TextBox>
-                <DatePicker Margin="0,5,10,0" Style="{StaticResource DatePickerField}"
+                <DatePicker Margin="0,5,0,0" Style="{StaticResource DatePickerField}"
                             DataContext="{Binding EndDateFieldVM}"></DatePicker>
             </StackPanel>
         </Grid>

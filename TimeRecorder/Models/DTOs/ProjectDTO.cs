@@ -24,5 +24,8 @@ namespace TimeRecorder.Models.DTOs
 
         [NotMapped]
         public Color Color { get; set; }
+        //public DateTime LastUsed { get; set; }
+        //public bool IsArchived { get; set; }
+
     }
 }

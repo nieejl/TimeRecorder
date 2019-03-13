@@ -31,19 +31,6 @@ namespace TimeRecorder.Models.ValueConverters
                 ProjectColor = color,
                 Duration = elapsed
             };
-            //if (dto.Project == null)
-            //    return new RecordingSummaryVM
-            //    {
-            //        Title = dto.Title,
-            //        Elapsed
-            //    }
-            //return new RecordingSummaryVM
-            //{
-            //    Title = dto.Title ?? "No description",
-            //    ProjectName = dto.Project.Name ?? "No ,
-            //    ProjectColor = dto.Project.Color,
-            //    Elapsed = (dto.End - dto.Start).Value.ToSimpleString()
-            //};
         }
     }
 }

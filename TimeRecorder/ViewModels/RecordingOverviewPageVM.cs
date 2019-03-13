@@ -38,7 +38,8 @@ namespace TimeRecorder.ViewModels
         {
             Projects = new ObservableCollection<ProjectDTO>(await projectRepo.Read());
             var recordingDTOs = await recordingRepo.ReadAmount(20,0);
-            var summaryVMs = recordingDTOs.Select(r => r.ToSummaryVM());
+            var summaryVMs = recordingDTOs.Select(r => r.ToSummaryVM()).ToList();
+
             Recordings = new ObservableCollection<RecordingSummaryVM>(summaryVMs);
         }
         private DateTime startTime;
