@@ -24,7 +24,6 @@ namespace TimeRecorder.ViewModels
         private IProjectRepository projectRepo;
         private static readonly string titlePlaceholder = "What are you doing?";
         private static readonly string titleDefault = "No Recording Title";
-
         public RecordingOverviewPageVM(IRecordingRepository recordingRepo, 
             IProjectRepository projectRepo)
         {
@@ -36,7 +35,6 @@ namespace TimeRecorder.ViewModels
         DispatcherTimer ElapsedUpdater = new DispatcherTimer();
         private async Task ExecuteLoadItemsCommand()
         {
-            Projects = new ObservableCollection<ProjectDTO>(await projectRepo.Read());
             var recordingDTOs = await recordingRepo.ReadAmount(20,0);
             var summaryVMs = recordingDTOs.Select(r => r.ToSummaryVM()).ToList();
 
@@ -44,7 +42,6 @@ namespace TimeRecorder.ViewModels
         }
         private DateTime startTime;
         private RecordingDTO currentRecording;
-
 
         private TimeSpan elapsed;
         public TimeSpan Elapsed {
@@ -79,21 +76,11 @@ namespace TimeRecorder.ViewModels
             }
         }
 
-
         private ObservableCollection<RecordingSummaryVM> recordings;
         public ObservableCollection<RecordingSummaryVM> Recordings {
             get { return recordings; }
             set {
                 recordings = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private ObservableCollection<ProjectDTO> projects;
-        public ObservableCollection<ProjectDTO> Projects {
-            get { return projects; }
-            set {
-                projects = value;
                 OnPropertyChanged();
             }
         }

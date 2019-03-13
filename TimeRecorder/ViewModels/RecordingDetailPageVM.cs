@@ -20,21 +20,30 @@ namespace TimeRecorder.ViewModels
     public class RecordingDetailPageVM : BaseViewModel, IRecordingDetailPageVM
     {
         private RecordingDTO currentDTO;
-        private IRecordingRepository repo;
+        private IRecordingRepository recordingRepo;
+        private IProjectRepository projectRepo;
         public ITimeFieldVM StartTimeFieldVM { get; set; }
         public ITimeFieldVM EndTimeFieldVM { get; set; }
         public ITimeFieldVM ElapsedTimeFieldVM { get; set; }
         public IDateFieldVM StartDateFieldVM { get; set; }
         public IDateFieldVM EndDateFieldVM { get; set; }
 
-        public RecordingDetailPageVM(IRecordingRepository repo, IParserFieldVMFactory fieldVMFactory)
+        public RecordingDetailPageVM(IRecordingRepository recordingRepo, 
+            IProjectRepository projectRepo, IParserFieldVMFactory fieldVMFactory)
         {
-            this.repo = repo;
+            this.recordingRepo = recordingRepo;
+            this.projectRepo = projectRepo;
             StartTimeFieldVM = fieldVMFactory.Generate24HourTimeField();
             EndTimeFieldVM = fieldVMFactory.Generate24HourTimeField();
             ElapsedTimeFieldVM = fieldVMFactory.GenerateUnlimitedTimeField();
             StartDateFieldVM = fieldVMFactory.GenerateDateField();
             EndDateFieldVM = fieldVMFactory.GenerateDateField();
+
+            var getProjectTask = projectRepo.Read();
+            getProjectTask.Wait();
+            var projects = new List<ProjectDTO>(getProjectTask.Result);
+            Debug.WriteLine("project count= " + projects.Count);
+            ProjectSearchBox = new SearchBoxVM<ProjectDTO>(projects, (dto) => dto.Name);
         }
 
         private string title;
@@ -42,6 +51,17 @@ namespace TimeRecorder.ViewModels
             get { return title; }
             set {
                 title = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private SearchBoxVM<ProjectDTO> projectSearchBox;
+        public SearchBoxVM<ProjectDTO> ProjectSearchBox {
+            get {
+                return projectSearchBox;
+            }
+            set {
+                projectSearchBox = value;
                 OnPropertyChanged();
             }
         }
@@ -65,7 +85,7 @@ namespace TimeRecorder.ViewModels
         }
         public void UpdateFromDTO(int id)
         {
-            var dto = repo.FindAsync(id);
+            var dto = recordingRepo.FindAsync(id);
             dto.Wait();
             UpdateFromDTO(dto.Result);
         }
@@ -151,7 +171,6 @@ namespace TimeRecorder.ViewModels
         }
 
 
-        public SearchBoxVM<RecordingDTO> SearchVM;
 
         public ICommand AddNewProjectCommand {
             get {

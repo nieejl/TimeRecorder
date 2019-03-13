@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,9 +16,21 @@ namespace TimeRecorder.ViewModels
             get { return searchText; }
             set {
                 searchText = value;
-                OnPropertyChanged("SearchText");
+                OnPropertyChanged();
+                FilterItems();
+                ShowDropDown = true;
             }
         }
+
+        private bool showDropDown = false;
+        public bool ShowDropDown {
+            get { return showDropDown; }
+            set {
+                showDropDown = value;
+                OnPropertyChanged();
+            }
+        }
+
         private T autoCompleteItem;
         public T AutoCompleteItem {
             get { return autoCompleteItem; }
@@ -26,8 +39,14 @@ namespace TimeRecorder.ViewModels
                 OnPropertyChanged("AutoCompleteItem");
             }
         }
-
-        public ObservableCollection<string> Filtered { get; private set; }
+        private ObservableCollection<string> filtered;
+        public ObservableCollection<string> Filtered {
+            get { return filtered; }
+            private set {
+                filtered = value;
+                OnPropertyChanged();
+            }
+        }
         private List<T> FilteredItems { get; set; }
         private List<T> SearchableContent;
         private Func<T, string> ConversionFunction;
@@ -37,6 +56,8 @@ namespace TimeRecorder.ViewModels
             SearchableContent = items;
             FilteredItems = SearchableContent;
             ConversionFunction = conversionFunction;
+            Filtered = new ObservableCollection<string>(
+                FilteredItems.Select(item => ConversionFunction(item)));
         }
 
         public virtual void FilterItems()
@@ -44,7 +65,7 @@ namespace TimeRecorder.ViewModels
             FilteredItems = SearchableContent.FindAll(
                 item => ConversionFunction(item).ToLower().Contains(SearchText.ToLower()));
             Filtered = new ObservableCollection<string>(
-                FilteredItems.Select(items => ConversionFunction(items)));
+                FilteredItems.Select(item => ConversionFunction(item)));
             if (FilteredItems.Count == 1)
                 AutoCompleteItem = FilteredItems[0];
             else
