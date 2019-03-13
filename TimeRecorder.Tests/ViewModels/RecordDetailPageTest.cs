@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Media;
 using TimeRecorder.Models.DTOs;
+using TimeRecorder.Models.Extensions;
 using TimeRecorder.Models.Services.Repositories;
 using TimeRecorder.Models.ValueParsers;
 using TimeRecorder.ViewModels;
@@ -91,7 +92,7 @@ namespace TimeRecorder.Tests.ViewModels
 
             vm.UpdateFromDTO(dto);
 
-            mockField.VerifySet(field => field.TextField = dto.Start.ToShortDateString());
+            mockField.VerifySet(field => field.ParsedDate = dto.Start);
         }
 
         [Fact]
@@ -104,7 +105,7 @@ namespace TimeRecorder.Tests.ViewModels
 
             vm.UpdateFromDTO(dto);
 
-            mockField.VerifySet(field => field.TextField = dto.End?.ToShortDateString());
+            mockField.VerifySet(field => field.ParsedDate = dto.End.Value);
         }
 
         [Fact]
@@ -117,7 +118,7 @@ namespace TimeRecorder.Tests.ViewModels
 
             vm.UpdateFromDTO(dto);
 
-            mockField.VerifySet(field => field.TextField = dto.Start.TimeOfDay.ToString());
+            mockField.VerifySet(field => field.TextField = "2:32");
         }
 
         [Fact]
@@ -130,7 +131,7 @@ namespace TimeRecorder.Tests.ViewModels
 
             vm.UpdateFromDTO(dto);
 
-            mockField.VerifySet(field => field.TextField = dto.End?.TimeOfDay.ToString());
+            mockField.VerifySet(field => field.TextField = "5:32");
         }
 
         [Fact]
@@ -143,7 +144,7 @@ namespace TimeRecorder.Tests.ViewModels
 
             vm.UpdateFromDTO(dto);
 
-            mockField.VerifySet(field => field.TextField = "1.03:00:05");
+            mockField.VerifySet(field => field.TextField = "27:00");
         }
 
         private Mock<IDateFieldVM> CreateValidityDateField(bool isValid)
