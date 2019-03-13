@@ -104,5 +104,18 @@ namespace TimeRecorder.Views
         {
             secondWindow.Close();
         }
+
+        private void Continue_Button_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button == null)
+                return;
+            object listViewItem = button.DataContext;
+            if (listViewItem != null)
+            {
+                int index = RecordList.Items.IndexOf(listViewItem);
+                vm.ContinueRecordingCommand.Execute(index);
+            }
+        }
     }
 }

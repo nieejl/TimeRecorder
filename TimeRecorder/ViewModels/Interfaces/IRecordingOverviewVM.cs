@@ -13,6 +13,7 @@ namespace TimeRecorder.ViewModels.Interfaces
         ICommand LoadMoreCommand { get; }
         ICommand RemoveEntryCommand { get; }
         ICommand ToggleTimerCommand { get; }
+        ICommand ContinueRecordingCommand { get; }
 
     }
 }

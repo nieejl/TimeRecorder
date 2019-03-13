@@ -122,31 +122,48 @@ namespace TimeRecorder.ViewModels
 
         public ICommand ToggleTimerCommand {
             get {
-                return new RelayCommand(_ => ToggleTimer());
+                return new RelayCommand(async _ =>
+                {
+                    if (ToggleButtonText == "Start")
+                        await startNewTimer();
+                    else
+                        await StopTimer();
+                });
             }
         }
-        private void ToggleTimer()
-        {
-            Task action;
-            if (ToggleButtonText == "Start")
-            {
-                action = StartTimer();
-            } else
-            {
-                action = StopTimer();
-            }
-            action.Wait();
-        }
-        private async Task StartTimer()
+
+        private async Task startNewTimer()
         {
             if (Title == titlePlaceholder || Title == "")
                 Title = titleDefault;
-            ToggleButtonText = "Stop";
+            await StartTimer();
+        }
+        public ICommand ContinueRecordingCommand {
+            get {
+                return new RelayCommand(async listIndex =>
+                {
+                    if (!(listIndex is int))
+                        throw new ArgumentException("ContinueRecordingButton - argument was not an int.");
+                    var oldRecordingSummary = Recordings[(int)listIndex];
+                    var oldRecording = await recordingRepo.FindAsync(oldRecordingSummary.Id);
+                    if (oldRecording == null)
+                        throw new Exception("Recording not found, but displayed in view. Local dataStore not up to date");
+                    Title = oldRecording.Title;
+                    await StartTimer(oldRecording.ProjectId);
+                });
+            }
+        }
+
+        private async Task StartTimer(int? projectId = default(int?))
+        {
             startTime = DateTime.Now;
+            ToggleButtonText = "Stop";
+
             currentRecording = new RecordingDTO
             {
                 Start = startTime,
                 Title = Title,
+                ProjectId = projectId,
             };
 
             ElapsedUpdater.Tick += new EventHandler(TickHandler);

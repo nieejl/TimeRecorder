@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace TimeRecorder.Models.DTOs
     public class ProjectDTO : IDTO
     {
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
         public UInt32 Argb {
             get {

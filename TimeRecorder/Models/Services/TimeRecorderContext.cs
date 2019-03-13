@@ -21,7 +21,6 @@ namespace TimeRecorder.Models.Services.Repositories
 
         public TimeRecorderContext() : base()
         {
-            Database.Migrate();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
