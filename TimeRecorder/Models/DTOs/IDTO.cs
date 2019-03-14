@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace TimeRecorder.Models.DTOs
 {
-    public interface IDTO
+    public class LocalEntity
     {
-        int Id { get; set; }
+        public int Id { get; set; }
+        public int TemporaryId { get; set; }
     }
 }

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace TimeRecorder.Shared
 { 
-    public class RecordingDTO :IDTO
+    public class RecordingDTO : DTO
     {
-        public int Id { get; set; }
-        public int TemporaryId { get; set; }
         public string Title { get; set; }
         public DateTime Start { get; set; }
         public DateTime? End { get; set; }

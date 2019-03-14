@@ -12,7 +12,7 @@ namespace Server.WebAPI.AdapterRepositories
     public abstract class AbstractAdapterRepo<DTOType, EntityType> :
         IAdapterRepo<DTOType, EntityType>
         where EntityType : Entity
-        where DTOType : IDTO
+        where DTOType : DTO
     {
         protected IRepository<EntityType> repository;
         protected IAdapter<DTOType, EntityType> adapter;

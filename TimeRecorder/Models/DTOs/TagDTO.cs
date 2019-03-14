@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace TimeRecorder.Models.DTOs
 {
-    public class TagDTO : IDTO
+    public class TagDTO : LocalEntity
     {
-        public int Id { get; set; }
         public string TagValue { get; set; }
     }
 }

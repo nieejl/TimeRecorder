@@ -8,7 +8,7 @@ using TimeRecorder.Models.DTOs;
 
 namespace TimeRecorder.Models.Services.Repositories
 {
-    public class AbstractCrudRepo<T> : ICrudRepository<T> where T: class, IDTO
+    public class AbstractCrudRepo<T> : ICrudRepository<T> where T: LocalEntity
     {
         protected ITimeRecorcerContext context;
         public AbstractCrudRepo(ITimeRecorcerContext context)
@@ -16,11 +16,11 @@ namespace TimeRecorder.Models.Services.Repositories
             this.context = context;
         }
 
-        public async Task<int> CreateAsync(T dto)
+        public async Task<int> CreateAsync(T entity)
         {
-            await context.Set<T>().AddAsync(dto);
+            await context.Set<T>().AddAsync(entity);
             await context.SaveChangesAsync();
-            return dto.Id;
+            return entity.Id;
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -41,14 +41,13 @@ namespace TimeRecorder.Models.Services.Repositories
             return await context.Set<T>().FindAsync(id);
         }
 
-        public async Task<bool> UpdateAsync(T dto)
+        public async Task<bool> UpdateAsync(T entity)
         {
-            var id = dto.Id;
             var set = context.Set<T>();
-            var item = await set.FindAsync(id);
+            var item = await set.FindAsync(entity.Id);
             if (item == null)
                 return false;
-            set.Update(dto);
+            set.Update(entity);
             await context.SaveChangesAsync();
             return true;
         }

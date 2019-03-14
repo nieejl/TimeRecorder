@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace TimeRecorder.Shared
 {
-    public interface IDTO
+    public abstract class DTO
     {
-        int Id { get; set; }
-        int TemporaryId { get; set; }
+        public int Id { get; set; }
+        public int TemporaryId { get; set; }
 
     }
 }

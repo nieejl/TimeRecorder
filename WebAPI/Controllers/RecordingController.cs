@@ -15,7 +15,7 @@ namespace Server.WebAPI.Controllers
         // GET api/values
         [HttpGet]
         [ProducesResponseType(typeof(NotFoundObjectResult), 404)]
-        [ProducesResponseType(typeof(IDTO), 200)]
+        [ProducesResponseType(typeof(RecordingDTO), 200)]
         public async Task<ActionResult<string>> Find(int id)
         {
             //var entity = await adapter.FindAsync(id);

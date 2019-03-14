@@ -7,7 +7,7 @@ using TimeRecorder.Models.DTOs;
 
 namespace TimeRecorder.Models.Services.Repositories
 {
-    public interface ICrudRepository<T> where T : class, IDTO
+    public interface ICrudRepository<T> where T : LocalEntity
     {
         Task<int> CreateAsync(T dto);
         Task<T> FindAsync(int id);

@@ -22,7 +22,7 @@ namespace TimeRecorder.Tests.Models.Repositories
                 {
                 }
             }
-            public class Dummy : IDTO
+            public class Dummy : LocalEntity
             {
                 public int Id { get; set; }
                 public int DummyVariable { get; set; }

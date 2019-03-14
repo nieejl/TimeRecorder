@@ -10,9 +10,8 @@ using TimeRecorder.Models.Extensions;
 
 namespace TimeRecorder.Models.DTOs
 {
-    public class ProjectDTO : IDTO
+    public class ProjectDTO : LocalEntity
     {
-        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         public UInt32 Argb {
