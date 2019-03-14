@@ -180,7 +180,7 @@ namespace TimeRecorder.ViewModels
             }
         }
 
-        private string toggleButtonText = "Choose";
+        private string toggleButtonText = "Choose existing";
         public string ToggleButtonText {
             get { return toggleButtonText; }
             set {
@@ -189,41 +189,29 @@ namespace TimeRecorder.ViewModels
             }
         }
 
-        private Color chosenColor;
-        public Color ChosenColor {
+        private SolidColorBrush chosenColor;
+        public SolidColorBrush ChosenColor {
             get { return chosenColor; }
             set {
                 chosenColor = value;
-                OnPropertyChanged("ChosenColor");
+                OnPropertyChanged();
             }
         }
 
-        public ICommand ToggleMenuVisibilityCommand {
-            get {
-                return new RelayCommand(_ =>
-               {
-                   if (CreateMenuVisibility == Visibility.Collapsed)
-                   {
-                       CreateMenuVisibility = Visibility.Visible;
-                       ChooseMenuVisibility = Visibility.Collapsed;
-                       ChooseColorVisibility = Visibility.Collapsed;
-                       ToggleButtonText = "Create new";
-                   }
-                   else
-                   {
-                       ChooseMenuVisibility = Visibility.Visible;
-                       CreateMenuVisibility = Visibility.Collapsed;
-                       ChooseColorVisibility = Visibility.Collapsed;
-                       ToggleButtonText = "Choose existing";
-                   }
-               });
-            }
-        }
         private ObservableCollection<ButtonColor> colorValues;
         public ObservableCollection<ButtonColor> ColorValues {
             get { return colorValues; }
             set {
                 colorValues = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Visibility chooseColorVisibility;
+        public Visibility ChooseColorVisibility {
+            get { return chooseColorVisibility; }
+            set {
+                chooseColorVisibility = value;
                 OnPropertyChanged();
             }
         }
@@ -258,6 +246,8 @@ namespace TimeRecorder.ViewModels
             get { return project; }
             set {
                 project = value;
+                ChosenColor = new SolidColorBrush(value.Color);
+                ProjectSearchBox.SearchText = value.Name;
                 OnPropertyChanged("Project");
             }
         }
@@ -277,6 +267,12 @@ namespace TimeRecorder.ViewModels
             StartText = recording.Start.TimeOfDay.ToHHMM();
             StartDate = recording.Start;
 
+            if (recording.Project != null)
+            {
+                Project = recording.Project;
+                ChosenColor = new SolidColorBrush(project.Color);
+
+            }
             if (recording.End != null)
             {
                 TimeSpan? duration = recording.End - recording.Start;
@@ -315,6 +311,29 @@ namespace TimeRecorder.ViewModels
             currentDTO.End = EndDate + EndTime;
             currentDTO.Project = Project;
         }
+
+        public ICommand ToggleMenuVisibilityCommand {
+            get {
+                return new RelayCommand(_ =>
+               {
+                   if (CreateMenuVisibility == Visibility.Collapsed)
+                   {
+                       CreateMenuVisibility = Visibility.Visible;
+                       ChooseMenuVisibility = Visibility.Collapsed;
+                       ChooseColorVisibility = Visibility.Collapsed;
+                       ToggleButtonText = "Create new";
+                   }
+                   else
+                   {
+                       ChooseMenuVisibility = Visibility.Visible;
+                       CreateMenuVisibility = Visibility.Collapsed;
+                       ChooseColorVisibility = Visibility.Collapsed;
+                       ToggleButtonText = "Choose existing";
+                   }
+               });
+            }
+        }
+
         public ICommand ToggleColorVisibilityCommand {
             get {
                 return new RelayCommand(_ =>
@@ -327,22 +346,23 @@ namespace TimeRecorder.ViewModels
             }
         }
 
-        private Visibility chooseColorVisibility;
-        public Visibility ChooseColorVisibility {
-            get { return chooseColorVisibility; }
-            set {
-                chooseColorVisibility = value;
-                OnPropertyChanged();
-            }
-        }
-
         public ICommand AddNewProjectCommand {
             get {
                 return new RelayCommand((name) =>
                 {
                     var nameString = (string)name;
+                    var Color = ChosenColor;
                 });
             }
+        }
+
+        public void ChooseColor(SolidColorBrush color)
+        {
+            var previous = ChosenColor == null ? color : color;
+            ChosenColor = color;
+            var button = ColorValues.First(bc => bc.Color == color);
+            int index = ColorValues.IndexOf(button);
+            ColorValues[index] = new ButtonColor { Color = previous };
         }
     }
 }

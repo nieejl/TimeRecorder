@@ -27,16 +27,14 @@
             <Setter Property="Width" Value="20" />
             <Setter Property="Height" Value="20" />
             <Setter Property="Margin" Value="2,2,0,0" />
-            <Setter Property="Background" Value="Green" />
+            <Setter Property="Background" Value="{Binding Color}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="6" Background="{Binding Color}"/>
+                        <Border x:Name="ButtonBorder" CornerRadius="6" Background="{Binding Color}"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}}"/>
-            <Setter Property="Command" Value="{Binding ChooseProjectColorCommand}"/>
         </Style>
         <Style x:Key="ColorVisibilityButton" TargetType="Button">
             <Setter Property="Background" Value="{Binding ChosenColor}"/>
@@ -104,16 +102,16 @@
                 </ComboBox>
 
                 <Button Style="{StaticResource ColorVisibilityButton}"/>
-                <Button Margin="5,0,0,0" Command="{Binding ToggleMenuVisibilityCommand}">
-                    <TextBlock Text="{Binding ToggleButtonText}"/>
+                <Button Margin="5,0,0,0" Command="{Binding SaveCommand}">
+                    <TextBlock Text="Save"/>
                 </Button>
             </StackPanel>
             <StackPanel x:Name="CreateProjectView">
                 <StackPanel Orientation="Horizontal" Visibility="{Binding CreateMenuVisibility}">
                     <TextBox Width="150" HorizontalAlignment="Left"/>
                     <Button Style="{StaticResource ColorVisibilityButton}"/>
-                    <Button Margin="5,0,0,0" Command="{Binding ToggleMenuVisibilityCommand}">
-                        <TextBlock Text="{Binding ToggleButtonText}"/>
+                    <Button Margin="5,0,0,0" Command="{Binding SaveCommand}">
+                        <TextBlock Text="Save"/>
                     </Button>
                 </StackPanel>
             </StackPanel>
@@ -126,8 +124,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Button Style="{StaticResource ColorButton}" Command="{Binding ChooseColorCommand}"
-                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+                            <Button Style="{StaticResource ColorButton}" Click="ColorButton_Click"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>

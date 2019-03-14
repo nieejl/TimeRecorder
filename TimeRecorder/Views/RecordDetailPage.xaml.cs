@@ -16,6 +16,7 @@ using TimeRecorder.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using TimeRecorder.ViewModels.Interfaces;
 using TimeRecorder.Models.DTOs;
+using System.Diagnostics;
 
 namespace TimeRecorder.Views
 {
@@ -35,6 +36,14 @@ namespace TimeRecorder.Views
         public void SetRecording(int dtoId)
         {
             vm.UpdateFromDTO(dtoId);
+        }
+
+        private void ColorButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            if (button == null)
+                return;
+            vm.ChooseColor((SolidColorBrush)button.Background);
         }
     }
 }
