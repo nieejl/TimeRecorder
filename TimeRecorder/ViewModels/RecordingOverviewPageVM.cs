@@ -24,6 +24,7 @@ namespace TimeRecorder.ViewModels
         private IProjectRepository projectRepo;
         private static readonly string titlePlaceholder = "What are you doing?";
         private static readonly string titleDefault = "No Recording Title";
+
         public RecordingOverviewPageVM(IRecordingRepository recordingRepo, 
             IProjectRepository projectRepo)
         {
@@ -36,7 +37,7 @@ namespace TimeRecorder.ViewModels
         private async Task ExecuteLoadItemsCommand()
         {
             var recordingDTOs = await recordingRepo.ReadAmount(20,0);
-            var summaryVMs = recordingDTOs.Select(r => r.ToSummaryVM()).ToList();
+            var summaryVMs = recordingDTOs.Select(rec => rec.ToSummaryVM()).ToList();
 
             Recordings = new ObservableCollection<RecordingSummaryVM>(summaryVMs);
         }

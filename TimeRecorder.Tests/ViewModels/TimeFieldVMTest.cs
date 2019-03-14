@@ -27,7 +27,7 @@ namespace TimeRecorder.Tests.ViewModels
         }
 
         [Fact]
-        public void Test_TextField_Given_True_On_TryParse_Sets_BorderColor_Green()
+        public void Test_TextField_Given_True_On_TryParse_Sets_BorderColor_Transparent()
         {
             var mock = new Mock<ITimeStringParser>();
             var span = new TimeSpan();
@@ -36,7 +36,7 @@ namespace TimeRecorder.Tests.ViewModels
 
             timeFieldVm.TextField = "parseable value";
 
-            Assert.Equal(Colors.Green, timeFieldVm.BorderColor.Color);
+            Assert.Equal(Colors.Transparent, timeFieldVm.BorderColor.Color);
         }
 
         [Fact]

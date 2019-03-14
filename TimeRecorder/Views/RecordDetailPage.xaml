@@ -6,22 +6,22 @@
       xmlns:local="clr-namespace:TimeRecorder.Views"
       xmlns:converters="clr-namespace:TimeRecorder.Models.ValueConverters"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="250"
-      Background="#FFDAE8EB">
+      d:DesignHeight="450" d:DesignWidth="280"
+      Background="#FFB4D6D3"
+      >
     <Page.Resources>
         <converters:TimeToStringConverter x:Key="TimeConverter"/>
         <Style x:Key="TimeTextField" TargetType="TextBox">
             <Setter Property="FontSize" Value="20"/>
             <Setter Property="BorderThickness" Value="2"/>
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <!--<Setter Property="Width" Value="100"/>-->
-            <Setter Property="Text" Value="{Binding TextField}"/>
             <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="BorderBrush" Value="{Binding BorderColor}"/>
             <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Text" Value="{Binding TextField}"/>
+            <Setter Property="BorderBrush" Value="{Binding BorderColor}"/>
         </Style>
         <Style x:Key="DatePickerField" TargetType="DatePicker">
-            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontSize" Value="14"/>
             <Setter Property="Text" Value="{Binding TextField}"/>
             <Setter Property="BorderBrush" Value="{Binding BorderColor}"/>
             <Setter Property="Margin" Value="0,5,0,0"/>
@@ -36,17 +36,23 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="6" Background="Green">
-                            <!--{Binding ColorValue}-->
-                        </Border>
+                        <Border CornerRadius="6" Background="{Binding Color}"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}}"/>
+            <Setter Property="Command" Value="{Binding ChooseProjectColorCommand}"/>
+        </Style>
+        <Style x:Key="ColorVisibilityButton" TargetType="Button">
+            <Setter Property="Background" Value="{Binding ChosenColor}"/>
+            <Setter Property="Command" Value="{Binding ToggleColorVisibilityCommand}"/>
+            <!--<Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Self}}"/>-->
+            <Setter Property="Margin" Value="5,0,0,0" />
+            <Setter Property="Width" Value="20"/>
         </Style>
     </Page.Resources>
-    <StackPanel Margin="10,10,10,10">
-        <TextBox Text="{Binding Title}" HorizontalAlignment="Stretch" FontSize="16" 
-                 Background="Transparent"/>
+    <StackPanel Margin="10,20,10,10">
+        <TextBox Text="{Binding Title}" FontSize="16" Background="White" MinWidth="100" HorizontalAlignment="Center"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -54,74 +60,82 @@
             </Grid.ColumnDefinitions>
             <StackPanel Margin="0,10,5,10" Grid.Column="0">
                 <TextBlock Text="Start" HorizontalAlignment="Center" FontSize="20"/>
-                <TextBox Style="{StaticResource TimeTextField}" DataContext="{Binding StartTimeFieldVM}">
+                <TextBox Style="{StaticResource TimeTextField}" Text="{Binding StartText}"
+                         BorderBrush="{Binding StartBorderColor}">
                     <TextBox.InputBindings>
                         <KeyBinding Key="Enter" Command="{Binding SaveStartTimeCommand}"/>
                         <KeyBinding Key="Tab" Command="{Binding SaveStartTimeCommand}"/>
                     </TextBox.InputBindings>
                 </TextBox>
                 <DatePicker Margin="0,5,0,0" Style="{StaticResource DatePickerField}"
-                            DataContext="{Binding StartDateFieldVM}"/>
+                            SelectedDate="{Binding Path=StartDate, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Margin="5,10,0,10" Grid.Column="1">
                 <TextBlock Text="End" HorizontalAlignment="Center" FontSize="20"/>
-                <TextBox Style="{StaticResource TimeTextField}" DataContext="{Binding EndTimeFieldVM}">
+                <TextBox Style="{StaticResource TimeTextField}" Text="{Binding EndText}"
+                         BorderBrush="{Binding EndBorderColor}">
                     <TextBox.InputBindings>
                         <KeyBinding Key="Enter" Command="{Binding SaveEndTimeCommand}"/>
                         <KeyBinding Key="Tab" Command="{Binding SaveEndTimeCommand}"/>
                     </TextBox.InputBindings>
                 </TextBox>
                 <DatePicker Margin="0,5,0,0" Style="{StaticResource DatePickerField}"
-                            DataContext="{Binding EndDateFieldVM}"></DatePicker>
+                            SelectedDate="{Binding Path=EndDate, 
+                    UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             
         </Grid>
         <DockPanel>
-            <TextBlock Text="Total" FontSize="20" Margin="0,0,20,0"/>
+            <TextBlock Text="Duration" FontSize="20" Margin="0,0,20,0"/>
             <TextBox Style="{StaticResource TimeTextField}" VerticalAlignment="Top"
-                         DataContext="{Binding ElapsedTimeFieldVM}" />
+                     Text="{Binding ElapsedText}" BorderBrush="{Binding ElapsedBorderColor}" />
         </DockPanel>
         <StackPanel Margin="0,5,0,5">
-            <TextBlock Text="Project" HorizontalAlignment="Center" Margin="0,0,0,5" FontSize="20"/>
-            <StackPanel Orientation="Horizontal" x:Name="ChooseProjectView" Visibility="Collapsed">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Project" HorizontalAlignment="Center" Margin="0,0,0,5" FontSize="20"
+                           DockPanel.Dock="Left" />
+                <Button Margin="30,0,0,3" Command="{Binding ToggleMenuVisibilityCommand}" 
+                        DockPanel.Dock="Right" >
+                    <TextBlock Text="{Binding ToggleButtonText}" FontSize="16"/>
+                </Button>
+            </StackPanel>
+            <StackPanel x:Name="ChooseProjectView" Orientation="Horizontal" Height="20"
+                        Visibility="{Binding ChooseMenuVisibility}">
                 <ComboBox x:Name="ProjectSearchBox" IsEditable="True" Width="150" 
                           DataContext="{Binding ProjectSearchBox}"
                           Text="{Binding SearchText}" ItemsSource="{Binding Filtered}"
                           IsDropDownOpen="{Binding ShowDropDown}" IsTextSearchEnabled="False">
                 </ComboBox>
 
-                <Button Margin="10,0,0,0" Command="{Binding AddNewProjectCommand}">
-                    <TextBlock Text="New Project"/>
+                <Button Style="{StaticResource ColorVisibilityButton}"/>
+                <Button Margin="5,0,0,0" Command="{Binding ToggleMenuVisibilityCommand}">
+                    <TextBlock Text="{Binding ToggleButtonText}"/>
                 </Button>
             </StackPanel>
             <StackPanel x:Name="CreateProjectView">
-                <StackPanel Orientation="Horizontal">
-                    <TextBox Width="180" HorizontalAlignment="Left"/>
-                    <Button Background="{Binding ChosenColor}" Margin="10,0,10,0" Width="30"/>
+                <StackPanel Orientation="Horizontal" Visibility="{Binding CreateMenuVisibility}">
+                    <TextBox Width="150" HorizontalAlignment="Left"/>
+                    <Button Style="{StaticResource ColorVisibilityButton}"/>
+                    <Button Margin="5,0,0,0" Command="{Binding ToggleMenuVisibilityCommand}">
+                        <TextBlock Text="{Binding ToggleButtonText}"/>
+                    </Button>
                 </StackPanel>
-                <!--<TextBox Text="{Binding NewProjectName}"/>-->
-                <WrapPanel Margin="0,5,10,0" DataContext="{Binding ColorValues}">
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                    <Button Style="{StaticResource ColorButton}" />
-                </WrapPanel>
+            </StackPanel>
+            <StackPanel Visibility="{Binding ChooseColorVisibility}">
+                <ItemsControl ItemsSource="{Binding ColorValues}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Style="{StaticResource ColorButton}" Command="{Binding ChooseColorCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </StackPanel>
     </StackPanel>

@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TimeRecorder.Views"
         mc:Ignorable="d"
-        Title="Window1" Height="550" Width="450"
-        ResizeMode="NoResize">
+        Title="Time Recorder" Height="550" Width="450"
+        ResizeMode="NoResize"
+        Background="Azure">
     <StackPanel>
         <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
     </StackPanel>

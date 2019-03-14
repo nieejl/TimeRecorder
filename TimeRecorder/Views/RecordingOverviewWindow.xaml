@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:TimeRecorder"
         xmlns:views="clr-namespace:TimeRecorder.Views"
         mc:Ignorable="d"
-        Title="Time Recorder" Height="520" Width="400">
+        Title="Time Recorder" Height="520" Width="400"
+        Background="#F3F3F3">
 
     <DockPanel Width="380" Height="500" Margin="10,5,10,5">
         <DockPanel Margin="0,5,0,5" HorizontalAlignment="Stretch" DockPanel.Dock="Top" Height="30">
@@ -26,7 +27,8 @@
         </Button>
         <ScrollViewer x:Name="Scroller" Loaded="Scroller_Loaded" Height="400">
             <ListView x:Name="RecordList" Margin="0,3,0,3" MouseLeftButtonUp="ListView_MouseLeftButtonUp"
-                        HorizontalContentAlignment="Stretch" ItemsSource="{Binding Recordings}">
+                        HorizontalContentAlignment="Stretch" ItemsSource="{Binding Recordings}"
+                      Background="#F7F7F7">
                 <ListView.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Delete entry" Command="{Binding RemoveEntryCommand}"

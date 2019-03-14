@@ -12,7 +12,7 @@ namespace TimeRecorder.ViewModels
     public class TimeFieldVM : BaseViewModel, ITimeFieldVM
     {
         private static SolidColorBrush invalidColor = new SolidColorBrush(Colors.Red);
-        private static SolidColorBrush validColor = new SolidColorBrush(Colors.Green);
+        private static SolidColorBrush validColor = new SolidColorBrush(Colors.Transparent);
         private ITimeStringParser parser;
         internal bool LimitHours { get; private set; }
         public SolidColorBrush BorderColor { get {
@@ -35,8 +35,8 @@ namespace TimeRecorder.ViewModels
             get { return textField; }
             set {
                 textField = value;
-                OnPropertyChanged("TextField");
-                if (parser.TryParse(TextField, out TimeSpan time, LimitHours))
+                OnPropertyChanged();
+                if (parser.TryParse(value, out TimeSpan time, LimitHours))
                 {
                     ParsedTime = time;
                     IsValid = true;

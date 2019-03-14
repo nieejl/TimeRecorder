@@ -3,13 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using TimeRecorder.Shared;
 
-namespace WebAPI.Controllers
+namespace Server.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class RecordingController : ControllerBase
     {
+
+        // GET api/values
+        [HttpGet]
+        [ProducesResponseType(typeof(NotFoundObjectResult), 404)]
+        [ProducesResponseType(typeof(IDTO), 200)]
+        public async Task<ActionResult<string>> Find(int id)
+        {
+            //var entity = await adapter.FindAsync(id);
+            return "value";
+        }
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()

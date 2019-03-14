@@ -173,6 +173,7 @@
       <DependentUpon>20190313152345_mig2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\TimeRecorderContextModelSnapshot.cs" />
+    <Compile Include="Models\ColorConstants.cs" />
     <Compile Include="Models\DTOs\IDTO.cs" />
     <Compile Include="Models\DTOs\ProjectDTO.cs" />
     <Compile Include="Models\DTOs\RecordingDTO.cs" />
