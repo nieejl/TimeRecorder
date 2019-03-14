@@ -9,6 +9,8 @@ namespace TimeRecorder.Shared
     public class TagDTO : IDTO
     {
         public int Id { get; set; }
+        public int TemporaryId { get; set; }
+
         public string TagValue { get; set; }
     }
 }

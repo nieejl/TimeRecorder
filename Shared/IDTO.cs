@@ -9,5 +9,7 @@ namespace TimeRecorder.Shared
     public interface IDTO
     {
         int Id { get; set; }
+        int TemporaryId { get; set; }
+
     }
 }

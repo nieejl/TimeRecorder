@@ -41,13 +41,9 @@ namespace TimeRecorder.ViewModels
             var projects = new List<ProjectDTO>(getProjectTask.Result);
             ProjectSearchBox = new SearchBoxVM<ProjectDTO>(projects, (dto) => dto.Name);
 
-            ColorValues = new ObservableCollection<ButtonColor>();
-
-            foreach (Color color in ColorConstants.GetProjectColors())
-            {
-                Debug.WriteLine(color.ToString());
-                ColorValues.Add(new ButtonColor { Color = new SolidColorBrush(color) });
-            }
+            var buttonColors = ColorConstants.GetProjectColors().
+                Select(c => new ButtonColor { Color = new SolidColorBrush(c) });
+            ColorValues = new ObservableCollection<ButtonColor>(buttonColors);
         }
 
         public SolidColorBrush StartBorderColor { get 

@@ -17,16 +17,11 @@
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="TextAlignment" Value="Center"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Text" Value="{Binding TextField}"/>
-            <Setter Property="BorderBrush" Value="{Binding BorderColor}"/>
         </Style>
         <Style x:Key="DatePickerField" TargetType="DatePicker">
             <Setter Property="FontSize" Value="14"/>
-            <Setter Property="Text" Value="{Binding TextField}"/>
             <Setter Property="BorderBrush" Value="{Binding BorderColor}"/>
             <Setter Property="Margin" Value="0,5,0,0"/>
-            <Setter Property="SelectedDate" 
-                    Value="{Binding Path=ParsedDate, UpdateSourceTrigger=PropertyChanged}"/>
         </Style>
         <Style x:Key="ColorButton" TargetType="Button">
             <Setter Property="Width" Value="20" />
@@ -52,7 +47,8 @@
         </Style>
     </Page.Resources>
     <StackPanel Margin="10,20,10,10">
-        <TextBox Text="{Binding Title}" FontSize="16" Background="White" MinWidth="100" HorizontalAlignment="Center"/>
+        <TextBox Text="{Binding Title}" FontSize="16" Background="White" 
+                 MinWidth="100" HorizontalAlignment="Center"/>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -68,8 +64,7 @@
                     </TextBox.InputBindings>
                 </TextBox>
                 <DatePicker Margin="0,5,0,0" Style="{StaticResource DatePickerField}"
-                            SelectedDate="{Binding Path=StartDate, 
-                    UpdateSourceTrigger=PropertyChanged}"/>
+                            SelectedDate="{Binding Path=StartDate, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
             <StackPanel Margin="5,10,0,10" Grid.Column="1">
                 <TextBlock Text="End" HorizontalAlignment="Center" FontSize="20"/>

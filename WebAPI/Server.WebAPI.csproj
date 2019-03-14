@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RepositoryLayer\Server.RepositoryLayer.csproj" />
     <ProjectReference Include="..\Shared\TimeRecorder.Shared.csproj" />
   </ItemGroup>
 

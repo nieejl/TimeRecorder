@@ -15,11 +15,13 @@ namespace Server.RepositoryLayer.Repositories
             this.context = context;
         }
 
-        public async Task<int> CreateAsync(T dto)
+        public async Task<int> CreateAsync(T entity)
         {
-            await context.Set<T>().AddAsync(dto);
+            entity.Version = 1;
+            entity.LastUpdated = DateTime.Now;
+            await context.Set<T>().AddAsync(entity);
             await context.SaveChangesAsync();
-            return dto.Id;
+            return entity.Id;
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -40,14 +42,14 @@ namespace Server.RepositoryLayer.Repositories
             return await context.Set<T>().FindAsync(id);
         }
 
-        public async Task<bool> UpdateAsync(T dto)
+        public async Task<bool> UpdateAsync(T entity)
         {
-            var id = dto.Id;
+            var id = entity.Id;
             var set = context.Set<T>();
             var item = await set.FindAsync(id);
             if (item == null)
                 return false;
-            set.Update(dto);
+            set.Update(entity);
             await context.SaveChangesAsync();
             return true;
         }
