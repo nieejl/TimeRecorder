@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TimeRecorder.Models.DTOs;
 
-namespace TimeRecorder.Models.Services.Repositories
+namespace TimeRecorder.Models.Services.LocalStorage
 {
     public class AbstractCrudRepo<T> : ICrudRepository<T> where T: LocalEntity
     {

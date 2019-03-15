@@ -12,7 +12,7 @@ using System.Windows.Threading;
 using TimeRecorder.Models;
 using TimeRecorder.Models.DTOs;
 using TimeRecorder.Models.Extensions;
-using TimeRecorder.Models.Services.Repositories;
+using TimeRecorder.Models.Services.LocalStorage;
 using TimeRecorder.Models.ValueConverters;
 using TimeRecorder.ViewModels.Interfaces;
 

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace TimeRecorder.Models.Services.Repositories
+namespace TimeRecorder.Models.Services.LocalStorage
 {
     public interface ITimeRecorcerContext : IDisposable
     {

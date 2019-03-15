@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using TimeRecorder.Models;
-using TimeRecorder.Models.Services.Repositories;
+using TimeRecorder.Models.Services.LocalStorage;
 using TimeRecorder.Models.ValueParsers;
 using TimeRecorder.ViewModels;
 using TimeRecorder.ViewModels.Interfaces;

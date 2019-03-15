@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TimeRecorder.Models.DTOs;
 
-namespace TimeRecorder.Models.Services.Repositories
+namespace TimeRecorder.Models.Services.LocalStorage
 {
     public class TimeRecorderContext : DbContext, ITimeRecorcerContext
     {

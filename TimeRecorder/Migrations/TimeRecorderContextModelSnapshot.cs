@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TimeRecorder.Models.Services.Repositories;
+using TimeRecorder.Models.Services.LocalStorage;
 
 namespace TimeRecorder.Migrations
 {

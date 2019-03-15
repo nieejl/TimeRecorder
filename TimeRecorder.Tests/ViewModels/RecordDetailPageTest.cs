@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Windows.Media;
 using TimeRecorder.Models.DTOs;
 using TimeRecorder.Models.Extensions;
-using TimeRecorder.Models.Services.Repositories;
+using TimeRecorder.Models.Services.LocalStorage;
 using TimeRecorder.Models.ValueParsers;
 using TimeRecorder.ViewModels;
 using TimeRecorder.ViewModels.Interfaces;

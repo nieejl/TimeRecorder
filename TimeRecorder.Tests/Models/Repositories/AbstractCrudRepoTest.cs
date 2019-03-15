@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TimeRecorder.Models.DTOs;
-using TimeRecorder.Models.Services.Repositories;
+using TimeRecorder.Models.Services.LocalStorage;
 using Xunit;
 
 namespace TimeRecorder.Tests.Models.Repositories
