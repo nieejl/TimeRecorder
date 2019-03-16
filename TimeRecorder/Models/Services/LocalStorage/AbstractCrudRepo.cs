@@ -10,8 +10,8 @@ namespace TimeRecorder.Models.Services.LocalStorage
 {
     public class AbstractCrudRepo<T> : ICrudRepository<T> where T: LocalEntity
     {
-        protected ITimeRecorcerContext context;
-        public AbstractCrudRepo(ITimeRecorcerContext context)
+        protected ITimeRecorderContext context;
+        public AbstractCrudRepo(ITimeRecorderContext context)
         {
             this.context = context;
         }

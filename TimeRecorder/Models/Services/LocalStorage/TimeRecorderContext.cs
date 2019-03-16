@@ -8,7 +8,7 @@ using TimeRecorder.Models.DTOs;
 
 namespace TimeRecorder.Models.Services.LocalStorage
 {
-    public class TimeRecorderContext : DbContext, ITimeRecorcerContext
+    public class TimeRecorderContext : DbContext, ITimeRecorderContext
     {
         DbSet<RecordingDTO> RecordingDTOs { get; set; }
         DbSet<ProjectDTO> ProjectDTOs { get; set; }

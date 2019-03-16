@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,5 +14,6 @@ namespace TimeRecorder.Models.Services.ServerStorage
         Task<HttpResponseMessage> PutAsJsonAsync(string location, object item);
         Task<HttpResponseMessage> GetAsync(string location);
         Task<HttpResponseMessage> DeleteAsync(string location);
+        MediaTypeFormatter[] Formatters { get; }
     }
 }

@@ -15,7 +15,7 @@ namespace TimeRecorder.Tests.Models.Repositories
         public class AbstractRepoTest
         {
             #region Dummy-classes
-            public class DummyContext : DbContext, ITimeRecorcerContext
+            public class DummyContext : DbContext, ITimeRecorderContext
             {
                 public DbSet<Dummy> Dummies { get; set; }
                 public DummyContext(DbContextOptions options) : base(options)
@@ -29,7 +29,7 @@ namespace TimeRecorder.Tests.Models.Repositories
             }
             public class DummyRepo : AbstractCrudRepo<Dummy>
             {
-                public DummyRepo(ITimeRecorcerContext context) : base(context)
+                public DummyRepo(ITimeRecorderContext context) : base(context)
                 {
                 }
             }

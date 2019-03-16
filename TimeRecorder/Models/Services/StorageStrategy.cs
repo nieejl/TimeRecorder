@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TimeRecorder.Models.Services.ServerStorage
+namespace TimeRecorder.Models.Services
 {
-    public class OnlineRecordingRepo
+    public enum StorageStrategy
     {
-        IHttpClient client;
+        Local,
+        Online,
+        Synchronised
     }
 }

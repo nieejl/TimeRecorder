@@ -13,6 +13,7 @@ using TimeRecorder.Models;
 using TimeRecorder.Models.DTOs;
 using TimeRecorder.Models.Extensions;
 using TimeRecorder.Models.Services.LocalStorage;
+using TimeRecorder.Models.Services.RepositoryInterfaces;
 using TimeRecorder.Models.ValueConverters;
 using TimeRecorder.ViewModels.Interfaces;
 

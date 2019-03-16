@@ -8,9 +8,9 @@ using TimeRecorder.Models.DTOs;
 
 namespace TimeRecorder.Models.Services.LocalStorage
 {
-    public class RecordingRepository : AbstractCrudRepo<RecordingDTO>, IRecordingRepository
+    public class RecordingLocalRepository : AbstractCrudRepo<RecordingDTO>, IRecordingRepository
     {
-        public RecordingRepository(ITimeRecorcerContext context) : base(context)
+        public RecordingLocalRepository(ITimeRecorderContext context) : base(context)
         {
         }
 

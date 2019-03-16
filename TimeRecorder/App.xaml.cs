@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using TimeRecorder.Models;
 using TimeRecorder.Models.Services.LocalStorage;
+using TimeRecorder.Models.Services.RepositoryInterfaces;
 using TimeRecorder.Models.ValueParsers;
 using TimeRecorder.ViewModels;
 using TimeRecorder.ViewModels.Interfaces;
@@ -30,10 +31,11 @@ namespace TimeRecorder
         {
             var iocContainer = new ServiceCollection();
 
-            iocContainer.AddScoped<ITimeRecorcerContext, TimeRecorderContext>();
-            iocContainer.AddTransient<IRecordingRepository, RecordingRepository>();
-            iocContainer.AddTransient<IProjectRepository, ProjectRepository>();
+            iocContainer.AddScoped<ITimeRecorderContext, TimeRecorderContext>();
+            iocContainer.AddTransient<IRecordingRepository, RecordingLocalRepository>();
+            iocContainer.AddTransient<IProjectRepository, ProjectLocalRepository>();
             iocContainer.AddTransient<ITagRepository, TagRepository>();
+            //iocContainer.AddTransient<IDataAccessFactory, DataAccessFactory>();
 
             iocContainer.AddSingleton<ITimeStringParser, TimeStringParser>();
             iocContainer.AddSingleton<IParserFieldVMFactory, ParserFieldVMFactory>();

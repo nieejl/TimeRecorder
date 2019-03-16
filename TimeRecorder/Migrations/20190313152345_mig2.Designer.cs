@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TimeRecorder.Models.Services.LocalStorage;
+using TimeRecorder.Models.Services.RepositoryInterfaces;
 
 namespace TimeRecorder.Migrations
 {

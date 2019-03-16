@@ -9,7 +9,7 @@ namespace TimeRecorder.Models.Services.LocalStorage
 {
     public class TagRepository : AbstractCrudRepo<TagDTO>, ITagRepository
     {
-        public TagRepository(ITimeRecorcerContext context) : base(context)
+        public TagRepository(ITimeRecorderContext context) : base(context)
         {
         }
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TimeRecorder.Models.DTOs;
 
-namespace TimeRecorder.Models.Services.LocalStorage
+namespace TimeRecorder.Models.Services
 {
     public interface ICrudRepository<T> where T : LocalEntity
     {
