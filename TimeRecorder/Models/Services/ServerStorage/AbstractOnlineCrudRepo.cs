@@ -21,7 +21,6 @@ namespace TimeRecorder.Models.Services.ServerStorage
         protected string find;
         protected string update;
         protected string delete;
-        protected string read;
         protected abstract string entityName { get; }
 
         public virtual void SetRoutes()
@@ -31,7 +30,6 @@ namespace TimeRecorder.Models.Services.ServerStorage
             find =   basePath + "/find/";
             update = basePath + "/update/";
             delete = basePath + "/delete/";
-            read = basePath + "/read/";
             SetCustomRoutes(basePath);
         }
 
@@ -65,11 +63,6 @@ namespace TimeRecorder.Models.Services.ServerStorage
             if (response.IsSuccessAndNotNull())
                 return await response.Content.ReadAsAsync<DTOType>(client.Formatters);
             return null;
-        }
-
-        public async Task<IQueryable<DTOType>> Read()
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<bool> UpdateAsync(DTOType dto)

@@ -1,14 +1,14 @@
 ﻿using Server.RepositoryLayer.Models.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using TimeRecorder.Shared;
 
 namespace Server.WebAPI.Adapters
 {
     public class RecordingAdapter : IAdapter<RecordingDTO, Recording>
     {
+        public RecordingAdapter()
+        {
+        }
+
         public RecordingDTO ConvertToDTO(Recording entity)
         {
             return new RecordingDTO

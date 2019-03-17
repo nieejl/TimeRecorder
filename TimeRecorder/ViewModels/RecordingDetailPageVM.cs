@@ -12,8 +12,10 @@ using System.Windows.Media;
 using TimeRecorder.Models;
 using TimeRecorder.Models.DTOs;
 using TimeRecorder.Models.Extensions;
+using TimeRecorder.Models.Services;
 using TimeRecorder.Models.Services.LocalStorage;
 using TimeRecorder.Models.Services.RepositoryInterfaces;
+using TimeRecorder.Models.Services.Strategies;
 using TimeRecorder.Models.ValueConverters;
 using TimeRecorder.Models.ValueParsers;
 using TimeRecorder.ViewModels.Interfaces;
@@ -24,27 +26,40 @@ namespace TimeRecorder.ViewModels
     {
         private static SolidColorBrush invalidColor = new SolidColorBrush(Colors.Red);
         private static SolidColorBrush validColor = new SolidColorBrush(Colors.Transparent);
+        private StorageStrategy strategy;
 
         private RecordingDTO currentDTO;
-        private IRecordingRepository recordingRepo;
-        private IProjectRepository projectRepo;
+        private IRecordingStrategy recordingStrategy;
+        private IProjectStrategy projectStrategy;
+        private IRecordingRepository recordingRepo { get =>
+                recordingStrategy.CreateRepository(strategy); }
+        private IProjectRepository projectRepo { get =>
+            projectStrategy.CreateRepository(strategy);
+        }
+
         ITimeStringParser parser;
 
-        public RecordingDetailPageVM(IRecordingRepository recordingRepo, 
-            IProjectRepository projectRepo, IParserFieldVMFactory fieldVMFactory)
+        //public RecordingDetailPageVM(IRecordingRepository recordingRepo, 
+        //    IProjectRepository projectRepo, IParserFieldVMFactory fieldVMFactory)
+        public RecordingDetailPageVM(IRecordingStrategy recordingStrategy, 
+            IProjectStrategy projectStrategy)
         {
-            this.recordingRepo = recordingRepo;
-            this.projectRepo = projectRepo;
+            this.recordingStrategy = recordingStrategy;
+            this.projectStrategy = projectStrategy;
+            strategy = StorageStrategy.Local;
+            Task.Run( () => LoadItems());
 
             parser = new TimeStringParser();
-            var getProjectTask = projectRepo.Read();
-            getProjectTask.Wait();
-            var projects = new List<ProjectDTO>(getProjectTask.Result);
-            ProjectSearchBox = new SearchBoxVM<ProjectDTO>(projects, (dto) => dto.Name);
-
             var buttonColors = ColorConstants.GetProjectColors().
                 Select(c => new ButtonColor { Color = new SolidColorBrush(c) });
             ColorValues = new ObservableCollection<ButtonColor>(buttonColors);
+        }
+
+        async Task LoadItems()
+        {
+            var projectTask = await projectRepo.Read();
+            var projects = new List<ProjectDTO>(projectTask);
+            ProjectSearchBox = new SearchBoxVM<ProjectDTO>(projects, (dto) => dto.Name);
         }
 
         public SolidColorBrush StartBorderColor { get 

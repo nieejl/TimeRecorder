@@ -42,15 +42,15 @@ namespace TimeRecorder
 
             iocContainer.AddTransient<IRecordingRepository, RecordingLocalRepository>();
             iocContainer.AddTransient<IRecordingRepository, RecordingOnlineRepository>();
-            iocContainer.AddTransient<IDataAccessFactory<IRecordingRepository>, RecordingLocalStorageFactory>();
-            iocContainer.AddTransient<IDataAccessFactory<IRecordingRepository>, RecordingOnlineStorageFactory>();
-            iocContainer.AddTransient<RecordingStrategy>();
+            iocContainer.AddTransient<IRecordingDataAccessFactory, RecordingLocalStorageFactory>();
+            iocContainer.AddTransient<IRecordingDataAccessFactory, RecordingOnlineStorageFactory>();
+            iocContainer.AddTransient<IRecordingStrategy, RecordingStrategy>();
 
             iocContainer.AddTransient<IProjectRepository, ProjectLocalRepository>();
             iocContainer.AddTransient<IProjectRepository, ProjectOnlineRepository>();
-            iocContainer.AddTransient<IDataAccessFactory<IProjectRepository>, ProjectLocalStorageFactory>();
-            iocContainer.AddTransient<IDataAccessFactory<IProjectRepository>, ProjectOnlineStorageFactory>();
-            iocContainer.AddTransient<ProjectStrategy>();
+            iocContainer.AddTransient<IProjectDataAccessFactory, ProjectLocalStorageFactory>();
+            iocContainer.AddTransient<IProjectDataAccessFactory, ProjectOnlineStorageFactory>();
+            iocContainer.AddTransient<IProjectStrategy, ProjectStrategy>();
 
             iocContainer.AddSingleton<ITimeStringParser, TimeStringParser>();
             iocContainer.AddSingleton<IParserFieldVMFactory, ParserFieldVMFactory>();

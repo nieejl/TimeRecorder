@@ -15,6 +15,7 @@ namespace TimeRecorder.Models.Services.ServerStorage
         public CustomHttpClient(string baseUri, string mediaType)
         {
             BaseAddress = new Uri(baseUri);
+            Timeout = TimeSpan.FromMilliseconds(2000d);
             DefaultRequestHeaders.Clear();
             DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType));
             Formatters = new MediaTypeFormatter[] { new JsonMediaTypeFormatter(), new BsonMediaTypeFormatter() };

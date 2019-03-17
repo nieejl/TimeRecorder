@@ -10,9 +10,10 @@ using TimeRecorder.Shared;
 namespace Server.WebAPI.AdapterRepositories
 {
     public class RecordingAdapterRepo :
-        AbstractAdapterRepo<RecordingDTO, Recording>
+        AbstractAdapterRepo<RecordingDTO, Recording>,
+        IAdapterRepo<RecordingDTO, Recording>
     {
-        public RecordingAdapterRepo(IRepository<Recording> repository, 
+        public RecordingAdapterRepo(IRecordingRepository repository, 
             IAdapter<RecordingDTO, Recording> adapter) : base(repository, adapter)
         {
         }

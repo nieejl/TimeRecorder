@@ -12,8 +12,10 @@ using System.Windows.Threading;
 using TimeRecorder.Models;
 using TimeRecorder.Models.DTOs;
 using TimeRecorder.Models.Extensions;
+using TimeRecorder.Models.Services;
 using TimeRecorder.Models.Services.LocalStorage;
 using TimeRecorder.Models.Services.RepositoryInterfaces;
+using TimeRecorder.Models.Services.Strategies;
 using TimeRecorder.Models.ValueConverters;
 using TimeRecorder.ViewModels.Interfaces;
 
@@ -21,17 +23,25 @@ namespace TimeRecorder.ViewModels
 {
     public class RecordingOverviewPageVM : BaseViewModel, IRecordingOverviewVM
     {
-        private IRecordingRepository recordingRepo;
-        private IProjectRepository projectRepo;
+        private StorageStrategy strategy;
+        private IRecordingStrategy recordingStrategy;
+        private IProjectStrategy projectStrategy;
+        private IRecordingRepository recordingRepo { get =>
+                recordingStrategy.CreateRepository(strategy);
+        }
+        private IProjectRepository projectRepo { get =>
+                projectStrategy.CreateRepository(strategy);
+        }
         private static readonly string titlePlaceholder = "What are you doing?";
         private static readonly string titleDefault = "No Recording Title";
 
-        public RecordingOverviewPageVM(IRecordingRepository recordingRepo, 
-            IProjectRepository projectRepo)
+        public RecordingOverviewPageVM(IRecordingStrategy recordingStrategy,
+            IProjectStrategy projectStrategy)
         {
-            this.recordingRepo = recordingRepo;
-            this.projectRepo = projectRepo;
-            ExecuteLoadItemsCommand().Wait();
+            this.recordingStrategy = recordingStrategy;
+            this.projectStrategy = projectStrategy;
+            strategy = StorageStrategy.Online;
+            ExecuteLoadItemsCommand();
         }
 
         DispatcherTimer ElapsedUpdater = new DispatcherTimer();
@@ -159,7 +169,7 @@ namespace TimeRecorder.ViewModels
             };
 
             ElapsedUpdater.Tick += new EventHandler(TickHandler);
-            ElapsedUpdater.Interval = new TimeSpan(0,0,0,0,100);
+            ElapsedUpdater.Interval = TimeSpan.FromMilliseconds(100);
             ElapsedUpdater.Start();
             await recordingRepo.CreateAsync(currentRecording);
         }
@@ -185,6 +195,7 @@ namespace TimeRecorder.ViewModels
         private void clearCurrentTimer()
         {
             Elapsed = new TimeSpan(0);
+            Title = "";
             currentRecording = null;
 
         }

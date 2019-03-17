@@ -6,6 +6,8 @@ using TimeRecorder.Models.DTOs;
 using TimeRecorder.Models.Extensions;
 using TimeRecorder.Models.Services.LocalStorage;
 using System.Net.Http;
+using System.Diagnostics;
+using System.Threading;
 
 namespace TimeRecorder.Models.Services.ServerStorage
 {
@@ -27,15 +29,18 @@ namespace TimeRecorder.Models.Services.ServerStorage
 
         public async Task<IEnumerable<RecordingDTO>> ReadAmount(int amount, int startIndex = 0)
         {
-            var response = await client.GetAsync(read + $"{amount}/{startIndex}");
-            if (response.IsSuccessAndNotNull())
-                return await response.Content.ReadAsAsync<List<RecordingDTO>>(client.Formatters);
+            try
+            {
+                var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
+                var response = await client.GetAsync(readAmount + $"{amount}/{startIndex}", cts.Token);
+                if (response.IsSuccessAndNotNull())
+                    return await response.Content.ReadAsAsync<List<RecordingDTO>>(client.Formatters).ConfigureAwait(false);
+            } catch (Exception e)
+            {
+                Debug.WriteLine("caught exception: " + e.Message);
+            }
             return new List<RecordingDTO>();
         }
 
-        Task<IQueryable<RecordingDTO>> IRecordingRepository.ReadAmount(int amount, int startIndex)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

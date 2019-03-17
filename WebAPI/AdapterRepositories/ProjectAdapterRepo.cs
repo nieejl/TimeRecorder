@@ -9,9 +9,11 @@ using TimeRecorder.Shared;
 
 namespace Server.WebAPI.AdapterRepositories
 {
-    public class ProjectAdapterRepo : AbstractAdapterRepo<ProjectDTO, Project>
+    public class ProjectAdapterRepo : 
+        AbstractAdapterRepo<ProjectDTO, Project>, 
+        IAdapterRepo<ProjectDTO, Project>
     {
-        public ProjectAdapterRepo(IRepository<Project> repository, 
+        public ProjectAdapterRepo(IProjectRepository repository, 
             IAdapter<ProjectDTO, Project> adapter) : base(repository, adapter)
         {
         }

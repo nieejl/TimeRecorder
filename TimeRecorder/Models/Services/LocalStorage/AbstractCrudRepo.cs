@@ -47,10 +47,5 @@ namespace TimeRecorder.Models.Services.LocalStorage
             await context.SaveChangesAsync();
             return true;
         }
-
-        public async Task<IQueryable<T>> Read()
-        {
-            return await Task.FromResult(context.Set<T>().Select(item => item));
-        }
     }
 }

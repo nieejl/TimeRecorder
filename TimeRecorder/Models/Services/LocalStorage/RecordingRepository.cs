@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TimeRecorder.Models.DTOs;
@@ -12,7 +13,7 @@ namespace TimeRecorder.Models.Services.LocalStorage
         {
         }
 
-        public async Task<IQueryable<RecordingDTO>> ReadAmount(int amount, int startIndex = 0)
+        public async Task<IEnumerable<RecordingDTO>> ReadAmount(int amount, int startIndex = 0)
         {
             if (amount < 0 || startIndex < 0)
                 throw new ArgumentException("ReadAmount called with negative amount or index.");

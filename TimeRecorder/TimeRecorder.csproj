@@ -186,6 +186,7 @@
     <Compile Include="Models\Extensions\IntegerExtensions.cs" />
     <Compile Include="Models\Extensions\TimeSpanExtensions.cs" />
     <Compile Include="Models\RelayCommand.cs" />
+    <Compile Include="Models\Services\Factories\Synchronised\BaseSyncFactory.cs" />
     <Compile Include="Models\Services\Factories\Interfaces\IDataAccessFactory.cs" />
     <Compile Include="Models\Services\Factories\Interfaces\IProjectDataAccessFactory.cs" />
     <Compile Include="Models\Services\Factories\Local\BaseLocalFactory.cs" />
@@ -194,6 +195,8 @@
     <Compile Include="Models\Services\Factories\Online\BaseOnlineFactory.cs" />
     <Compile Include="Models\Services\Factories\Online\ProjectOnlineStorageFactory.cs" />
     <Compile Include="Models\Services\Factories\Online\RecordingOnlineStorageFactory.cs" />
+    <Compile Include="Models\Services\Factories\Synchronised\ProjectSynchronisedFactory.cs" />
+    <Compile Include="Models\Services\Factories\Synchronised\RecordingSynchronisedFactory.cs" />
     <Compile Include="Models\Services\ServerStorage\AbstractOnlineCrudRepo.cs" />
     <Compile Include="Models\Services\ServerStorage\ProjectOnlineRepository.cs" />
     <Compile Include="Models\Services\StorageStrategy.cs" />
@@ -212,6 +215,8 @@
     <Compile Include="Models\Services\ServerStorage\IHttpClient.cs" />
     <Compile Include="Models\Services\ServerStorage\RecordingOnlineRepository.cs" />
     <Compile Include="Models\Services\Strategies\BaseStrategy.cs" />
+    <Compile Include="Models\Services\Strategies\IProjectStrategy.cs" />
+    <Compile Include="Models\Services\Strategies\IRecordingStrategy.cs" />
     <Compile Include="Models\Services\Strategies\IStorageStrategy.cs" />
     <Compile Include="Models\Services\Strategies\ProjectStrategy.cs" />
     <Compile Include="Models\Services\Strategies\RecordingStrategy.cs" />
@@ -289,9 +294,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Services\Factories\Combo\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Shared\TimeRecorder.Shared.csproj">
       <Project>{FD3DFF13-66D3-458C-BC8D-6F735900B42C}</Project>

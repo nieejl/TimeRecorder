@@ -32,7 +32,7 @@ namespace Server.WebAPI.Controllers
                 return dto;
             return new NotFoundObjectResult(dto);
         }
-
+        [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(typeof(NotFoundObjectResult), 404)]
         public virtual async Task<ActionResult<bool>> DeleteAsync(int id)
         {
@@ -42,6 +42,7 @@ namespace Server.WebAPI.Controllers
             return new NotFoundObjectResult(deleted);
         }
 
+        [ProducesResponseType(typeof(int), 200)]
         [ProducesResponseType(typeof(NotFoundObjectResult), 404)]
         public virtual async Task<ActionResult<int>> PostAsync(DTOType dto)
         {
@@ -51,6 +52,7 @@ namespace Server.WebAPI.Controllers
             return new NotFoundObjectResult(id);
         }
 
+        [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(typeof(NotFoundObjectResult), 404)]
         public virtual async Task<ActionResult<bool>> PutAsync(DTOType dto)
         {

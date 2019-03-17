@@ -5,20 +5,16 @@ using TimeRecorder.Models.Services.ServerStorage;
 
 namespace TimeRecorder.Models.Services.Factories.Online
 {
-    public class RecordingOnlineStorageFactory : IRecordingDataAccessFactory
+    public class RecordingOnlineStorageFactory : 
+        BaseOnlineFactory<IRecordingRepository>, 
+        IRecordingDataAccessFactory
     {
-        IHttpClient client;
-        public RecordingOnlineStorageFactory(IHttpClient client)
+        public RecordingOnlineStorageFactory(IHttpClient client) : base(client)
         {
-            this.client = client;
         }
 
-        public bool CanHandle(StorageStrategy strategy)
-        {
-            throw new NotImplementedException();
-        }
 
-        public IRecordingRepository GetRepository()
+        public override IRecordingRepository GetRepository()
         {
             return new RecordingOnlineRepository(client);
         }

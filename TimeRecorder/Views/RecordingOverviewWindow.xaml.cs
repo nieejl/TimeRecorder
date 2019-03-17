@@ -57,18 +57,15 @@ namespace TimeRecorder.Views
         {
             var listView = sender as ListView;
             if (listView == null) {
-                Debug.WriteLine("sender is not a listview");
                 return;
             }
             var item = listView.SelectedItem as RecordingSummaryVM;
             listView.UnselectAll();
             if (item == null)
             {
-                Debug.WriteLine("item is not a recordingVM");
                 return;
             }
             ToggleWindow(item.Id);
-            Debug.WriteLine("items desc is : " + item.Title);
         }
 
         private void ToggleWindow(int id)

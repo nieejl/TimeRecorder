@@ -10,6 +10,5 @@ namespace TimeRecorder.Models.Services
         Task<T> FindAsync(int id);
         Task<bool> DeleteAsync(int id);
         Task<bool> UpdateAsync(T dto);
-        Task<IQueryable<T>> Read();
     }
 }

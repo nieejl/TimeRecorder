@@ -1,5 +1,6 @@
 ﻿using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace TimeRecorder.Models.Services.ServerStorage
@@ -8,7 +9,7 @@ namespace TimeRecorder.Models.Services.ServerStorage
     {
         Task<HttpResponseMessage> PostAsJsonAsync(string location, object item);
         Task<HttpResponseMessage> PutAsJsonAsync(string location, object item);
-        Task<HttpResponseMessage> GetAsync(string location);
+        Task<HttpResponseMessage> GetAsync(string location, CancellationToken ct = default(CancellationToken));
         Task<HttpResponseMessage> DeleteAsync(string location);
         MediaTypeFormatter[] Formatters { get; }
     }

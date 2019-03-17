@@ -1,8 +1,11 @@
-﻿using TimeRecorder.Models.Services.LocalStorage;
+﻿using TimeRecorder.Models.Services.Factories.Interfaces;
+using TimeRecorder.Models.Services.LocalStorage;
 
 namespace TimeRecorder.Models.Services.Factories.Local
 {
-    public class RecordingLocalStorageFactory : BaseLocalFactory<IRecordingRepository>
+    public class RecordingLocalStorageFactory : 
+        BaseLocalFactory<IRecordingRepository>,
+        IRecordingDataAccessFactory
     {
         public RecordingLocalStorageFactory(ITimeRecorderContext context) : base(context)
         {

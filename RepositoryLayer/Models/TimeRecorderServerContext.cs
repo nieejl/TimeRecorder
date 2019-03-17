@@ -32,7 +32,6 @@ namespace Server.RepositoryLayer.Models
         {
             builder.Entity<Recording>().HasIndex(r => r.TemporaryId);
             builder.Entity<Project>().HasIndex(p => p.TemporaryId);
-            //builder.Entity<Tag>().HasIndex(t => t.TagValue).IsUnique();
         }
     }
 }

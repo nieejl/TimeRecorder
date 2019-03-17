@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Server.RepositoryLayer.Repositories
 {
-    public class AbstractCrudServerRepo<T> where T : Entity
+    public class AbstractCrudServerRepo<T> : IRepository<T> where T : Entity
     {
         protected ITimeRecorderServerContext context;
         public AbstractCrudServerRepo(ITimeRecorderServerContext context)
