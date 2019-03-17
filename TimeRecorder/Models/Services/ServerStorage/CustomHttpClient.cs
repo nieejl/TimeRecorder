@@ -1,7 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
@@ -14,12 +12,17 @@ namespace TimeRecorder.Models.Services.ServerStorage
     {
         public MediaTypeFormatter[] Formatters { get; private set; }
 
-        public CustomHttpClient(string baseUri, string mediaType = "application/json")
+        public CustomHttpClient(string baseUri, string mediaType)
         {
             BaseAddress = new Uri(baseUri);
             DefaultRequestHeaders.Clear();
             DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType));
             Formatters = new MediaTypeFormatter[] { new JsonMediaTypeFormatter(), new BsonMediaTypeFormatter() };
+        }
+
+        public CustomHttpClient(string baseUri) : this(baseUri, "application/json")
+        {
+
         }
 
         private StringContent serializeContent(object item)

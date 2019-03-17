@@ -213,6 +213,7 @@
     <Compile Include="Models\Services\ServerStorage\RecordingOnlineRepository.cs" />
     <Compile Include="Models\Services\Strategies\BaseStrategy.cs" />
     <Compile Include="Models\Services\Strategies\IStorageStrategy.cs" />
+    <Compile Include="Models\Services\Strategies\ProjectStrategy.cs" />
     <Compile Include="Models\Services\Strategies\RecordingStrategy.cs" />
     <Compile Include="Models\ValueConverters\DTOAdapter.cs" />
     <Compile Include="Models\ValueConverters\TimeToStringConverter.cs" />

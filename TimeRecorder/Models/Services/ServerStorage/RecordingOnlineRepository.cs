@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TimeRecorder.Models.DTOs;
 using TimeRecorder.Models.Extensions;
@@ -15,6 +14,9 @@ namespace TimeRecorder.Models.Services.ServerStorage
         IRecordingRepository
     {
         string readAmount;
+
+        protected override string entityName => "recording";
+
         public RecordingOnlineRepository(IHttpClient client) : base(client)
         {
         }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using TimeRecorder.Models.DTOs;
 using TimeRecorder.Models.Extensions;
@@ -24,8 +22,9 @@ namespace TimeRecorder.Models.Services.ServerStorage
         protected string update;
         protected string delete;
         protected string read;
+        protected abstract string entityName { get; }
 
-        public virtual void SetDefaultRoutes(string entityName)
+        public virtual void SetRoutes()
         {
             basePath = "api/" + entityName;
             create = basePath + "/create/";
@@ -41,6 +40,7 @@ namespace TimeRecorder.Models.Services.ServerStorage
         public AbstractOnlineCrudRepo(IHttpClient client)
         {
             this.client = client;
+            SetRoutes();
         }
 
         public async Task<int> CreateAsync(DTOType dto)

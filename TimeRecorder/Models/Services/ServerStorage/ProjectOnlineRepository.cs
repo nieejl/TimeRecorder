@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TimeRecorder.Models.DTOs;
-using TimeRecorder.Models.Services.LocalStorage;
+﻿using TimeRecorder.Models.DTOs;
 using TimeRecorder.Models.Services.RepositoryInterfaces;
 
 namespace TimeRecorder.Models.Services.ServerStorage
@@ -14,6 +8,8 @@ namespace TimeRecorder.Models.Services.ServerStorage
         public ProjectOnlineRepository(IHttpClient client) : base(client)
         {
         }
+
+        protected override string entityName { get => "project"; }
 
         protected override void SetCustomRoutes(string basePath)
         {

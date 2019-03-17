@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using TimeRecorder.Models.Services.Factories.Interfaces;
 using TimeRecorder.Models.Services.LocalStorage;
 
-namespace TimeRecorder.Models.Services
+namespace TimeRecorder.Models.Services.Factories.Interfaces
 {
     public interface IRecordingDataAccessFactory : 
         IDataAccessFactory<IRecordingRepository>

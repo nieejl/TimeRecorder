@@ -59,6 +59,12 @@ namespace TimeRecorder.ViewModels
             }
         }
 
+        public SolidColorBrush ElapsedBorderColor {
+            get {
+                return IsValid() ? validColor : invalidColor;
+            }
+        }
+
         private bool isStartValid;
         public bool IsStartValid {
             get { return isStartValid; }
