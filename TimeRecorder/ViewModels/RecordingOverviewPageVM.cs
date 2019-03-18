@@ -150,7 +150,7 @@ namespace TimeRecorder.ViewModels
                     var oldRecordingSummary = Recordings[(int)listIndex];
                     var oldRecording = await recordingRepo.FindAsync(oldRecordingSummary.Id);
                     if (oldRecording == null)
-                        throw new Exception("Recording not found, but displayed in view. Local dataStore not up to date");
+                        throw new Exception("Recording not found");
                     Title = oldRecording.Title;
                     await StartTimer(oldRecording.ProjectId);
                 });

@@ -5,10 +5,12 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 using TimeRecorder.Models;
 using TimeRecorder.Models.DTOs;
 using TimeRecorder.Models.Extensions;
@@ -27,6 +29,7 @@ namespace TimeRecorder.ViewModels
         private static SolidColorBrush invalidColor = new SolidColorBrush(Colors.Red);
         private static SolidColorBrush validColor = new SolidColorBrush(Colors.Transparent);
         private StorageStrategy strategy;
+        private DispatcherTimer elapsedTimer;
 
         private RecordingDTO currentDTO;
         private IRecordingStrategy recordingStrategy;
@@ -53,6 +56,10 @@ namespace TimeRecorder.ViewModels
             var buttonColors = ColorConstants.GetProjectColors().
                 Select(c => new ButtonColor { Color = new SolidColorBrush(c) });
             ColorValues = new ObservableCollection<ButtonColor>(buttonColors);
+
+            elapsedTimer = new DispatcherTimer();
+            elapsedTimer.Interval = TimeSpan.FromMilliseconds(100);
+            elapsedTimer.Tick += updateElapsedTick;
         }
 
         async Task LoadItems()
@@ -64,20 +71,25 @@ namespace TimeRecorder.ViewModels
 
         public SolidColorBrush StartBorderColor { get 
             {
-                return IsStartValid ? validColor : invalidColor;
+                return GetValidityColor(IsStartValid);
             }
         }
 
         public SolidColorBrush EndBorderColor {
             get {
-                return IsEndValid ? validColor : invalidColor;
+                return GetValidityColor(IsEndValid);
             }
         }
 
         public SolidColorBrush ElapsedBorderColor {
             get {
-                return IsValid() ? validColor : invalidColor;
+                return GetValidityColor(IsElapsedValid);
             }
+        }
+
+        public SolidColorBrush GetValidityColor(bool valid)
+        {
+            return valid ? validColor : invalidColor;
         }
 
         private bool isStartValid;
@@ -88,7 +100,7 @@ namespace TimeRecorder.ViewModels
                 {
                     isStartValid = value;
                     OnPropertyChanged();
-                    OnPropertyChanged("BorderColor");
+                    OnPropertyChanged("StartBorderColor");
                 }
             }
         }
@@ -101,7 +113,20 @@ namespace TimeRecorder.ViewModels
                 {
                     isEndValid = value;
                     OnPropertyChanged();
-                    OnPropertyChanged("BorderColor");
+                    OnPropertyChanged("EndBorderColor");
+                }
+            }
+        }
+
+        private bool isElapsedValid;
+        public bool IsElapsedValid {
+            get { return isElapsedValid; }
+            set {
+                if (value != isElapsedValid)
+                {
+                    isElapsedValid = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged("ElapsedBorderColor");
                 }
             }
         }
@@ -126,7 +151,11 @@ namespace TimeRecorder.ViewModels
                 OnPropertyChanged();
                 IsEndValid = parser.TryParse(value, out TimeSpan time);
                 if (IsEndValid)
+                {
                     EndTime = time;
+                    stopElapsedUpdater();
+                    updateElapsed();
+                }
             }
         }
 
@@ -154,6 +183,7 @@ namespace TimeRecorder.ViewModels
             set {
                 elapsedText = value;
                 OnPropertyChanged();
+                IsElapsedValid = parser.TryParse(elapsedText, out TimeSpan time);
             }
         }
 
@@ -172,6 +202,11 @@ namespace TimeRecorder.ViewModels
             set {
                 endDate = value;
                 OnPropertyChanged();
+                if (IsEndValid)
+                {
+                    stopElapsedUpdater();
+                    updateElapsed();
+                }
             }
         }
 
@@ -229,7 +264,7 @@ namespace TimeRecorder.ViewModels
             }
         }
 
-        private Visibility chooseColorVisibility;
+        private Visibility chooseColorVisibility = Visibility.Collapsed;
         public Visibility ChooseColorVisibility {
             get { return chooseColorVisibility; }
             set {
@@ -293,8 +328,12 @@ namespace TimeRecorder.ViewModels
             currentDTO = recording ?? throw new ArgumentNullException("RecordingDTO was null");
 
             Title = recording.Title;
-            StartText = recording.Start.TimeOfDay.ToHHMM();
-            StartDate = recording.Start;
+            if (recording.Start.TimeOfDay.Seconds == 0)
+                StartText = recording.Start.TimeOfDay.ToHHMM();
+            else
+                StartText = recording.Start.TimeOfDay.ToHHMMSS();
+            StartTime = recording.Start.TimeOfDay;
+            StartDate = recording.Start.Date;
 
             if (recording.Project != null)
             {
@@ -305,39 +344,57 @@ namespace TimeRecorder.ViewModels
             {
                 TimeSpan? duration = recording.End - recording.Start;
                 ElapsedText = duration.Value.ToHHMMSS();
-
-                EndText = recording.End.Value.TimeOfDay.ToHHMM();
-                EndDate = recording.End.Value;
+                if (recording.Start.TimeOfDay.Seconds == 0)
+                    EndText = recording.End.Value.TimeOfDay.ToHHMM();
+                else
+                    EndText = recording.End.Value.TimeOfDay.ToHHMMSS();
+                EndDate = recording.End.Value.Date;
             } else
             {
-                ElapsedText = (DateTime.Now - recording.Start).ToHHMMSS();
+                startElapsedUpdater();
             }
         }
 
-        private DateTime StartDateTime => StartDate + StartTime;
-        private DateTime EndDateTime => EndDate + EndTime;
+        private void startElapsedUpdater()
+        {
+            elapsedTimer.Start();
+        }
+        private void stopElapsedUpdater()
+        {
+            if (elapsedTimer != null)
+                elapsedTimer.Stop();
+        }
+
+        private void updateElapsedTick(object sender, EventArgs e)
+        {
+            updateElapsed();
+        }
+        private void updateElapsed()
+        {
+            if (!IsEndValid)
+                ElapsedText = (DateTime.Now - startDateTime).ToHHMMSS();
+            else
+                ElapsedText = (endDateTime - startDateTime).ToHHMMSS();
+        }
+
+        private DateTime startDateTime => StartDate + StartTime;
+        private DateTime endDateTime => EndDate + EndTime;
         private bool IsValid()
         {
-            return IsStartValid && IsEndValid && (EndDateTime > StartDateTime);
+            return IsStartValid && IsEndValid && (endDateTime > startDateTime);
         }
 
-        public bool TrySaveToDTO()
-        {
-            if (IsValid())
-            {
-                SaveToDTO();
-                return true;
+        public ICommand Save {
+            get {
+                return new RelayCommand(_ =>
+                {
+                    currentDTO.Title = Title;
+                    currentDTO.Start = StartDate + StartTime;
+                    currentDTO.Project = Project;
+                    if (IsEndValid)
+                        currentDTO.End = EndDate + EndTime;
+               });
             }
-            return false;
-        }
-        private void SaveToDTO()
-        {
-            //if (currentDTO == null)
-                //currentDTO = new RecordingDTO();
-            currentDTO.Title = Title;
-            currentDTO.Start = StartDate + StartTime;
-            currentDTO.End = EndDate + EndTime;
-            currentDTO.Project = Project;
         }
 
         public ICommand ToggleMenuVisibilityCommand {
@@ -376,10 +433,18 @@ namespace TimeRecorder.ViewModels
 
         public ICommand AddNewProjectCommand {
             get {
-                return new RelayCommand((name) =>
+                return new RelayCommand( async (name) =>
                 {
                     var nameString = (string)name;
-                    var Color = ChosenColor;
+                    var Color = ChosenColor.Color;
+                    var project = new ProjectDTO
+                    {
+                        Name = nameString,
+                        Color = Color
+                    };
+                    await projectRepo.CreateAsync(project);
+                    ToggleMenuVisibilityCommand.Execute(null);
+                    Project = project;
                 });
             }
         }
@@ -388,7 +453,7 @@ namespace TimeRecorder.ViewModels
         {
             var previous = ChosenColor == null ? color : color;
             ChosenColor = color;
-            var button = ColorValues.First(bc => bc.Color == color);
+            var button = ColorValues.First(bc => bc.Color.Color.Equals(color.Color));
             int index = ColorValues.IndexOf(button);
             ColorValues[index] = new ButtonColor { Color = previous };
         }

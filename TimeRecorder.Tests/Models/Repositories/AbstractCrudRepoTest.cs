@@ -24,7 +24,6 @@ namespace TimeRecorder.Tests.Models.Repositories
             }
             public class Dummy : LocalEntity
             {
-                public int Id { get; set; }
                 public int DummyVariable { get; set; }
             }
             public class DummyRepo : AbstractCrudRepo<Dummy>
@@ -49,7 +48,7 @@ namespace TimeRecorder.Tests.Models.Repositories
             {
                 // Arrange
                 var repo = CreateNewDummyRepo(nameof(Test_CreateAsync_Returns_Id));
-                var dummy = new Dummy { DummyVariable = 22 };
+                var dummy = new Dummy { Id=1, DummyVariable = 22 };
                 // Act
                 var result = await repo.CreateAsync(dummy);
                 // Assert
