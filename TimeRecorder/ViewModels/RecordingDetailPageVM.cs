@@ -46,7 +46,7 @@ namespace TimeRecorder.ViewModels
         {
             this.recordingStrategy = recordingStrategy;
             this.projectStrategy = projectStrategy;
-            strategy = StorageStrategy.Local;
+            strategy = StorageStrategy.Online;
             Task.Run( () => LoadItems());
 
             parser = new TimeStringParser();
@@ -283,6 +283,8 @@ namespace TimeRecorder.ViewModels
 
         public void UpdateFromDTO(RecordingDTO recording)
         {
+            if (recording == null)
+                return;
             currentDTO = recording;
 
             Title = recording.Title;

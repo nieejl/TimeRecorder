@@ -5,14 +5,14 @@
     "anonymousAuthentication": true, 
     "iisExpress": {
       "applicationUrl": "http://localhost:3535",
-      "sslPort": 44326
+      "sslPort": 3536
     }
   },
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "api/values",
+      "launchUrl": "api/project",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -20,8 +20,9 @@
     "WebAPI": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/values",
-      "applicationUrl": "https://localhost:3535;http://localhost:3535",
+      "launchUrl": "api/projects",
+      "applicationUrl": "http://localhost:3535",
+      //"applicationUrl": "https://localhost:3535;http://localhost:3535",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

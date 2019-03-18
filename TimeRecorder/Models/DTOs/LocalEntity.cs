@@ -9,6 +9,6 @@ namespace TimeRecorder.Models.DTOs
     public class LocalEntity
     {
         public int Id { get; set; }
-        //public int TemporaryId { get; set; }
+        public int TemporaryId { get; set; }
     }
 }

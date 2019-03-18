@@ -15,6 +15,7 @@ using Server.RepositoryLayer.Models.Entities;
 using Server.RepositoryLayer.Repositories;
 using Server.WebAPI.AdapterRepositories;
 using Server.WebAPI.Adapters;
+using Swashbuckle.AspNetCore.Swagger;
 using TimeRecorder.Shared;
 
 namespace Server.WebAPI
@@ -33,17 +34,21 @@ namespace Server.WebAPI
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddDbContext<ITimeRecorderServerContext, TimeRecorderServerContext>();
+            services.AddScoped<ITimeRecorderServerContext, TimeRecorderServerContext>();
 
-            services.AddTransient<ITimeRecorderServerContext, TimeRecorderServerContext>();
-
-            services.AddTransient<IProjectRepository, ProjectRepository>();
             services.AddTransient<IAdapter<ProjectDTO, Project>, ProjectAdapter>();
+            services.AddTransient<IProjectRepository, ProjectRepository>();
             services.AddTransient<IAdapterRepo<ProjectDTO, Project>, ProjectAdapterRepo>();
 
+            services.AddTransient<IAdapter<RecordingDTO, Recording>, RecordingAdapter>();
             services.AddTransient<IRecordingRepository, RecordingRepository>();
-            services.AddTransient<IAdapter<RecordingDTO, Recording>>();
             services.AddTransient<IAdapterRepo<RecordingDTO, Recording>, RecordingAdapterRepo>();
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,8 +63,12 @@ namespace Server.WebAPI
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            app.UseHttpsRedirection();
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

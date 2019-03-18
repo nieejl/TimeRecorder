@@ -17,13 +17,13 @@ namespace Server.WebAPI.Controllers
         where DTOType : DTO
         where EntityType : Entity
     {
-        private IAdapterRepo<DTOType, EntityType> adapterRepo;
+        protected IAdapterRepo<DTOType, EntityType> adapterRepo;
 
-        public AbstractCrudController(IAdapterRepo<DTOType, EntityType> repo)
+        public AbstractCrudController(IAdapterRepo<DTOType, EntityType> repo) : base()
         {
             adapterRepo = repo;
         }
-
+        [HttpGet("find/{id}/")]
         [ProducesResponseType(typeof(NotFoundObjectResult), 404)]
         public virtual async Task<ActionResult<DTOType>> FindAsync(int id)
         {
@@ -32,6 +32,18 @@ namespace Server.WebAPI.Controllers
                 return dto;
             return new NotFoundObjectResult(dto);
         }
+
+        [HttpGet("read/")]
+        [ProducesResponseType(typeof(NotFoundObjectResult), 404)]
+        public virtual async Task<ActionResult<IEnumerable<DTOType>>> GetAllAsync(int id)
+        {
+            var dtos = await adapterRepo.Read();
+            if (dtos != null)
+                return dtos.ToList();
+            return new NotFoundObjectResult(new List<DTOType>());
+        }
+
+        [HttpDelete("delete/{id}/")]
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(typeof(NotFoundObjectResult), 404)]
         public virtual async Task<ActionResult<bool>> DeleteAsync(int id)
@@ -41,7 +53,7 @@ namespace Server.WebAPI.Controllers
                 return NoContent();
             return new NotFoundObjectResult(deleted);
         }
-
+        [HttpPost("create/")]
         [ProducesResponseType(typeof(int), 200)]
         [ProducesResponseType(typeof(NotFoundObjectResult), 404)]
         public virtual async Task<ActionResult<int>> PostAsync(DTOType dto)
@@ -52,6 +64,7 @@ namespace Server.WebAPI.Controllers
             return new NotFoundObjectResult(id);
         }
 
+        [HttpPut("update/")]
         [ProducesResponseType(typeof(bool), 200)]
         [ProducesResponseType(typeof(NotFoundObjectResult), 404)]
         public virtual async Task<ActionResult<bool>> PutAsync(DTOType dto)

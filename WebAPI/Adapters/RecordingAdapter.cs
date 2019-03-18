@@ -5,10 +5,6 @@ namespace Server.WebAPI.Adapters
 {
     public class RecordingAdapter : IAdapter<RecordingDTO, Recording>
     {
-        public RecordingAdapter()
-        {
-        }
-
         public RecordingDTO ConvertToDTO(Recording entity)
         {
             return new RecordingDTO
@@ -31,6 +27,7 @@ namespace Server.WebAPI.Adapters
                 End = dto.End,
                 ProjectId = dto.ProjectId,
                 Title = dto.Title,
+                //TODO: What to do about lastupdated and version?
             };
         }
     }

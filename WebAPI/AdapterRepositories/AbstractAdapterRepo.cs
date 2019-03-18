@@ -22,6 +22,7 @@ namespace Server.WebAPI.AdapterRepositories
             IAdapter<DTOType, EntityType> adapter)
         {
             this.repository = repository;
+            this.adapter = adapter;
         }
 
         public DTOType ConvertToDTO(EntityType entity)
@@ -36,6 +37,8 @@ namespace Server.WebAPI.AdapterRepositories
 
         public async Task<int> CreateAsync(DTOType dto)
         {
+            if (dto == null)
+                return 0;
             var entity = adapter.ConvertToEntity(dto);
             await repository.CreateAsync(entity);
             return entity.Id;
@@ -49,6 +52,8 @@ namespace Server.WebAPI.AdapterRepositories
         public async Task<DTOType> FindAsync(int id)
         {
             var entity = await repository.FindAsync(id);
+            if (entity == null)
+                return null;
             var dto = adapter.ConvertToDTO(entity);
             return dto;
         }

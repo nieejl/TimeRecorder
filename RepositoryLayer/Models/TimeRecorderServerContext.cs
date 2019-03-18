@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Server.RepositoryLayer.Models.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
+using System.IO;
 
 namespace Server.RepositoryLayer.Models
 {
@@ -18,13 +17,15 @@ namespace Server.RepositoryLayer.Models
 
         public TimeRecorderServerContext() : base()
         {
+            //Database.Migrate();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
             if (!builder.IsConfigured)
             {
-                builder.UseSqlite("Filename=./SampleServerDB");
+                //builder.UseSqlite("Filename=./SampleServerDB");
+                builder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=TimeRecorder;Trusted_Connection=True;MultipleActiveResultSets=true");
             }
         }
 

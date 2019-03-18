@@ -5,10 +5,6 @@ namespace Server.WebAPI.Adapters
 {
     public class ProjectAdapter : IAdapter<ProjectDTO, Project>
     {
-        public ProjectAdapter()
-        {
-        }
-
         public ProjectDTO ConvertToDTO(Project entity)
         {
             return new ProjectDTO
@@ -28,6 +24,7 @@ namespace Server.WebAPI.Adapters
                 TemporaryId = dto.TemporaryId,
                 Argb = dto.Argb,
                 Name = dto.Name
+                //TODO: What to do about lastupdated and version?
             };
         }
     }
