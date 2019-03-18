@@ -22,8 +22,12 @@ namespace TimeRecorder.Models.ValueConverters
 
             var color = dto.Project == null || dto.Project.Color == null ?
                 new SolidColorBrush(Colors.LightGray) : new SolidColorBrush(dto.Project.Color);
+            string elapsed = "";
+            if (dto.End != null)
+            {
+                elapsed = (dto.End.Value - dto.Start).ToHHMMSS();
 
-            var elapsed = (dto.End - dto.Start).Value.ToHHMMSS();
+            }
             return new RecordingSummaryVM
             {
                 Id = dto.Id,
@@ -33,5 +37,57 @@ namespace TimeRecorder.Models.ValueConverters
                 Duration = elapsed
             };
         }
+
+        public static Shared.ProjectDTO ToDTO(this ProjectDTO localEntity)
+        {
+            return new Shared.ProjectDTO
+            {
+                Id = localEntity.Id,
+                Argb = localEntity.Argb,
+                Name = localEntity.Name,
+                TemporaryId = localEntity.TemporaryId
+            };
+        }
+
+        public static Shared.RecordingDTO ToDTO(this RecordingDTO localEntity)
+        {
+            return new Shared.RecordingDTO
+            {
+                Id = localEntity.Id,
+                TemporaryId = localEntity.TemporaryId,
+                Title = localEntity.Title,
+                Start = localEntity.Start,
+                End = localEntity.End,
+                ProjectId = localEntity.ProjectId,
+                Project = localEntity.Project.ToDTO(),
+            };
+        }
+
+        public static ProjectDTO ToDTO(this Shared.ProjectDTO localEntity)
+        {
+            return new ProjectDTO
+            {
+                Id = localEntity.Id,
+                Argb = localEntity.Argb,
+                Name = localEntity.Name,
+                TemporaryId = localEntity.TemporaryId
+            };
+        }
+
+        public static RecordingDTO ToDTO(this Shared.RecordingDTO dto)
+        {
+            return new RecordingDTO
+            {
+                Id = dto.Id,
+                TemporaryId = dto.TemporaryId,
+                Title = dto.Title,
+                Start = dto.Start,
+                End = dto.End,
+                ProjectId = dto.ProjectId,
+                Project = dto.Project.ToDTO(),
+            };
+        }
+
+
     }
 }

@@ -12,7 +12,6 @@ namespace TimeRecorder.Models.Services.LocalStorage
         public RecordingLocalRepository(ITimeRecorderContext context) : base(context)
         {
         }
-
         public async Task<IEnumerable<RecordingDTO>> ReadAmount(int amount, int startIndex = 0)
         {
             if (amount < 0 || startIndex < 0)
@@ -20,11 +19,10 @@ namespace TimeRecorder.Models.Services.LocalStorage
             var initial = context.Set<RecordingDTO>()
                 .OrderByDescending(r => r.Start)
                 .Include(r => r.Project);
-            await Task.FromResult(0);
             if (startIndex <= 0)
-                return initial.Take(amount);
+                return await initial.Take(amount).ToListAsync();
             else
-                return initial.Skip(startIndex).Take(amount);
+                return await initial.Skip(startIndex).Take(amount).ToListAsync();
         }
     }
 }

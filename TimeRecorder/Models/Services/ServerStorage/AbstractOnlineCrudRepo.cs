@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using TimeRecorder.Models.DTOs;
 using TimeRecorder.Models.Extensions;
 using System.Net.Http;
+using System.Diagnostics;
 
 namespace TimeRecorder.Models.Services.ServerStorage
 {
@@ -43,9 +44,13 @@ namespace TimeRecorder.Models.Services.ServerStorage
 
         public async Task<int> CreateAsync(DTOType dto)
         {
-            var response = await client.GetAsync(create);
+            var response = await client.PostAsJsonAsync(create, dto);
             if (response.IsSuccessAndNotNull())
-                return await response.Content.ReadAsAsync<int>(client.Formatters);
+            {
+                dto.Id = await response.Content.ReadAsAsync<int>(client.Formatters);
+                Debug.WriteLine(dto.Id);
+                return dto.Id;
+            }
             return 0;
         }
 
@@ -67,7 +72,7 @@ namespace TimeRecorder.Models.Services.ServerStorage
 
         public async Task<bool> UpdateAsync(DTOType dto)
         {
-            var response = await client.DeleteAsync(update);
+            var response = await client.PutAsJsonAsync(update, dto);
             if (response.IsSuccessAndNotNull())
                 return await response.Content.ReadAsAsync<bool>(client.Formatters);
             return false;

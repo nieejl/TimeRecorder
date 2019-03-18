@@ -99,7 +99,7 @@ namespace TimeRecorder.Tests.Models.Repositories
             {
                 var repo = CreateNewDummyRepo("231");
 
-                int id = await repo.CreateAsync(new Dummy { DummyVariable = 42 });
+                int id = await repo.CreateAsync(new Dummy { Id = 100, DummyVariable = 42 });
                 var result = await repo.FindAsync(id);
 
                 Assert.IsType<Dummy>(result);

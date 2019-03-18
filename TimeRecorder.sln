@@ -5,13 +5,17 @@ VisualStudioVersion = 15.0.28307.421
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeRecorder", "TimeRecorder\TimeRecorder.csproj", "{CFE5E1C3-1208-451A-948A-9C41436C1354}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.WebAPI", "WebAPI\Server.WebAPI.csproj", "{EABBBC28-180B-4F41-8F94-30FBC2369929}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeRecorder.Server.WebAPI", "TimeRecorder.Server.WebAPI\TimeRecorder.Server.WebAPI.csproj", "{EABBBC28-180B-4F41-8F94-30FBC2369929}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server.RepositoryLayer", "RepositoryLayer\Server.RepositoryLayer.csproj", "{CCC1A579-1CA9-414D-993B-EA15F8ADBA8F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeRecorder.Server.RepositoryLayer", "TimeRecorder.Server.RepositoryLayer\TimeRecorder.Server.RepositoryLayer.csproj", "{CCC1A579-1CA9-414D-993B-EA15F8ADBA8F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeRecorder.Tests", "TimeRecorder.Tests\TimeRecorder.Tests.csproj", "{D083F840-FF7E-4545-A318-7F216EDDE8B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeRecorder.Shared", "Shared\TimeRecorder.Shared.csproj", "{FD3DFF13-66D3-458C-BC8D-6F735900B42C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeRecorder.Shared", "TimeRecorder.Shared\TimeRecorder.Shared.csproj", "{FD3DFF13-66D3-458C-BC8D-6F735900B42C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeRecorder.Server.WebAPI.Tests", "TimeRecorder.Server.WebAPI.Tests\TimeRecorder.Server.WebAPI.Tests.csproj", "{8567A956-3F91-4AAB-ABB4-8B88A2D543CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeRecorder.Server.RepositoryLayer.Tests", "TimeRecorder.Server.RepositoryLayer.Tests\TimeRecorder.Server.RepositoryLayer.Tests.csproj", "{194E7993-70B0-4C86-AF72-86E6534C6455}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{FD3DFF13-66D3-458C-BC8D-6F735900B42C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD3DFF13-66D3-458C-BC8D-6F735900B42C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD3DFF13-66D3-458C-BC8D-6F735900B42C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8567A956-3F91-4AAB-ABB4-8B88A2D543CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8567A956-3F91-4AAB-ABB4-8B88A2D543CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8567A956-3F91-4AAB-ABB4-8B88A2D543CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8567A956-3F91-4AAB-ABB4-8B88A2D543CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{194E7993-70B0-4C86-AF72-86E6534C6455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{194E7993-70B0-4C86-AF72-86E6534C6455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{194E7993-70B0-4C86-AF72-86E6534C6455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{194E7993-70B0-4C86-AF72-86E6534C6455}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

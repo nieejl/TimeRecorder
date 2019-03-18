@@ -268,24 +268,29 @@ namespace TimeRecorder.ViewModels
             get { return project; }
             set {
                 project = value;
-                ChosenColor = new SolidColorBrush(value.Color);
-                ProjectSearchBox.SearchText = value.Name;
+                if (value != null)
+                {
+                    ChosenColor = new SolidColorBrush(value.Color);
+                    ProjectSearchBox.SearchText = value.Name;
+                }
                 OnPropertyChanged("Project");
             }
         }
 
         public void UpdateFromDTO(int id)
         {
-            var dto = recordingRepo.FindAsync(id);
-            dto.Wait();
-            UpdateFromDTO(dto.Result);
+            Debug.WriteLine("ID we're looking for: " + id);
+            var task = recordingRepo.FindAsync(id);
+            Task.Run(async () =>
+            {
+                var dto = await recordingRepo.FindAsync(id);
+                UpdateFromDTO(dto);
+            });
         }
 
         public void UpdateFromDTO(RecordingDTO recording)
         {
-            if (recording == null)
-                return;
-            currentDTO = recording;
+            currentDTO = recording ?? throw new ArgumentNullException("RecordingDTO was null");
 
             Title = recording.Title;
             StartText = recording.Start.TimeOfDay.ToHHMM();
@@ -295,7 +300,6 @@ namespace TimeRecorder.ViewModels
             {
                 Project = recording.Project;
                 ChosenColor = new SolidColorBrush(project.Color);
-
             }
             if (recording.End != null)
             {

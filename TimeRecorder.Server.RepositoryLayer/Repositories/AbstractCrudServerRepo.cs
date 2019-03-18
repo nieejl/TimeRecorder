@@ -1,20 +1,24 @@
-﻿using System.Diagnostics;
+﻿using TimeRecorder.Server.RepositoryLayer.Models;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using TimeRecorder.Models.DTOs;
 
-namespace TimeRecorder.Models.Services.LocalStorage
+namespace TimeRecorder.Server.RepositoryLayer.Repositories
 {
-    public class AbstractCrudRepo<T> : ICrudRepository<T> where T: LocalEntity
+    public class AbstractCrudServerRepo<T> : IRepository<T> where T : Entity
     {
-        protected ITimeRecorderContext context;
-        public AbstractCrudRepo(ITimeRecorderContext context)
+        protected ITimeRecorderServerContext context;
+        public AbstractCrudServerRepo(ITimeRecorderServerContext context)
         {
             this.context = context;
         }
 
         public async Task<int> CreateAsync(T entity)
         {
+            entity.Version = 1;
+            entity.LastUpdated = DateTime.Now;
             await context.Set<T>().AddAsync(entity);
             await context.SaveChangesAsync();
             return entity.Id;
@@ -40,13 +44,19 @@ namespace TimeRecorder.Models.Services.LocalStorage
 
         public async Task<bool> UpdateAsync(T entity)
         {
+            var id = entity.Id;
             var set = context.Set<T>();
-            var item = await set.FindAsync(entity.Id);
+            var item = await set.FindAsync(id);
             if (item == null)
                 return false;
             set.Update(entity);
             await context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<IQueryable<T>> Read()
+        {
+            return await Task.FromResult(context.Set<T>());
         }
     }
 }
