@@ -223,6 +223,7 @@
     <Compile Include="Models\Services\Strategies\IStorageStrategy.cs" />
     <Compile Include="Models\Services\Strategies\ProjectStrategy.cs" />
     <Compile Include="Models\Services\Strategies\RecordingStrategy.cs" />
+    <Compile Include="Models\Timer.cs" />
     <Compile Include="Models\ValueConverters\DTOAdapter.cs" />
     <Compile Include="Models\ValueConverters\TimeToStringConverter.cs" />
     <Compile Include="Models\ValueParsers\ITimeStringParser.cs" />

@@ -56,8 +56,8 @@
                 <TextBox Style="{StaticResource TimeTextField}" Text="{Binding StartText}"
                          BorderBrush="{Binding StartBorderColor}">
                     <TextBox.InputBindings>
-                        <KeyBinding Key="Enter" Command="{Binding SaveStartTimeCommand}"/>
-                        <KeyBinding Key="Tab" Command="{Binding SaveStartTimeCommand}"/>
+                        <KeyBinding Key="Enter" Command="{Binding SaveCommand}"/>
+                        <KeyBinding Key="Tab" Command="{Binding SaveCommand}"/>
                     </TextBox.InputBindings>
                 </TextBox>
                 <DatePicker Margin="0,5,0,0" Style="{StaticResource DatePickerField}"
@@ -68,8 +68,8 @@
                 <TextBox Style="{StaticResource TimeTextField}" Text="{Binding EndText}"
                          BorderBrush="{Binding EndBorderColor}">
                     <TextBox.InputBindings>
-                        <KeyBinding Key="Enter" Command="{Binding SaveEndTimeCommand}"/>
-                        <KeyBinding Key="Tab" Command="{Binding SaveEndTimeCommand}"/>
+                        <KeyBinding Key="Enter" Command="{Binding SaveCommand}"/>
+                        <KeyBinding Key="Tab" Command="{Binding SaveCommand}"/>
                     </TextBox.InputBindings>
                 </TextBox>
                 <DatePicker Margin="0,5,0,0" Style="{StaticResource DatePickerField}"
@@ -95,15 +95,17 @@
             <StackPanel x:Name="ChooseProjectView" Orientation="Horizontal" Height="20"
                         Visibility="{Binding ChooseMenuVisibility}">
                 <ComboBox x:Name="ProjectSearchBox" IsEditable="True" Width="150" 
-                          DataContext="{Binding ProjectSearchBox}"
-                          Text="{Binding SearchText}" ItemsSource="{Binding Filtered}"
-                          IsDropDownOpen="{Binding ShowDropDown}" IsTextSearchEnabled="False">
+                          Text="{Binding ProjectSearchBox.SearchText}" 
+                          ItemsSource="{Binding ProjectSearchBox.Filtered}"
+                          IsDropDownOpen="{Binding ProjectSearchBox.ShowDropDown}" 
+                          IsTextSearchEnabled="False">
+                    <ComboBox.InputBindings>
+                        <KeyBinding Key="Enter" Command="{Binding SaveCommand}"/>
+                        <KeyBinding Key="Tab" Command="{Binding SaveCommand}"/>
+                    </ComboBox.InputBindings>
                 </ComboBox>
 
                 <Button Style="{StaticResource ColorVisibilityButton}"/>
-                <Button Margin="5,0,0,0" Command="{Binding SaveCommand}">
-                    <TextBlock Text="Save"/>
-                </Button>
             </StackPanel>
             <StackPanel x:Name="CreateProjectView">
                 <StackPanel Orientation="Horizontal" Visibility="{Binding CreateMenuVisibility}">

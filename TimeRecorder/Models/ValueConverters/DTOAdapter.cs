@@ -14,7 +14,11 @@ namespace TimeRecorder.Models.ValueConverters
     {
         public static RecordingSummaryVM ToSummaryVM(this RecordingDTO dto)
         {
-            var title = dto.Title ?? "No description";
+            string title;
+            if (dto.Title == null || dto.Title == "")
+                title = "No description";
+            else
+                title = dto.Title;
 
             var projectName = dto.Project != null ?
                 dto.Project.Name != null ? dto.Project.Name

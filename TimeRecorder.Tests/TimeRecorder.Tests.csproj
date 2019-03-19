@@ -147,6 +147,7 @@
   <ItemGroup>
     <Compile Include="Models\Extensions\ColorExtensionTest.cs" />
     <Compile Include="Models\Repositories\AbstractCrudRepoTest.cs" />
+    <Compile Include="Models\ValueConverters\DTOAdapterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\ValueParsers\TimeStringParserTest.cs" />
     <Compile Include="Models\ValueConverters\TimeToStringConverterTest.cs" />

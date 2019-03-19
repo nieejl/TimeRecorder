@@ -164,7 +164,7 @@ namespace TimeRecorder.Tests.ViewModels
         }
 
         [Fact]
-        public async Task Test_IsStartValid_Given_Valid_Times_Returns_True()
+        public void Test_IsStartValid_Given_Valid_Times_Returns_True()
         {
             var recording = createTestRecording();
             var recordingStrategy = createTestFindRecordingStrategy(recording);
@@ -177,7 +177,7 @@ namespace TimeRecorder.Tests.ViewModels
         }
 
         [Fact]
-        public async Task Test_IsEndValid_Given_Valid_Times_Returns_True()
+        public void Test_IsEndValid_Given_Valid_Times_Returns_True()
         {
             var recording = createTestRecording();
             var recordingStrategy = createTestFindRecordingStrategy(recording);
@@ -203,7 +203,7 @@ namespace TimeRecorder.Tests.ViewModels
         }
 
         [Fact]
-        public async Task Test_IsStartValid_Given_Invalid_Times_Returns_False()
+        public void Test_IsStartValid_Given_Invalid_Times_Returns_False()
         {
             var recording = createTestRecording();
             var recordingStrategy = createTestFindRecordingStrategy(recording);
@@ -216,7 +216,7 @@ namespace TimeRecorder.Tests.ViewModels
         }
 
         [Fact]
-        public async Task Test_IsEndValid_Given_Invalid_Times_Returns_False()
+        public void Test_IsEndValid_Given_Invalid_Times_Returns_False()
         {
             var recording = createTestRecording();
             recording.End = null;
@@ -224,8 +224,6 @@ namespace TimeRecorder.Tests.ViewModels
             var projectStrategy = createTestFindProjectStrategy(null);
             var vm = new RecordingDetailPageVM(recordingStrategy.Object, projectStrategy.Object);
 
-            vm.UpdateFromDTO(recording);
-            await Task.Delay(1000);
             vm.EndText = "1005";
 
             Assert.False(vm.IsEndValid);

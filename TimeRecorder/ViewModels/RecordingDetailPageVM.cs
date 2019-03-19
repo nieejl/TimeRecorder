@@ -267,7 +267,7 @@ namespace TimeRecorder.ViewModels
         private Visibility chooseColorVisibility = Visibility.Collapsed;
         public Visibility ChooseColorVisibility {
             get { return chooseColorVisibility; }
-            set {
+            set { 
                 chooseColorVisibility = value;
                 OnPropertyChanged();
             }
@@ -384,15 +384,16 @@ namespace TimeRecorder.ViewModels
             return IsStartValid && IsEndValid && (endDateTime > startDateTime);
         }
 
-        public ICommand Save {
+        public ICommand SaveCommand {
             get {
                 return new RelayCommand(_ =>
                 {
                     currentDTO.Title = Title;
                     currentDTO.Start = StartDate + StartTime;
-                    currentDTO.Project = Project;
-                    if (IsEndValid)
+                    currentDTO.Project = ProjectSearchBox.AutoCompleteItem;
+                    if (IsValid())
                         currentDTO.End = EndDate + EndTime;
+                    recordingRepo.UpdateAsync(currentDTO);
                });
             }
         }
@@ -406,14 +407,14 @@ namespace TimeRecorder.ViewModels
                        CreateMenuVisibility = Visibility.Visible;
                        ChooseMenuVisibility = Visibility.Collapsed;
                        ChooseColorVisibility = Visibility.Collapsed;
-                       ToggleButtonText = "Create new";
+                       ToggleButtonText = "Choose existing";
                    }
                    else
                    {
                        ChooseMenuVisibility = Visibility.Visible;
                        CreateMenuVisibility = Visibility.Collapsed;
                        ChooseColorVisibility = Visibility.Collapsed;
-                       ToggleButtonText = "Choose existing";
+                       ToggleButtonText = "Create new";
                    }
                });
             }
