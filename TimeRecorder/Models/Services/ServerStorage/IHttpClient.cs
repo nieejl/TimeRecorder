@@ -9,7 +9,7 @@ namespace TimeRecorder.Models.Services.ServerStorage
     {
         Task<HttpResponseMessage> PostAsJsonAsync(string location, object item);
         Task<HttpResponseMessage> PutAsJsonAsync(string location, object item);
-        Task<HttpResponseMessage> GetAsync(string location, CancellationToken ct = default(CancellationToken));
+        Task<HttpResponseMessage> GetAsync(string location);
         Task<HttpResponseMessage> DeleteAsync(string location);
         MediaTypeFormatter[] Formatters { get; }
     }

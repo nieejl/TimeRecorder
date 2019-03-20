@@ -13,28 +13,11 @@ namespace TimeRecorder.Tests.Models.Services.LocalStorage
     {
         public override RecordingDTO CreateDifferentSampleValue(int id = 1)
         {
-            return new RecordingDTO
-            {
-                Id = id,
-                Title = "Another Sample project",
-                ProjectId = 2,
-                Start = DateTime.Parse("07-04-1999"),
-                End = DateTime.Parse("08-04-1999"),
-                TemporaryId = 2,
-            };
+            return TestDataGenerator.CreateDifferentRecording(id);
         }
         public override RecordingDTO CreateSampleValue(int id = 1)
         {
-            return new RecordingDTO
-            {
-
-                Id = id,
-                Title = "Sample value project",
-                ProjectId = 1,
-                Start = DateTime.Parse("01-02-2019"),
-                End = DateTime.Parse("02-02-2019"),
-                TemporaryId = 1,
-            };
+            return TestDataGenerator.CreateRecording(id);
         }
 
         public override RecordingLocalRepository CreateRepo(ITimeRecorderContext context)
@@ -53,13 +36,5 @@ namespace TimeRecorder.Tests.Models.Services.LocalStorage
             to.Tags = from.Tags;
             to.TemporaryId = from.TemporaryId;
         }
-
-
-        // TODO: Remove if not needed
-        //public override IQueryable<RecordingDTO> GetQueryable()
-        //{
-        //    var dtos = new List<RecordingDTO>() { CreateSampleValue(), CreateDifferentSampleValue(2) };
-        //    return dtos.AsQueryable();
-        //}
     }
 }

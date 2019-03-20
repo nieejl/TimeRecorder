@@ -30,8 +30,6 @@ namespace TimeRecorder.Tests.Models.Services.LocalStorage
             {
                 var entity = CreateSampleValue();
                 mock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(entity);
-                //mock.Setup(m => m.Find(It.IsAny<object[]>())).Returns(entity);
-                //mock.Setup(m => m.FindAsync(It.IsAny<object[]>())).ReturnsAsync(entity);
                 return mock;
             }
             mock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(default(EntityType));

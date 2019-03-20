@@ -42,12 +42,12 @@ namespace TimeRecorder.ViewModels
             this.projectStrategy = projectStrategy;
             strategy = StorageStrategy.Online;
             Recordings = new ObservableCollection<RecordingSummaryVM>();
-            var task = new Task( () => ExecuteLoadItemsCommand());
+            var task = new Task( () => LoadItems());
             task.RunSynchronously();
         }
 
         DispatcherTimer ElapsedUpdater = new DispatcherTimer();
-        private async Task ExecuteLoadItemsCommand()
+        private async Task LoadItems()
         {
             var recordingDTOs = await recordingRepo.ReadAmount(20, 0);
             var summaryVMs = recordingDTOs.Select(rec => rec.ToSummaryVM()).ToList();

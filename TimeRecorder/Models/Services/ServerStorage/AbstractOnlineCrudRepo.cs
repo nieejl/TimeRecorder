@@ -41,14 +41,17 @@ namespace TimeRecorder.Models.Services.ServerStorage
         }
         protected abstract void SetCustomRoutes(string basePath);
 
+        private async Task<T> ReadWithFormatter<T>(HttpResponseMessage response)
+        {
+            return await response.Content.ReadAsAsync<T>(client.Formatters);
+        }
 
         public async Task<int> CreateAsync(DTOType dto)
         {
             var response = await client.PostAsJsonAsync(create, dto);
             if (response.IsSuccessAndNotNull())
             {
-                dto.Id = await response.Content.ReadAsAsync<int>(client.Formatters);
-                Debug.WriteLine(dto.Id);
+                var id = await ReadWithFormatter<int>(response);
                 return dto.Id;
             }
             return 0;
@@ -58,7 +61,7 @@ namespace TimeRecorder.Models.Services.ServerStorage
         {
             var response = await client.DeleteAsync(delete + id);
             if (response.IsSuccessAndNotNull())
-                return await response.Content.ReadAsAsync<bool>(client.Formatters);
+                return await ReadWithFormatter<bool>(response);
             return false;
         }
 
@@ -66,7 +69,7 @@ namespace TimeRecorder.Models.Services.ServerStorage
         {
             var response = await client.GetAsync(find + id);
             if (response.IsSuccessAndNotNull())
-                return await response.Content.ReadAsAsync<DTOType>(client.Formatters);
+                return await ReadWithFormatter<DTOType>(response);
             return null;
         }
 
@@ -74,7 +77,7 @@ namespace TimeRecorder.Models.Services.ServerStorage
         {
             var response = await client.PutAsJsonAsync(update, dto);
             if (response.IsSuccessAndNotNull())
-                return await response.Content.ReadAsAsync<bool>(client.Formatters);
+                return await ReadWithFormatter<bool>(response);
             return false;
         }
     }

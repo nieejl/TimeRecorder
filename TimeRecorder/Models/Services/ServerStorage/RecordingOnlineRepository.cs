@@ -32,7 +32,7 @@ namespace TimeRecorder.Models.Services.ServerStorage
             try
             {
                 var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
-                var response = await client.GetAsync(readAmount + $"{amount}/{startIndex}", cts.Token);
+                var response = await client.GetAsync(readAmount + $"{amount}/{startIndex}");
                 if (response.IsSuccessAndNotNull())
                     return await response.Content.ReadAsAsync<List<RecordingDTO>>(client.Formatters).ConfigureAwait(false);
             } catch (Exception e)
