@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using TimeRecorder.Models.DTOs;
 
@@ -13,9 +14,13 @@ namespace TimeRecorder.Models.Services.LocalStorage
             this.context = context;
         }
 
+
         public async Task<int> CreateAsync(T entity)
         {
-            await context.Set<T>().AddAsync(entity);
+            if (entity == null)
+                return 0;
+            var set = context.Set<T>();
+            set.Add(entity);
             await context.SaveChangesAsync();
             return entity.Id;
         }

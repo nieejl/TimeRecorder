@@ -14,5 +14,23 @@ namespace TimeRecorder.Models.DTOs
         public int? ProjectId { get; set; }
         public ProjectDTO Project { get; set; }
         public List<TagDTO> Tags { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !this.GetType().Equals(obj.GetType()))
+                return false;
+            else
+            {
+                RecordingDTO other = (RecordingDTO)obj;
+
+                return Title == other.Title &&
+                    Start.Equals(other.Start) &&
+                    (End != null && other.End != null && End.Equals(other.End) ||
+                    (End == null && other.End == null)) &&
+                    ProjectId == other.ProjectId &&
+                    Id == other.Id &&
+                    TemporaryId == other.TemporaryId;
+            }
+        }
     }
 }

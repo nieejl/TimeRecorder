@@ -8,6 +8,20 @@ namespace TimeRecorder.Server.WebAPI.Tests
 {
     public class TestDataGenerator
     {
+        public static RecordingDTO CreateRecordingDTO()
+        {
+            return new RecordingDTO
+            {
+                Id = 1,
+                Start = DateTime.Parse("16-03-2019") - TimeSpan.FromHours(13),
+                End = DateTime.Parse("16-03-2019") - TimeSpan.FromHours(12),
+                ProjectId = 1,
+                TemporaryId = 2,
+                Title = "Test title",
+            };
+        }
+
+
         public static IEnumerable<RecordingDTO> CreateTestRecordingDTOs()
         {
             var r1 = new RecordingDTO
@@ -17,7 +31,7 @@ namespace TimeRecorder.Server.WebAPI.Tests
                 End = DateTime.Parse("16-03-2019") - TimeSpan.FromHours(12),
                 ProjectId = 1,
                 TemporaryId = 2,
-                Title = "Test title",
+                Title = "Test title one",
             };
             var r2 = new RecordingDTO
             {
@@ -26,7 +40,7 @@ namespace TimeRecorder.Server.WebAPI.Tests
                 End = DateTime.Parse("17-03-2019") - TimeSpan.FromHours(4),
                 ProjectId = 2,
                 TemporaryId = 3,
-                Title = "Test title",
+                Title = "Test title two",
             };
 
             var r3 = new RecordingDTO
@@ -36,7 +50,7 @@ namespace TimeRecorder.Server.WebAPI.Tests
                 End = DateTime.Parse("18-03-2019") - TimeSpan.FromHours(3),
                 ProjectId = 3,
                 TemporaryId = 4,
-                Title = "Test title",
+                Title = "Test title three",
             };
             return new List<RecordingDTO> { r1, r2, r3 };
         }
@@ -50,7 +64,7 @@ namespace TimeRecorder.Server.WebAPI.Tests
                 End = DateTime.Parse("16-03-2019") - TimeSpan.FromHours(12),
                 ProjectId = 1,
                 TemporaryId = 2,
-                Title = "Test title",
+                Title = "Test title one",
                 LastUpdated = DateTime.Parse("16-03-2019")
             };
             var r2 = new Recording
@@ -60,7 +74,7 @@ namespace TimeRecorder.Server.WebAPI.Tests
                 End = DateTime.Parse("17-03-2019") - TimeSpan.FromHours(4),
                 ProjectId = 2,
                 TemporaryId = 3,
-                Title = "Test title",
+                Title = "Test title two",
                 LastUpdated = DateTime.Parse("17-03-2019")
             };
 
@@ -71,10 +85,21 @@ namespace TimeRecorder.Server.WebAPI.Tests
                 End = DateTime.Parse("18-03-2019") - TimeSpan.FromHours(3),
                 ProjectId = 3,
                 TemporaryId = 4,
-                Title = "Test title",
+                Title = "Test title three",
                 LastUpdated = DateTime.Parse("18-03-2019")
             };
             return new List<Recording> { r1, r2, r3 };
+        }
+
+        public static ProjectDTO CreateProjectDTO()
+        {
+            return new ProjectDTO
+            {
+                Id = 1,
+                TemporaryId = 1,
+                Name = "Projest Test name",
+                Argb = 123321,
+            };
         }
     }
 }

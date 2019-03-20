@@ -146,7 +146,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Extensions\ColorExtensionTest.cs" />
-    <Compile Include="Models\Repositories\AbstractCrudRepoTest.cs" />
+    <Compile Include="Models\Services\LocalStorage\AbstractCrudRepoTest.cs" />
+    <Compile Include="Models\Services\LocalStorage\ProjectLocalRepositoryTest.cs" />
+    <Compile Include="Models\Services\LocalStorage\RecordingLocalRepositoryTest.cs" />
     <Compile Include="Models\ValueConverters\DTOAdapterTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Models\ValueParsers\TimeStringParserTest.cs" />
@@ -169,7 +171,9 @@
       <Name>TimeRecorder</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\Repositories\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -210,8 +210,8 @@
     <Compile Include="Models\Services\RepositoryInterfaces\IRecordingRepository.cs" />
     <Compile Include="Models\Services\LocalStorage\ITimeRecorderContext.cs" />
     <Compile Include="Models\Services\RepositoryInterfaces\ITagRepository.cs" />
-    <Compile Include="Models\Services\LocalStorage\ProjectRepository.cs" />
-    <Compile Include="Models\Services\LocalStorage\RecordingRepository.cs" />
+    <Compile Include="Models\Services\LocalStorage\ProjectLocalRepository.cs" />
+    <Compile Include="Models\Services\LocalStorage\RecordingLocalRepository.cs" />
     <Compile Include="Models\Services\LocalStorage\TagRepository.cs" />
     <Compile Include="Models\Services\LocalStorage\TimeRecorderContext.cs" />
     <Compile Include="Models\Services\ServerStorage\CustomHttpClient.cs" />

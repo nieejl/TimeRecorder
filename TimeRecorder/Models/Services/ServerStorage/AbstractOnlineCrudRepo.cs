@@ -24,6 +24,12 @@ namespace TimeRecorder.Models.Services.ServerStorage
         protected string delete;
         protected abstract string entityName { get; }
 
+        public AbstractOnlineCrudRepo(IHttpClient client)
+        {
+            this.client = client;
+            SetRoutes();
+        }
+
         public virtual void SetRoutes()
         {
             basePath = "api/" + entityName;
@@ -33,14 +39,8 @@ namespace TimeRecorder.Models.Services.ServerStorage
             delete = basePath + "/delete/";
             SetCustomRoutes(basePath);
         }
-
         protected abstract void SetCustomRoutes(string basePath);
 
-        public AbstractOnlineCrudRepo(IHttpClient client)
-        {
-            this.client = client;
-            SetRoutes();
-        }
 
         public async Task<int> CreateAsync(DTOType dto)
         {

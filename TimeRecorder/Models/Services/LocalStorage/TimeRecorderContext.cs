@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TimeRecorder.Models.DTOs;
 
 namespace TimeRecorder.Models.Services.LocalStorage
@@ -31,6 +32,11 @@ namespace TimeRecorder.Models.Services.LocalStorage
             builder.Entity<TagDTO>().HasIndex(t => t.TagValue).IsUnique();
 
 
+        }
+
+        public Task<int> SaveChangesAsync()
+        {
+            return base.SaveChangesAsync();
         }
     }
 }

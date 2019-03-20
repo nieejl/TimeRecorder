@@ -9,5 +9,6 @@ namespace TimeRecorder.Models.Services.LocalStorage
     {
         DbSet<T> Set<T>() where T : class;
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
+        Task<int> SaveChangesAsync();
     }
 }

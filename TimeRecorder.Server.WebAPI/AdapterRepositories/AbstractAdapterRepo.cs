@@ -11,6 +11,7 @@ using TimeRecorder.Shared;
 namespace TimeRecorder.Server.WebAPI.AdapterRepositories
 {
     public abstract class AbstractAdapterRepo<DTOType, EntityType> :
+        //IRepository<DTOType> // TODO: Implement only irepository
         IAdapterRepo<DTOType, EntityType>
         where EntityType : Entity
         where DTOType : DTO

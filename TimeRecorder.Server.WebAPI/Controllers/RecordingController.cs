@@ -29,9 +29,13 @@ namespace TimeRecorder.Server.WebAPI.Controllers
 
         [HttpGet("read/{amount}/{startIndex}")]
         [ProducesResponseType(typeof(IEnumerable<RecordingDTO>), 200)]
+        [ProducesResponseType(typeof(NotFoundResult), 404)]
         public async Task<ActionResult<IEnumerable<RecordingDTO>>> ReadAmount(int amount, int startIndex) {
             var dtos = await adapterRepo.ReadAmount(amount, startIndex);
-            return Ok(dtos);
+            if (dtos != null && dtos.Count() > 0)
+                return Ok(dtos);
+            else
+                return NotFound();
         }
     }
 }

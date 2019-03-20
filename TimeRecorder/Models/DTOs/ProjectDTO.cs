@@ -28,5 +28,20 @@ namespace TimeRecorder.Models.DTOs
         //public DateTime LastUsed { get; set; }
         //public bool IsArchived { get; set; }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !this.GetType().Equals(obj.GetType()))
+                return false;
+            else
+            {
+                ProjectDTO other = (ProjectDTO)obj;
+
+                return Name == other.Name &&
+                    Argb == other.Argb &&
+                    Id == other.Id &&
+                    TemporaryId == other.TemporaryId;
+            }
+        }
+
     }
 }

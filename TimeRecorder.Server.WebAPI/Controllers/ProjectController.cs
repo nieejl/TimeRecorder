@@ -17,7 +17,6 @@ namespace TimeRecorder.Server.WebAPI.Controllers
         public ProjectController(IProjectAdapterRepo repo) : base(repo)
         {
             adapterRepo = repo;
-            Debug.WriteLine("project controller created");
         }
 
         [ProducesResponseType(typeof(ProjectDTO), 200)]
@@ -27,6 +26,7 @@ namespace TimeRecorder.Server.WebAPI.Controllers
         }
 
         [ProducesResponseType(typeof(IEnumerable<ProjectDTO>), 200)]
+        [ProducesResponseType(typeof(NotFoundResult), 404)]
         public async Task<ActionResult<IEnumerable<ProjectDTO>>> Read() {
             return (await adapterRepo.Read()).ToList();
         }
