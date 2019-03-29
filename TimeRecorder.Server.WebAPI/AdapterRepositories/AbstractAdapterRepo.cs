@@ -39,11 +39,9 @@ namespace TimeRecorder.Server.WebAPI.AdapterRepositories
 
         public async Task<int> CreateAsync(DTOType dto)
         {
-            if (dto == null)
-                return 0;
             var entity = adapter.ConvertToEntity(dto);
-            await repository.CreateAsync(entity);
-            return entity.Id;
+            int id = await repository.CreateAsync(entity);
+            return id;
         }
 
         public async Task<bool> DeleteAsync(int id)

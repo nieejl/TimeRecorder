@@ -28,14 +28,15 @@ The server consists of a WEB API made with ASP.NET Core. It connects to an Entit
 * Refactor Time-recording features out of the viewmodel.
 * Refactor WPF view-components into UserControls.
 * Create OnWindowMovedHandler forcing location of Detail Window to 
-* Retrieve any non-finished timer on start and continue
+* Retrieve any non-finished timer on start.
 * Hide EndDate/Time field from detail-view when timer is still running
-* Unit Testing:
-    * Web-API
-    * What's missing in repositories (eg. mock savechanges),
-    * Server-repository
 * Implement synchronisation of data.
 * Improve the searchbox for Projects.
+* Unit Testing:
+    * What's missing in repositories (eg. mock savechanges),
+    * Server-repository
+    * Try out AutoFixture
+    * 
 
 ## Todo Long term
 * Expand database, so application works for more than a single user.

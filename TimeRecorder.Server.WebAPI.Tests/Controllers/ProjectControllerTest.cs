@@ -22,8 +22,6 @@ namespace TimeRecorder.Server.WebAPI.Tests.Controllers
             return new Mock<IProjectAdapterRepo>();
         }
 
-        public override ProjectDTO CreateSampleNullValue() => null;
-
         public override ProjectDTO CreateSampleValue() => TestDataGenerator.CreateProjectDTO();
     }
 }

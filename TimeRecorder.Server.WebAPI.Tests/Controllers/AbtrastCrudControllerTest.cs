@@ -22,15 +22,27 @@ namespace TimeRecorder.Server.WebAPI.Tests.Controllers
         public abstract DTOType CreateSampleValue();
         public abstract ControllerType CreateController(RepoType adapterRepo);
         public abstract Mock<RepoType> CreateMock();
-        public abstract DTOType CreateSampleNullValue();
+        public DTOType CreateSampleNullValue() => null;
         
+        [Fact]
+        public async Task Test_PostAsync_Given_Null_Returns_BadRequest()
+        {
+            var repo = CreateMock();
+            var dto = CreateSampleNullValue();
+            var controller = CreateController(repo.Object);
+
+            var result = await controller.PostAsync(dto);
+
+            Assert.IsType<BadRequestResult>(result.Result);
+        }
+
         [Fact]
         public async Task Test_FindAsync_Given_Null_Returns_NotFoundObjectResult()
         {
-            var mock = CreateMock();
+            var repo = CreateMock();
             var dto = CreateSampleNullValue();
-            mock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(dto);
-            var controller = CreateController(mock.Object);
+            repo.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(dto);
+            var controller = CreateController(repo.Object);
 
             var result = await controller.FindAsync(42);
 
@@ -39,10 +51,10 @@ namespace TimeRecorder.Server.WebAPI.Tests.Controllers
         [Fact]
         public async Task Test_PostAsync_Given_0_Returns_NotFoundObjectResult()
         {
-            var mock = CreateMock();
+            var repo = CreateMock();
             var dto = CreateSampleValue();
-            mock.Setup(m => m.CreateAsync(It.IsAny<DTOType>())).ReturnsAsync(0);
-            var controller = CreateController(mock.Object);
+            repo.Setup(m => m.CreateAsync(It.IsAny<DTOType>())).ReturnsAsync(0);
+            var controller = CreateController(repo.Object);
 
             var result = await controller.PostAsync(dto);
 
@@ -52,9 +64,9 @@ namespace TimeRecorder.Server.WebAPI.Tests.Controllers
         [Fact]
         public async Task Test_PutAsync_Given_False_Returns_NotFoundObjectResult()
         {
-            var mock = CreateMock();
-            mock.Setup(m => m.UpdateAsync(It.IsAny<DTOType>())).ReturnsAsync(false);
-            var controller = CreateController(mock.Object);
+            var repo = CreateMock();
+            repo.Setup(m => m.UpdateAsync(It.IsAny<DTOType>())).ReturnsAsync(false);
+            var controller = CreateController(repo.Object);
             var dto = CreateSampleValue();
 
             var result = await controller.PutAsync(dto);
@@ -65,10 +77,10 @@ namespace TimeRecorder.Server.WebAPI.Tests.Controllers
         [Fact]
         public async Task Test_DeleteAsync_Given_False_Returns_NotFoundObjectResult()
         {
-            var mock = CreateMock();
-            mock.Setup(m => m.DeleteAsync(It.IsAny<int>())).ReturnsAsync(false);
+            var repo = CreateMock();
+            repo.Setup(m => m.DeleteAsync(It.IsAny<int>())).ReturnsAsync(false);
             var dto = CreateSampleValue();
-            var controller = CreateController(mock.Object);
+            var controller = CreateController(repo.Object);
 
             var result = await controller.DeleteAsync(42);
 
@@ -78,10 +90,10 @@ namespace TimeRecorder.Server.WebAPI.Tests.Controllers
         [Fact]
         public async Task Test_FindAsync_Given_DTO_Returns_DTO()
         {
-            var mock = CreateMock();
+            var repo = CreateMock();
             var dto = CreateSampleValue();
-            mock.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(dto);
-            var controller = CreateController(mock.Object);
+            repo.Setup(m => m.FindAsync(It.IsAny<int>())).ReturnsAsync(dto);
+            var controller = CreateController(repo.Object);
 
             var result = await controller.FindAsync(42);
 
@@ -91,10 +103,10 @@ namespace TimeRecorder.Server.WebAPI.Tests.Controllers
         [Fact]
         public async Task Test_PostAsync_Given_True_Returns_True()
         {
-            var mock = CreateMock();
+            var repo = CreateMock();
             var dto = CreateSampleValue();
-            mock.Setup(m => m.CreateAsync(It.IsAny<DTOType>())).ReturnsAsync(1);
-            var controller = CreateController(mock.Object);
+            repo.Setup(m => m.CreateAsync(It.IsAny<DTOType>())).ReturnsAsync(1);
+            var controller = CreateController(repo.Object);
 
             var result = await controller.PostAsync(dto);
 
@@ -104,10 +116,10 @@ namespace TimeRecorder.Server.WebAPI.Tests.Controllers
         [Fact]
         public async Task Test_PutAsync_Given_True_Returns_Ok()
         {
-            var mock = CreateMock();
+            var repo = CreateMock();
             var dto = CreateSampleValue();
-            mock.Setup(m => m.UpdateAsync(It.IsAny<DTOType>())).ReturnsAsync(true);
-            var controller = CreateController(mock.Object);
+            repo.Setup(m => m.UpdateAsync(It.IsAny<DTOType>())).ReturnsAsync(true);
+            var controller = CreateController(repo.Object);
 
             var result = await controller.PutAsync(dto);
 
@@ -117,10 +129,10 @@ namespace TimeRecorder.Server.WebAPI.Tests.Controllers
         [Fact]
         public async Task Test_DeleteAsync_Given_True_Returns_Ok()
         {
-            var mock = CreateMock();
+            var repo = CreateMock();
             var dto = CreateSampleValue();
-            mock.Setup(m => m.DeleteAsync(It.IsAny<int>())).ReturnsAsync(true);
-            var controller = CreateController(mock.Object);
+            repo.Setup(m => m.DeleteAsync(It.IsAny<int>())).ReturnsAsync(true);
+            var controller = CreateController(repo.Object);
 
             var result = await controller.DeleteAsync(42);
 

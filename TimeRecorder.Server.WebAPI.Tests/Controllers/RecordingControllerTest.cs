@@ -28,8 +28,6 @@ namespace TimeRecorder.Server.WebAPI.Tests.Controllers
 
         public override RecordingDTO CreateSampleValue() => TestDataGenerator.CreateRecordingDTO();
 
-        public override RecordingDTO CreateSampleNullValue() => null;
-
         private int unwrapAsNotFoundStatusCode<T>(ActionResult<T> actionResult)
         {
             return (actionResult as NotFoundResult).StatusCode;
@@ -55,7 +53,7 @@ namespace TimeRecorder.Server.WebAPI.Tests.Controllers
         [Fact]
         public async Task ReadAmount_Given_List_Returns_List()
         {
-            var fromRepo = TestDataGenerator.CreateTestRecordingDTOs();
+            var fromRepo = TestDataGenerator.CreateThreeRecordingDTOs();
             var mock = new Mock<IRecordingAdapterRepo>();
             mock.Setup(m => m.ReadAmount(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(fromRepo);
             var controller = new RecordingController(mock.Object);

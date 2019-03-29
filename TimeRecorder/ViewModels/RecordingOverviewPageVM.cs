@@ -42,7 +42,7 @@ namespace TimeRecorder.ViewModels
             this.projectStrategy = projectStrategy;
             strategy = StorageStrategy.Online;
             Recordings = new ObservableCollection<RecordingSummaryVM>();
-            var task = new Task( () => LoadItems());
+            var task = new Task( async () => await LoadItems());
             task.RunSynchronously();
         }
 

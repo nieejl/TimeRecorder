@@ -56,9 +56,12 @@ namespace TimeRecorder.Server.WebAPI.Controllers
         }
         [HttpPost("create/")]
         [ProducesResponseType(typeof(int), 200)]
+        [ProducesResponseType(typeof(BadRequestResult), 400)]
         [ProducesResponseType(typeof(NotFoundResult), 404)]
         public virtual async Task<ActionResult<int>> PostAsync(DTOType dto)
         {
+            if (dto == null)
+                return BadRequest();
             int id = await adapterRepo.CreateAsync(dto);
             if (id != 0)
                 return id;

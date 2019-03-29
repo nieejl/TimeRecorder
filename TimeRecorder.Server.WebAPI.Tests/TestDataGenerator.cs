@@ -17,12 +17,12 @@ namespace TimeRecorder.Server.WebAPI.Tests
                 End = DateTime.Parse("16-03-2019") - TimeSpan.FromHours(12),
                 ProjectId = 1,
                 TemporaryId = 2,
-                Title = "Test title",
+                Title = "Test title one",
             };
         }
 
 
-        public static IEnumerable<RecordingDTO> CreateTestRecordingDTOs()
+        public static List<RecordingDTO> CreateThreeRecordingDTOs()
         {
             var r1 = new RecordingDTO
             {
@@ -55,7 +55,21 @@ namespace TimeRecorder.Server.WebAPI.Tests
             return new List<RecordingDTO> { r1, r2, r3 };
         }
 
-        public static IEnumerable<Recording> CreateTestRecordings()
+        public static Recording CreateRecording()
+        {
+            return new Recording
+            {
+                Id = 1,
+                Start = DateTime.Parse("16-03-2019") - TimeSpan.FromHours(13),
+                End = DateTime.Parse("16-03-2019") - TimeSpan.FromHours(12),
+                ProjectId = 1,
+                TemporaryId = 2,
+                Title = "Test title one",
+                LastUpdated = DateTime.Parse("16-03-2019")
+            };
+        }
+
+        public static List<Recording> CreateThreeRecordings()
         {
             var r1 = new Recording
             {
@@ -97,9 +111,80 @@ namespace TimeRecorder.Server.WebAPI.Tests
             {
                 Id = 1,
                 TemporaryId = 1,
-                Name = "Projest Test name",
+                Name = "Project Test one",
                 Argb = 123321,
             };
         }
+
+        public static List<ProjectDTO> CreateThreeProjectDTOs()
+        {
+            var p1 = new ProjectDTO
+            {
+                Id = 1,
+                TemporaryId = 1,
+                Name = "Project Test one",
+                Argb = 123321,
+            };
+
+            var p2 = new ProjectDTO
+            {
+                Id = 2,
+                TemporaryId = 2,
+                Name = "Project Test two",
+                Argb = 456654,
+            };
+
+            var p3 = new ProjectDTO
+            {
+                Id = 3,
+                TemporaryId = 3,
+                Name = "Project Test three",
+                Argb = 789987,
+            };
+            return new List<ProjectDTO> { p1, p2, p3 };
+        }
+
+        public static Project CreateProject()
+        {
+            return new Project
+            {
+                Id = 1,
+                TemporaryId = 1,
+                Name = "Project Test one",
+                Argb = 123321,
+            };
+        }
+
+        public static List<Project> CreateThreeProjects()
+        {
+            var p1 = new Project
+            {
+                Id = 1,
+                TemporaryId = 1,
+                Name = "Project Test one",
+                Argb = 123321,
+            };
+
+            var p2 = new Project
+            {
+                Id = 2,
+                TemporaryId = 2,
+                Name = "Project Test two",
+                Argb = 456654,
+            };
+
+            var p3 = new Project
+            {
+                Id = 3,
+                TemporaryId = 3,
+                Name = "Project Test three",
+                Argb = 789987,
+            };
+            return new List<Project> { p1, p2, p3 };
+        }
+
+
+
+
     }
 }

@@ -22,6 +22,7 @@ namespace TimeRecorder.Server.WebAPI.Adapters
         {
             return new Recording
             {
+                Id = dto.Id,
                 TemporaryId = dto.TemporaryId,
                 Start = dto.Start,
                 End = dto.End,
