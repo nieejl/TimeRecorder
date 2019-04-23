@@ -8,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Formatting;
+//using System.Net.Http.Formatting;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,16 +25,17 @@ namespace TimeRecorder.Tests.Models.Services.ServerStorage
         public HttpResponseMessage CreateHttpResponse<T>(HttpStatusCode code, T value)
         {
             var response = new HttpResponseMessage(code);
-            var content = new ObjectContent<T>(value, new JsonMediaTypeFormatter());
+            var content = new StringContent(JsonConvert.SerializeObject(value), Encoding.UTF8);
+            //var content = new ObjectContent<T>(value, new JsonMediaTypeFormatter());
             response.Content = content;
             return response;
         }
 
         public Mock<IHttpClient> CreateIHttpMock()
         {
-            var formatters = new MediaTypeFormatter[] { new JsonMediaTypeFormatter()};
+            //var formatters = new MediaTypeFormatter[] { new JsonMediaTypeFormatter()};
             var mock = new Mock<IHttpClient>();
-            mock.Setup(m => m.Formatters).Returns(formatters);
+            //mock.Setup(m => m.Formatters).Returns(formatters);
             return mock;
         }
 

@@ -8,6 +8,7 @@ using TimeRecorder.Models.Services.LocalStorage;
 using System.Net.Http;
 using System.Diagnostics;
 using System.Threading;
+using Newtonsoft.Json;
 
 namespace TimeRecorder.Models.Services.ServerStorage
 {
@@ -34,8 +35,14 @@ namespace TimeRecorder.Models.Services.ServerStorage
                 var cts = new CancellationTokenSource(TimeSpan.FromSeconds(2));
                 var response = await client.GetAsync(readAmount + $"{amount}/{startIndex}");
                 if (response.IsSuccessAndNotNull())
-                    return await response.Content.ReadAsAsync<List<RecordingDTO>>(client.Formatters).ConfigureAwait(false);
-            } catch (Exception e)
+                {
+                    var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    return JsonConvert.DeserializeObject<IEnumerable<RecordingDTO>>(result);
+                    //return await response.Content.ReadAsAsync<List<RecordingDTO>>().ConfigureAwait(false);
+                }
+                    //return await response.Content.ReadAsAsync<List<RecordingDTO>>(client.Formatters).ConfigureAwait(false);
+            }
+            catch (Exception e)
             {
                 Debug.WriteLine("caught exception: " + e.Message);
             }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using TimeRecorder.Models.DTOs;
@@ -25,7 +26,11 @@ namespace TimeRecorder.Models.Services.ServerStorage
         {
             var response = await client.GetAsync(read);
             if (response.IsSuccessAndNotNull())
-                return await response.Content.ReadAsAsync<IEnumerable<ProjectDTO>>(client.Formatters);
+            {
+                var result = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                return JsonConvert.DeserializeObject<IEnumerable<ProjectDTO>>(result);
+                //return await response.Content.ReadAsAsync<IEnumerable<ProjectDTO>>();
+            }//return await response.Content.ReadAsAsync<IEnumerable<ProjectDTO>>(client.Formatters);
             return new List<ProjectDTO>();
         }
     }

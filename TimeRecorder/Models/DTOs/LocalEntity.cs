@@ -10,5 +10,7 @@ namespace TimeRecorder.Models.DTOs
     {
         public int Id { get; set; }
         public int TemporaryId { get; set; }
+        public DateTime LastUpdatedServer { get; set; }
+        public DateTime LastUpdatedLocal { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using TimeRecorder.Models.DTOs;
 using TimeRecorder.Models.Extensions;
 using System.Net.Http;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace TimeRecorder.Models.Services.ServerStorage
 {
@@ -43,7 +44,9 @@ namespace TimeRecorder.Models.Services.ServerStorage
 
         private async Task<T> ReadWithFormatter<T>(HttpResponseMessage response)
         {
-            return await response.Content.ReadAsAsync<T>(client.Formatters);
+            //return await response.Content.ReadAsAsync<T>(client.Formatters);
+            var result = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<T>(result);
         }
 
         public async Task<int> CreateAsync(DTOType dto)

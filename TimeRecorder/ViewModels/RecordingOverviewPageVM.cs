@@ -198,7 +198,6 @@ namespace TimeRecorder.ViewModels
             Elapsed = new TimeSpan(0);
             Title = "";
             currentRecording = null;
-
         }
 
         private void TickHandler(object sender, EventArgs e)

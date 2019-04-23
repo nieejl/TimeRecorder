@@ -31,6 +31,8 @@ namespace TimeRecorder.Models.Services.LocalStorage
         {
             builder.Entity<TagDTO>().HasIndex(t => t.TagValue).IsUnique();
 
+            builder.Entity<RecordingDTO>().HasIndex(r => r.TemporaryId).IsUnique();
+            builder.Entity<ProjectDTO>().HasIndex(p => p.TemporaryId).IsUnique();
 
         }
 
